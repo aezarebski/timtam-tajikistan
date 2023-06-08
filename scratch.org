@@ -1,0 +1,87 @@
+
+* Introduction
+
+This document looks at downloading the sequence data described by
+[[https://doi.org/10.2807/1560-7917.ES2014.19.7.20706][Yakovenko /et al/ (2014)]].
+
+* Retrieving and organising the data
+
+Load some libraries that facilitate downloading and munging the data.
+
+#+begin_src R :tangle scratch.R :comments link
+library(rentrez)
+library(ape)
+library(xml2)
+#+end_src
+
+We define a couple of files to store the results in so that they are
+in one place and easy to manage. The accession numbers are given in
+the paper, but since we need to hard-code them, we will include that
+information here.
+
+#+begin_src R :tangle scratch.R :comments link
+  fasta_file <- "tajikistan-poliomyelitis.fasta"
+  metadata_file <- "tajikistan-poliomyelitis-metadata.xml"
+
+  tajikistan_accession_numbers <-
+    seq.int(from = 880365, to = 880521)
+  accession_numbers <- c(
+    seq.int(from = 800662, to = 800683),
+    seq.int(from = 812248, to = 812257),
+    tajikistan_accession_numbers
+  )
+#+end_src
+
+We download the sequences in a FASTA format and write this to file so
+it is in a convenient format for subsequent work. Unfortunately, the
+identifiers obtained in this way do not have the collection date on
+them.
+
+#+begin_src R :tangle scratch.R :comments link
+  seqs <- entrez_fetch(
+    db = "nucleotide",
+    id = sprintf("KC%d", accession_numbers),
+    rettype = "fasta"
+  )
+
+  writeLines(seqs, fasta_file)
+#+end_src
+
+Since we want to know which date the sequences were collected on, we
+need to fetch the entry from the database as an XML object which
+contains everything and is in the format used by the =XML= package.
+Since this is not the easiest format to work with, we will save it to
+file so that we can read it into an =xml2= type object which is easier
+to extract information from.
+
+#+begin_src R :tangle scratch.R :comments link
+  foo <- entrez_fetch(
+    db = "nucleotide",
+    id = sprintf("KC%d", tajikistan_accession_numbers),
+    rettype = "xml",
+    parsed = TRUE
+  )
+  XML::saveXML(foo, file = metadata_file)
+  foo <- read_xml(metadata_file)
+#+end_src
+
+We need to look into the XML and extract the textual representation of
+the collection date and the accession number so that we can link this
+data together.
+
+#+begin_src R :tangle scratch.R :comments link
+  qualifiers <- xml_find_all(
+    foo, "//GBQualifier[GBQualifier_name[text()='collection_date']]"
+  )
+  collection_dates <-
+    xml_text(
+      xml_find_first(qualifiers, "./GBQualifier_value")
+    )
+
+  primary_accessions <-
+    xml_find_all(foo, "//GBSeq/GBSeq_primary-accession")
+  accession_texts <- xml_text(primary_accessions)
+#+end_src
+
+We need to put the collection dates into the identifers in the FASTA
+file so that it is in a convenient format for subsequent analysis.
