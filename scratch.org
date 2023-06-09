@@ -1,10 +1,17 @@
+#+title: Data
+#+bibliography: references.bib
 
 * Introduction
 
 This document looks at downloading the sequence data described by
-[[https://doi.org/10.2807/1560-7917.ES2014.19.7.20706][Yakovenko /et al/ (2014)]].
+[cite:@yakovenko2014outbreak].
 
 * Retrieving and organising the data
+
+*NOTE:* it looks like the following code for downloading the sequences
+and putting the calendar dates on them may not be necessary. The
+supplementary materials of [cite:@li2017quantifying] have a file with
+the sequences already date stamped and aligned.
 
 Load some libraries that facilitate downloading and munging the data.
 
@@ -85,3 +92,7 @@ data together.
 
 We need to put the collection dates into the identifers in the FASTA
 file so that it is in a convenient format for subsequent analysis.
+
+* Bibliography
+
+#+print_bibliography:
