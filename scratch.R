@@ -1,10 +1,10 @@
-## [[file:scratch.org::*Retrieving and organising the data][Retrieving and organising the data:1]]
+## [[file:scratch.org::*Genomic data][Genomic data:1]]
 library(rentrez)
 library(ape)
 library(xml2)
-## Retrieving and organising the data:1 ends here
+## Genomic data:1 ends here
 
-## [[file:scratch.org::*Retrieving and organising the data][Retrieving and organising the data:2]]
+## [[file:scratch.org::*Genomic data][Genomic data:2]]
 fasta_file <- "tajikistan-poliomyelitis.fasta"
 metadata_file <- "tajikistan-poliomyelitis-metadata.xml"
 
@@ -15,9 +15,9 @@ accession_numbers <- c(
   seq.int(from = 812248, to = 812257),
   tajikistan_accession_numbers
 )
-## Retrieving and organising the data:2 ends here
+## Genomic data:2 ends here
 
-## [[file:scratch.org::*Retrieving and organising the data][Retrieving and organising the data:3]]
+## [[file:scratch.org::*Genomic data][Genomic data:3]]
 seqs <- entrez_fetch(
   db = "nucleotide",
   id = sprintf("KC%d", accession_numbers),
@@ -25,9 +25,9 @@ seqs <- entrez_fetch(
 )
 
 writeLines(seqs, fasta_file)
-## Retrieving and organising the data:3 ends here
+## Genomic data:3 ends here
 
-## [[file:scratch.org::*Retrieving and organising the data][Retrieving and organising the data:4]]
+## [[file:scratch.org::*Genomic data][Genomic data:4]]
 foo <- entrez_fetch(
   db = "nucleotide",
   id = sprintf("KC%d", tajikistan_accession_numbers),
@@ -36,9 +36,9 @@ foo <- entrez_fetch(
 )
 XML::saveXML(foo, file = metadata_file)
 foo <- read_xml(metadata_file)
-## Retrieving and organising the data:4 ends here
+## Genomic data:4 ends here
 
-## [[file:scratch.org::*Retrieving and organising the data][Retrieving and organising the data:5]]
+## [[file:scratch.org::*Genomic data][Genomic data:5]]
 qualifiers <- xml_find_all(
   foo, "//GBQualifier[GBQualifier_name[text()='collection_date']]"
 )
@@ -50,4 +50,4 @@ collection_dates <-
 primary_accessions <-
   xml_find_all(foo, "//GBSeq/GBSeq_primary-accession")
 accession_texts <- xml_text(primary_accessions)
-## Retrieving and organising the data:5 ends here
+## Genomic data:5 ends here

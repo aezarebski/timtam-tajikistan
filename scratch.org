@@ -15,6 +15,47 @@ This document looks at downloading the sequence data described by
 haven't been able to find this dataset. For the time being it may be
 necessary to use values obtained from the figure.
 
+#+caption: Figure 1 from [cite:@yakovenko2014outbreak] showing the weekly number of cases of accute flaccid paralysis.
+#+name: fig:yakovenko-fig1
+#+attr_org: :width 300px
+#+attr_html: :width 400px
+[[./Agol_fig1.jpg]]
+
+#+caption: Data extracted from [[fig:yakovenko-fig1]] using WebPlotDigitizer.
+| Week (2010) | Confirmed cases |
+|-------------+-----------------|
+|           1 |               0 |
+|           2 |               0 |
+|           3 |               0 |
+|           4 |               0 |
+|           5 |               1 |
+|           6 |               1 |
+|           7 |               0 |
+|           8 |               2 |
+|           9 |               3 |
+|          10 |               4 |
+|          11 |               4 |
+|          12 |               5 |
+|          13 |              20 |
+|          14 |              26 |
+|          15 |              59 |
+|          16 |              67 |
+|          17 |              59 |
+|          18 |              77 |
+|          19 |              73 |
+|          20 |              50 |
+|          21 |              11 |
+|          22 |               8 |
+|          23 |               1 |
+|          24 |               1 |
+|          25 |               0 |
+|          26 |               1 |
+|          27 |               0 |
+|          28 |               0 |
+|          29 |               0 |
+|          30 |               0 |
+
+
 ** Genomic data
 
 *NOTE:* it looks like the following code for downloading the sequences
