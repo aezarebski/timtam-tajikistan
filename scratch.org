@@ -8,6 +8,15 @@ This document looks at downloading the sequence data described by
 
 * Retrieving and organising the data
 
+** Time series data
+
+*NOTE:* Both [cite:@li2017quantifying] and
+[cite:@yakovenko2014outbreak] talk about a linelist of cases, but I
+haven't been able to find this dataset. For the time being it may be
+necessary to use values obtained from the figure.
+
+** Genomic data
+
 *NOTE:* it looks like the following code for downloading the sequences
 and putting the calendar dates on them may not be necessary. The
 supplementary materials of [cite:@li2017quantifying] have a file with
