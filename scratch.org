@@ -22,6 +22,7 @@ necessary to use values obtained from the figure.
 [[./Agol_fig1.jpg]]
 
 #+caption: Data extracted from [[fig:yakovenko-fig1]] using WebPlotDigitizer.
+#+name: tab:webplotdigitizer-data
 | Week (2010) | Confirmed cases |
 |-------------+-----------------|
 |           1 |               0 |
@@ -62,6 +63,10 @@ necessary to use values obtained from the figure.
 and putting the calendar dates on them may not be necessary. The
 supplementary materials of [cite:@li2017quantifying] have a file with
 the sequences already date stamped and aligned.
+
+*NOTE:* [cite:@yakovenko2006antigenic] says "Multiple alignments of
+these sequences were carried out with the program CLUSTAL W, version
+1.83."
 
 Load some libraries that facilitate downloading and munging the data.
 
