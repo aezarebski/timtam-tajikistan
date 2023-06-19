@@ -68,13 +68,33 @@ the sequences already date stamped and aligned.
 these sequences were carried out with the program CLUSTAL W, version
 1.83."
 
+*** Packages
+
 Load some libraries that facilitate downloading and munging the data.
 
 #+begin_src R :tangle scratch.R :comments link
-library(rentrez)
-library(ape)
-library(xml2)
+  library(rentrez)
+  library(ape)
+  library(xml2)
+  library(purrr)
+  library(stringr)
+  library(lubridate)
+
+  fetch_as_xml <- function(...) {
+    temp_file <- tempfile()
+    on.exit(file.remove(temp_file))
+
+    entrez_obj <- entrez_fetch(
+      ...,
+      rettype = "xml",
+      parsed = TRUE
+    )
+    XML::saveXML(entrez_obj, file = temp_file)
+    return(xml2::read_xml(temp_file))
+  }
 #+end_src
+
+*** Define files and accession numbers
 
 We define a couple of files to store the results in so that they are
 in one place and easy to manage. The accession numbers are given in
@@ -83,7 +103,7 @@ information here.
 
 #+begin_src R :tangle scratch.R :comments link
   fasta_file <- "tajikistan-poliomyelitis.fasta"
-  metadata_file <- "tajikistan-poliomyelitis-metadata.xml"
+  entrez_xml <- "tajikistan-poliomyelitis.xml"
 
   tajikistan_accession_numbers <-
     seq.int(from = 880365, to = 880521)
@@ -94,59 +114,93 @@ information here.
   )
 #+end_src
 
-We download the sequences in a FASTA format and write this to file so
-it is in a convenient format for subsequent work. Unfortunately, the
-identifiers obtained in this way do not have the collection date on
-them.
+*** Download the data and extract relevant information
+
+Download all of the data as an XML object and save this.
 
 #+begin_src R :tangle scratch.R :comments link
-  seqs <- entrez_fetch(
+  seqs_xml <- fetch_as_xml(
     db = "nucleotide",
-    id = sprintf("KC%d", accession_numbers),
-    rettype = "fasta"
+    id = sprintf("KC%d", accession_numbers)
   )
-
-  writeLines(seqs, fasta_file)
+  write_xml(x = seqs_xml, file = entrez_xml)
 #+end_src
 
-Since we want to know which date the sequences were collected on, we
-need to fetch the entry from the database as an XML object which
-contains everything and is in the format used by the =XML= package.
-Since this is not the easiest format to work with, we will save it to
-file so that we can read it into an =xml2= type object which is easier
-to extract information from.
-
-#+begin_src R :tangle scratch.R :comments link
-  foo <- entrez_fetch(
-    db = "nucleotide",
-    id = sprintf("KC%d", tajikistan_accession_numbers),
-    rettype = "xml",
-    parsed = TRUE
-  )
-  XML::saveXML(foo, file = metadata_file)
-  foo <- read_xml(metadata_file)
-#+end_src
-
-We need to look into the XML and extract the textual representation of
-the collection date and the accession number so that we can link this
-data together.
+We can then extract the identifying information for the sequence along
+with the collection date directly from the XML.
 
 #+begin_src R :tangle scratch.R :comments link
   qualifiers <- xml_find_all(
-    foo, "//GBQualifier[GBQualifier_name[text()='collection_date']]"
+    seqs_xml, "//GBQualifier[GBQualifier_name[text()='collection_date']]"
   )
-  collection_dates <-
-    xml_text(
-      xml_find_first(qualifiers, "./GBQualifier_value")
-    )
 
-  primary_accessions <-
-    xml_find_all(foo, "//GBSeq/GBSeq_primary-accession")
-  accession_texts <- xml_text(primary_accessions)
+  collection_dates <-
+    xml_find_first(qualifiers, "./GBQualifier_value") |>
+    xml_text()
+
+  accession_texts <-
+    xml_find_all(seqs_xml, "//GBSeq/GBSeq_primary-accession") |>
+    xml_text()
+
+  sequences <-
+    xml_find_all(seqs_xml, "//GBSeq_sequence") |>
+    xml_text()
 #+end_src
 
-We need to put the collection dates into the identifers in the FASTA
-file so that it is in a convenient format for subsequent analysis.
+*** Format as FASTA
+
+#+begin_src R :tangle scratch.R :comments link
+  seqs_dnabin <-
+    sequences |>
+    map(str_split, "") |>
+    map(unlist) |>
+    as.DNAbin()
+
+  date_mask <- str_detect(collection_dates, "[0-9]+-[A-Za-z]+-[0-9]+")
+
+  seqs_dnabin <- seqs_dnabin[date_mask]
+  new_names <- format(
+    dmy(collection_dates[date_mask]),
+    "%d-%m-%Y"
+  )
+  names(seqs_dnabin) <- str_c(accession_texts[date_mask], new_names, sep = "_")
+
+  write.dna(seqs_dnabin, file = fasta_file, format = "fasta")
+#+end_src
+
+* Checking for temporal signal in the sequences
+
+** Create a rough NJ tree to give to TempEst
+
+#+begin_src R :tangle scratch.R :comments link
+  alignment_dna <- read.dna("test-alignment.fasta", format = "fasta")
+  dist_matrix <- dist.dna(alignment_dna, model = "K80", pairwise.deletion = TRUE)
+  nj_phylo <- nj(dist_matrix)
+  write.nexus(nj_phylo, file = "test-nj-tree.nexus")
+#+end_src
+
+** TempEst
+
+Load the tree into TempEst and use it to root the tree. Then export
+the data from this to =tempest-data.txt=. *Warning:* when you are
+parsing the dates, you need to use upper case 'm' because the lower
+case one is used for minutes.
+
+** Check the results from TempEst
+
+#+begin_src R :tangle scratch.R :comments link
+  tempest_df <- read.table("tempest-data.txt", header = TRUE, sep = "\t")
+
+  tempest_gg <-
+    ggplot(data = tempest_df,
+	   mapping = aes(x = date, y = distance)) +
+    geom_point() +
+    geom_smooth(method = "lm", se = TRUE) +
+    scale_x_continuous(limits = c(2009.7,2011)) +
+    scale_y_continuous(limits = c(0, 0.015)) +
+    theme_bw()
+  print(tempest_gg)
+#+end_src
 
 * Bibliography
 
