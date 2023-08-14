@@ -31,9 +31,28 @@ who_df <-
 
 interval_df <-
   data.frame(
-    start_date = ymd(c("2010-05-04")),
-    end_date = ymd(c("2010-05-08")),
-    label = c("mOPV1 Round 1")
+    start_date = ymd(c("2010-05-04",
+                       "2010-05-18",
+                       "2010-06-01",
+                       "2010-06-15",
+                       "2010-10-04",
+                       "2010-11-08",
+                       "2010-09-13")),
+    end_date = ymd(c("2010-05-08",
+                     "2010-05-22",
+                     "2010-06-05",
+                     "2010-06-19",
+                     "2010-10-08",
+                     "2010-11-12",
+                     "2010-09-17")),
+    label = c("Round 1",
+              "Round 2",
+              "Round 3",
+              "Round 4",
+              "Round 5",
+              "Round 6",
+              "Mop-up"),
+    y = c(80, 80, 80, 80, 80, 80, 80)
   )
 
 ## It is useful to have a plot which displays this data along with the
@@ -48,9 +67,40 @@ outbreak_gg <-
     fill = "white", colour = "black",
     pattern_spacing = 0.015, pattern_angle = 45
   ) +
-  geom_vline(xintercept = ymd("2010-05-04")) +
+  geom_point(
+    data = interval_df,
+    mapping = aes(x = start_date, y = y),
+    shape = 6
+  ) +
+  geom_text(
+    data = interval_df,
+    mapping = aes(x = start_date, y = y, label = label),
+    hjust = 0,
+    vjust = -1,
+    angle = 30,
+    size = 3
+  ) +
   scale_pattern_manual(
     values = c("stripe")
   ) +
+  scale_x_date(
+    date_breaks = "2 month",
+    date_labels = "%b",
+    limits = c(ymd("2010-01-01"), ymd("2010-08-01")),
+    expand = c(0, 0)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 90),
+    breaks = seq(0, 100, 20),
+    expand = c(0, 2)
+  ) +
   labs(x = NULL, y = "Confirmed cases") +
   theme_bw()
+
+
+ggsave(filename = "out/manuscript/data-plot.png",
+       plot = outbreak_gg,
+       height = 0.7 * 14.8, width = 21.0, # A5
+       ## height = 10.5, width = 14.8, # A6
+       ## height = 7.4, width = 10.5, # A7
+       units = "cm")
