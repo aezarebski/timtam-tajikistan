@@ -1,6 +1,9 @@
+library(ape)
 library(dplyr)
 library(ggpattern)
 library(ggplot2)
+library(reshape2)
+library(stringr)
 library(lubridate)
 
 ## Read in the data from WPD and munged into a nice data.frame. By
@@ -25,6 +28,14 @@ who_df <-
                                     replacement = "")) + 1,
          week_date = epi_week_start_date + week_zrd * days(7),
          cases = round(cases))
+
+## 4 May is a Tuesday, \code{weekdays(ymd("2010-05-04")) == "Tuesday"}
+## so we can use this to add columns for the Sunday and Saturday of
+## each week to the data frame above. The weekend columns are useful
+## for plotting the sequence dates later.
+
+who_df$week_start_date <- who_df$week_date - days(2)
+who_df$week_end_date <- who_df$week_date + days(4)
 
 ## It is useful to have the dates of the vaccination rounds in a data
 ## frame so we can plot them later.
@@ -55,17 +66,67 @@ interval_df <-
     y = c(80, 80, 80, 80, 80, 80, 80)
   )
 
+## And if we want to include the sequenced samples as a bar with
+## different cross hatching, we will need to extract the weekly
+## sequence counts from the data as well.
+
+li_nexus <- "data/li-alignment.nexus"
+stopifnot(file.exists(li_nexus))
+seqs <- ape::read.nexus.data(file = li_nexus)
+seq_dates <-
+  seqs |>
+  names() |>
+  str_extract("[0-9]{4}-[0-9]{2}-[0-9]{2}") |>
+  purrr::discard(.p = is.na) |>
+  ymd()
+
+seq_df <-
+  who_df |>
+  select(week_date, week_start_date, week_end_date) |>
+  mutate(seq_count = 0)
+for (ix in seq_len(nrow(seq_df))) {
+  week_start <- seq_df[ix, "week_start_date"]
+  week_end <- seq_df[ix, "week_end_date"]
+  seq_df[ix, "seq_count"] <-
+    sum(seq_dates >= week_start & seq_dates <= week_end)
+}
+
+## It appears that the sequences don't match up nicely with the number
+## of cases. Quite possibly there is a difference between the date
+## associated with the case and the date associated with the sequence.
+## To avoid double counting cases, I have used the cases minus the
+## number of sequences associated with that week, and for the two
+## weeks in which this is negative (a value of -1) I have set the
+## value to 0. This should only make a minor change to the data and
+## should have a far smaller effect than over counting the cases.
+
+plt_df <-
+  who_df |>
+  inner_join(seq_df, by = c("week_date")) |>
+  mutate(cases_minus_seqs = pmax(0, cases - seq_count)) |>
+  select(week_date, seq_count, cases_minus_seqs) |>
+  melt(id.vars = c("week_date"),
+       variable.name = "data_type",
+       value.name = "count") |>
+  mutate(data_type = factor(data_type,
+                            levels = c("cases_minus_seqs", "seq_count"),
+                            labels = c("Cases", "Sequences")))
+
 ## It is useful to have a plot which displays this data along with the
 ## various times at which interventions where enacted.
 
 outbreak_gg <-
   ggplot() +
   geom_col_pattern(
-    data = who_df,
+    data = plt_df,
     mapping = aes(x = week_date,
-                  y = cases),
-    fill = "white", colour = "black",
+                  y = count,
+                  pattern = data_type),
+    fill = "white",
     pattern_spacing = 0.015, pattern_angle = 45
+  ) +
+  scale_pattern_manual(
+    values = c("stripe", "crosshatch")
   ) +
   geom_point(
     data = interval_df,
@@ -80,12 +141,9 @@ outbreak_gg <-
     angle = 30,
     size = 3
   ) +
-  scale_pattern_manual(
-    values = c("stripe")
-  ) +
   scale_x_date(
     date_breaks = "2 month",
-    date_labels = "%b",
+    date_labels = "%b %d",
     limits = c(ymd("2010-01-01"), ymd("2010-08-01")),
     expand = c(0, 0)
   ) +
@@ -94,9 +152,11 @@ outbreak_gg <-
     breaks = seq(0, 100, 20),
     expand = c(0, 2)
   ) +
-  labs(x = NULL, y = "Confirmed cases") +
-  theme_bw()
-
+  labs(x = NULL, y = NULL, pattern = NULL, pattern_angle = NULL) +
+  theme_bw() +
+  theme(
+    legend.position = c(0.2, 0.3)
+  )
 
 ggsave(filename = "out/manuscript/data-plot.png",
        plot = outbreak_gg,

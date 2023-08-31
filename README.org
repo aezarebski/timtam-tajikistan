@@ -1,4 +1,15 @@
 #+title: Tajikistan poliomyelitis analysis
+#+author: Alexander E. Zarebski
 
 Look at [[file:./scratch.org]] for preliminary steps in getting the
 dataset.
+
+* Results
+
+- Figure [[fig:data-plot]] is produced by [[file:./R/preprocessing-1.R]].
+
+#+caption: Time series of the number of cases and sequences in each epidemiological week.
+#+name: fig:data-plot
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/manuscript/data-plot.png]]
