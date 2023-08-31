@@ -6,6 +6,12 @@ library(reshape2)
 library(stringr)
 library(lubridate)
 
+time_series_input_csv <- "data/time-series.csv"
+time_series_clean_csv <- "out/who_df.csv"
+stopifnot(file.exists(time_series_clean_csv))
+li_nexus <- "data/li-alignment.nexus"
+stopifnot(file.exists(li_nexus))
+
 ## Read in the data from WPD and munged into a nice data.frame. By
 ## default WPD labels the columns of a bar-chart "BAR0", "BAR1", ...
 ## and the weeks are labelled 1, 2, ... so these are parsed and used
@@ -21,7 +27,7 @@ library(lubridate)
 epi_week_start_date <- ymd("2010-01-01") - days(3)
 
 who_df <-
-  read.csv("./data/time-series.csv", header = FALSE) |>
+  read.csv(time_series_input_csv, header = FALSE) |>
   rename(week_zrd = V1, cases = V2) |>
   mutate(week_zrd = as.integer(gsub(x = week_zrd,
                                     pattern = "Bar",
@@ -36,6 +42,14 @@ who_df <-
 
 who_df$week_start_date <- who_df$week_date - days(2)
 who_df$week_end_date <- who_df$week_date + days(4)
+
+## We will need the case data for subsequent analysis so we will save
+## while we already have it in a useful format.
+
+write.table(x = who_df,
+            file = time_series_clean_csv,
+            sep = ",",
+            row.names = FALSE)
 
 ## It is useful to have the dates of the vaccination rounds in a data
 ## frame so we can plot them later.
@@ -70,8 +84,6 @@ interval_df <-
 ## different cross hatching, we will need to extract the weekly
 ## sequence counts from the data as well.
 
-li_nexus <- "data/li-alignment.nexus"
-stopifnot(file.exists(li_nexus))
 seqs <- ape::read.nexus.data(file = li_nexus)
 seq_dates <-
   seqs |>
@@ -160,7 +172,5 @@ outbreak_gg <-
 
 ggsave(filename = "out/manuscript/data-plot.png",
        plot = outbreak_gg,
-       height = 0.7 * 14.8, width = 21.0, # A5
-       ## height = 10.5, width = 14.8, # A6
-       ## height = 7.4, width = 10.5, # A7
+       height = 0.7 * 14.8, width = 21.0,
        units = "cm")
