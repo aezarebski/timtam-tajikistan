@@ -152,7 +152,7 @@ name="alignment">
                 </trait>
                 <taxonset idref="TaxonSet.timed-sequences"/>
             </tree>
-            <parameter id="clockRate.c:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode">1.0</parameter>
+            <parameter id="clockRate.c:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode">0.00002740</parameter>
             <stateNode id="TTHistorySizes.t:timed-sequences" spec="parameter.IntegerParameter">0</stateNode>
             <parameter id="TTR0.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode">1.85</parameter>
             <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.1</parameter>
@@ -190,9 +190,6 @@ name="alignment">
                         <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="sigma">2.0</parameter>
                     </Normal>
                 </prior>
-                <prior id="ClockPrior.c:timed-sequences" name="distribution" x="@clockRate.c:timed-sequences">
-                    <Uniform id="Uniform.0" name="distr" upper="Infinity"/>
-                </prior>
             </distribution>
             <distribution id="likelihood" spec="CompoundDistribution" useThreads="true">
                 <distribution id="treeLikelihood.timed-sequences" spec="ThreadedTreeLikelihood" data="@timed-sequences" tree="@Tree.t:timed-sequences">
@@ -206,28 +203,6 @@ name="alignment">
                 </distribution>
             </distribution>
         </distribution>
-        <operator id="StrictClockRateScaler.c:timed-sequences" spec="AdaptableOperatorSampler" weight="1.5">
-            <parameter idref="clockRate.c:timed-sequences"/>
-            <operator id="AVMNOperator.timed-sequences" spec="kernel.AdaptableVarianceMultivariateNormalOperator" allowNonsense="true" beta="0.05" burnin="400" initial="800" weight="0.1">
-                <transformations id="AVMNSumTransform.timed-sequences" spec="operator.kernel.Transform$LogConstrainedSumTransform"/>
-                <transformations id="AVMNLogTransform.timed-sequences" spec="operator.kernel.Transform$LogTransform">
-                    <f idref="clockRate.c:timed-sequences"/>
-                </transformations>
-                <transformations id="AVMNNoTransform.timed-sequences" spec="operator.kernel.Transform$NoTransform">
-                    <f idref="Tree.t:timed-sequences"/>
-                </transformations>
-            </operator>
-            <operator id="StrictClockRateScalerX.c:timed-sequences" spec="kernel.BactrianScaleOperator" parameter="@clockRate.c:timed-sequences" upper="10.0" weight="3.0"/>
-        </operator>
-        <operator id="strictClockUpDownOperator.c:timed-sequences" spec="AdaptableOperatorSampler" weight="1.5">
-            <parameter idref="clockRate.c:timed-sequences"/>
-            <tree idref="Tree.t:timed-sequences"/>
-            <operator idref="AVMNOperator.timed-sequences"/>
-            <operator id="strictClockUpDownOperatorX.c:timed-sequences" spec="operator.kernel.BactrianUpDownOperator" scaleFactor="0.75" weight="3.0">
-                <up idref="clockRate.c:timed-sequences"/>
-                <down idref="Tree.t:timed-sequences"/>
-            </operator>
-        </operator>
         <operator id="TTR0Scaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTR0.t:timed-sequences" scaleFactor="0.9" weight="1.0"/>
         <operator id="TTR0Walk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTR0.t:timed-sequences" weight="1.0" windowSize="0.01"/>
         <operator id="TTPropPsiScaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTPropPsi.t:timed-sequences" scaleFactor="0.9" weight="1.0"/>

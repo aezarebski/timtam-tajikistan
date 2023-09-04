@@ -1,11 +1,8 @@
 #+title: Tajikistan poliomyelitis analysis
 #+author: Alexander E. Zarebski
 
-Look at [[file:./scratch.org]] for preliminary steps in getting the
-dataset.
-
-Look at these [[file:./doc/readme.org][notes]] for material that might be of use in the
-manuscript.
+- Look at these [[file:./doc/model.org][notes]] for material relating to the model.
+- Look at these [[file:./doc/readme.org][notes]] for material relating to the manuscript.
 
 * Results
 
