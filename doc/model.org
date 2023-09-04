@@ -13,4 +13,7 @@ Model files live in =xml/=.
 3. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
    estimated mean infectious period with a prior distribution of
    \(\Gamma(5.12, 1.7)\) (which has an mean of \(\approx 3.0\)).
-4. A very rough estimate of the detection probability is 1 in 200 and
+4. A very rough estimate of the detection probability is 1 in 200. If
+   we look at the total number of sequences and the total number of
+   cases (excluding sequenced cases) it comes out to about one-in-four
+   (\(25\%\)) cases getting sequenced.
