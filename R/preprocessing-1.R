@@ -12,6 +12,10 @@ stopifnot(file.exists(time_series_clean_csv))
 li_nexus <- "data/li-alignment.nexus"
 stopifnot(file.exists(li_nexus))
 
+data_plot_png <- "out/manuscript/data-plot.png"
+session_rdata_out <-
+  sprintf("out/preprocessing-1-workspace-%s.RData", Sys.Date())
+
 ## Read in the data from WPD and munged into a nice data.frame. By
 ## default WPD labels the columns of a bar-chart "BAR0", "BAR1", ...
 ## and the weeks are labelled 1, 2, ... so these are parsed and used
@@ -42,14 +46,6 @@ who_df <-
 
 who_df$week_start_date <- who_df$week_date - days(2)
 who_df$week_end_date <- who_df$week_date + days(4)
-
-## We will need the case data for subsequent analysis so we will save
-## while we already have it in a useful format.
-
-write.table(x = who_df,
-            file = time_series_clean_csv,
-            sep = ",",
-            row.names = FALSE)
 
 ## It is useful to have the dates of the vaccination rounds in a data
 ## frame so we can plot them later.
@@ -115,14 +111,30 @@ for (ix in seq_len(nrow(seq_df))) {
 plt_df <-
   who_df |>
   inner_join(seq_df, by = c("week_date")) |>
-  mutate(cases_minus_seqs = pmax(0, cases - seq_count)) |>
-  select(week_date, seq_count, cases_minus_seqs) |>
-  melt(id.vars = c("week_date"),
+  mutate(cases_minus_seqs = pmax(0, cases - seq_count),
+         week_start_date = week_start_date.x,
+         week_end_date = week_end_date.x) |>
+  select(week_date,
+         week_start_date,
+         week_end_date,
+         cases_minus_seqs,
+         seq_count) |>
+  melt(id.vars = c("week_date",
+                   "week_start_date",
+                   "week_end_date"),
        variable.name = "data_type",
        value.name = "count") |>
   mutate(data_type = factor(data_type,
                             levels = c("cases_minus_seqs", "seq_count"),
                             labels = c("Cases", "Sequences")))
+
+## We will need the case data for subsequent analysis so we will save
+## while we already have it in a useful format.
+
+write.table(x = plt_df,
+            file = time_series_clean_csv,
+            sep = ",",
+            row.names = FALSE)
 
 ## It is useful to have a plot which displays this data along with the
 ## various times at which interventions where enacted.
@@ -170,7 +182,13 @@ outbreak_gg <-
     legend.position = c(0.2, 0.3)
   )
 
-ggsave(filename = "out/manuscript/data-plot.png",
+ggsave(filename = data_plot_png,
        plot = outbreak_gg,
        height = 0.7 * 14.8, width = 21.0,
        units = "cm")
+
+## It is useful to save a copy of the whole workspace so that if we
+## need to come back to edit the plot we can do so without having to
+## re-run the whole analysis.
+
+save.image(file = session_rdata_out)
