@@ -4,6 +4,9 @@
 Look at [[file:./scratch.org]] for preliminary steps in getting the
 dataset.
 
+Look at these [[file:./doc/readme.org][notes]] for material that might be of use in the
+manuscript.
+
 * Results
 
 - Figure [[fig:data-plot]] is produced by [[file:./R/preprocessing-1.R]].
