@@ -167,7 +167,7 @@ name="alignment">
             <distribution id="prior" spec="CompoundDistribution">
                 <distribution id="TimTamTimeSeries.t:timed-sequences" spec="timtam.TimTam" historySizes="@TTHistorySizes.t:timed-sequences" parameterisation="timeSeriesR0" propPsi="@TTPropPsi.t:timed-sequences" propTimeSeries="@TTPropTS.t:timed-sequences" r0="@TTR0.t:timed-sequences" tree="@Tree.t:timed-sequences">
                     <parameter id="TTNetRemovalRate.t:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="sigma">0.1</parameter>
-                    <parameter id="TTOriginTime.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="originTime">100.0</parameter>
+                    <parameter id="TTOriginTime.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="originTime">262.0</parameter>
                     <parameter id="TTDisasterTimes.t:timed-sequences" spec="parameter.RealParameter" dimension="3" estimate="false" name="disasterTimes">2.0 1.0 0.0</parameter>
                     <disasterSizes id="TTDisasterSizes.t:timed-sequences" spec="parameter.IntegerParameter" dimension="3" estimate="false">1 1 2</disasterSizes>
                     <parameter id="TTHistoryTimes.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="historyTimes">0.0</parameter>

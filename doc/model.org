@@ -1,0 +1,12 @@
+#+title: Tajikistan poliomyelitis analysis
+#+author: Alexander E. Zarebski
+
+Model files live in =xml/=.
+
+1. Li /et al/ (2017) use use a script clock with 0.01 substitutions
+   per site per year. On a daily time scale this is 0.00002740
+   substitutions per site per *day*.
+2. Yakovenko /et a/ (2014) suggest the outbreak stemmed from a single
+   importation in October 2009 (\(95\%\) HPD: end of August--early
+   December). *We use 15 October as the origin time which is 262 days
+   pre-present.*
