@@ -10,3 +10,7 @@ Model files live in =xml/=.
    importation in October 2009 (\(95\%\) HPD: end of August--early
    December). *We use 15 October as the origin time which is 262 days
    pre-present.*
+3. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
+   estimated mean infectious period with a prior distribution of
+   \(\Gamma(5.12, 1.7)\) (which has an mean of \(\approx 3.0\)).
+4. A very rough estimate of the detection probability is 1 in 200 and

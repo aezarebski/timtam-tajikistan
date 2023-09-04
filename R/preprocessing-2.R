@@ -7,10 +7,12 @@ library(stringr)
 library(lubridate)
 library(timtamslamR)
 
+session_rdata_out <-
+  sprintf("out/preprocessing-2-workspace-%s.RData", Sys.Date())
+
+input_cases_csv <- "out/who_df.csv"
+stopifnot(file.exists(input_cases_csv))
 output_fasta <- "out/timed-sequences.fasta"
-if (file.exists(output_fasta)) {
-  stop("Output file already exists. Please delete it and try again.")
-}
 
 li_nexus <- "data/li-alignment.nexus"
 stopifnot(file.exists(li_nexus))
@@ -38,13 +40,14 @@ p <- get_present(seqs, timed_seqs)
 ## included doesn't have any cases but is probably important to
 ## include as a zero.
 
-z1 <-
-  read.csv("out/who_df.csv") |>
-  mutate(count = cases,
-         week_start = as.Date(week_start_date),
+z1 <- input_cases_csv |>
+  read.csv() |>
+  filter(data_type == "Cases") |>
+  mutate(week_start = as.Date(week_start_date),
          week_end = as.Date(week_end_date)) |>
   select(count, week_start, week_end) |>
   spread_across_days()
+
 z2 <- rename_time_series(p, z1)
 write.csv(z2, "out/who_df_timestamped.csv",
           row.names=FALSE)
@@ -58,3 +61,5 @@ paste(z2$count, sep = "", collapse = " ")
 print("Here are the backward-times of the disasters:\n")
 paste(z2$bwd_times, sep = "", collapse = " ")
 sink()
+
+save.image(file = session_rdata_out)
