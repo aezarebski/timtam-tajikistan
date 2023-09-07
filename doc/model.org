@@ -17,3 +17,5 @@ Model files live in =xml/=.
    we look at the total number of sequences and the total number of
    cases (excluding sequenced cases) it comes out to about one-in-four
    (\(25\%\)) cases getting sequenced.
+5. The date of the first round of vaccination occured 61 days prior to
+   the present. This is used for the change in R0 in our model.
