@@ -153,10 +153,10 @@ name="alignment">
                 <taxonset idref="TaxonSet.timed-sequences"/>
             </tree>
             <parameter id="clockRate.c:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode">0.00002740</parameter>
-            <!-- <stateNode id="TTHistorySizes.t:timed-sequences" spec="parameter.IntegerParameter">0</stateNode> -->
+            <stateNode id="TTHistorySizes.t:timed-sequences" spec="parameter.IntegerParameter" dimension="6">200 400 600 600 400 200</stateNode>
             <parameter id="TTR0.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" upper="10.0" name="stateNode">1.85 0.75</parameter>
-            <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.001</parameter>
-            <parameter id="TTPropTS.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.004</parameter>
+            <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.000001 0.001</parameter>
+            <parameter id="TTPropTS.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.000001 0.004</parameter>
         </state>
         <init id="RandomTree.t:timed-sequences" spec="RandomTree" estimate="false" initial="@Tree.t:timed-sequences" taxa="@timed-sequences">
             <populationModel id="ConstantPopulation0.t:timed-sequences" spec="ConstantPopulation">
@@ -166,23 +166,25 @@ name="alignment">
         <distribution id="posterior" spec="CompoundDistribution">
             <distribution id="prior" spec="CompoundDistribution">
                 <!-- <distribution id="TimTamTimeSeries.t:timed-sequences" spec="timtam.TimTam" historySizes="@TTHistorySizes.t:timed-sequences" parameterisation="timeSeriesR0" propPsi="@TTPropPsi.t:timed-sequences" propTimeSeries="@TTPropTS.t:timed-sequences" r0="@TTR0.t:timed-sequences" tree="@Tree.t:timed-sequences"> -->
-                <distribution id="TimTamTimeSeries.t:timed-sequences" spec="timtam.TimTam" parameterisation="timeSeriesR0" propPsi="@TTPropPsi.t:timed-sequences" propTimeSeries="@TTPropTS.t:timed-sequences" r0="@TTR0.t:timed-sequences" tree="@Tree.t:timed-sequences" conditionOnObservation="false">
+                <distribution id="TimTamTimeSeries.t:timed-sequences" spec="timtam.TimTam" historySizes="@TTHistorySizes.t:timed-sequences" parameterisation="timeSeriesR0" propPsi="@TTPropPsi.t:timed-sequences" propTimeSeries="@TTPropTS.t:timed-sequences" r0="@TTR0.t:timed-sequences" tree="@Tree.t:timed-sequences" conditionOnObservation="false">
                     <parameter id="TTNetRemovalRate.t:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="sigma">0.1</parameter>
                     <parameter id="TTOriginTime.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="originTime">262.0</parameter>
-                    <parameter id="TTDisasterTimes.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="disasterTimes">181.833333 180.833333 179.833333 178.833333 177.833333 176.833333 175.833333 174.833333 173.833333 172.833333 171.833333 170.833333 169.833333 168.833333 167.833333 166.833333 165.833333 164.833333 163.833333 162.833333 161.833333 160.833333 159.833333 158.833333 157.833333 156.833333 155.833333 154.833333 153.833333 152.833333 151.833333 150.833333 149.833333 148.833333 147.833333 146.833333 145.833333 144.833333 143.833333 142.833333 141.833333 140.833333 139.833333 138.833333 137.833333 136.833333 135.833333 134.833333 133.833333 132.833333 131.833333 130.833333 129.833333 128.833333 127.833333 126.833333 125.833333 124.833333 123.833333 122.833333 121.833333 120.833333 119.833333 118.833333 117.833333 116.833333 115.833333 114.833333 113.833333 112.833333 111.833333 110.833333 109.833333 108.833333 107.833333 106.833333 105.833333 104.833333 103.833333 102.833333 101.833333 100.833333 99.833333 98.833333 97.833333 96.833333 95.833333 94.833333 93.833333 92.833333 91.833333 90.833333 89.833333 88.833333 87.833333 86.833333 85.833333 84.833333 83.833333 82.833333 81.833333 80.833333 79.833333 78.833333 77.833333 76.833333 75.833333 74.833333 73.833333 72.833333 71.833333 70.833333 69.833333 68.833333 67.833333 66.833333 65.833333 64.833333 63.833333 62.833333 61.833333 60.833333 59.833333 58.833333 57.833333 56.833333 55.833333 54.833333 53.833333 52.833333 51.833333 50.833333 49.833333 48.833333 47.833333 46.833333 45.833333 44.833333 43.833333 42.833333 41.833333 40.833333 39.833333 38.833333 37.833333 36.833333 35.833333 34.833333 33.833333 32.833333 31.833333 30.833333 29.833333 28.833333 27.833333 26.833333 25.833333 24.833333 23.833333 22.833333 21.833333 20.833333 19.833333 18.833333 17.833333 16.833333 15.833333 14.833333 13.833333 12.833333 11.833333 10.833333 9.83333300000001 8.83333300000001 7.83333300000001 6.83333300000001 5.83333300000001 4.83333300000001 3.83333300000001 2.83333300000001 1.83333300000001 0.83333300000001 -0.16666699999999 -1.16666699999999 -2.16666699999999 -3.16666699999999 -4.16666699999999 -5.16666699999999 -6.16666699999999</parameter>
-                    <disasterSizes id="TTDisasterSizes.t:timed-sequences" spec="parameter.IntegerParameter" estimate="false">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 1 1 1 1 0 1 1 2 2 2 1 1 0 1 1 1 1 1 0 6 7 7 7 7 7 6 5 6 6 6 6 6 6 7 7 7 8 7 7 7 9 9 10 10 10 9 9 8 8 8 9 8 8 8 6 6 6 7 6 6 6 1 1 1 2 2 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0</disasterSizes>
-                    <!-- <parameter id="TTHistoryTimes.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="historyTimes">0.0</parameter> -->
+                    <parameter id="TTDisasterTimes.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="disasterTimes">152.833333 151.833333 150.833333 149.833333 148.833333 147.833333 146.833333 145.833333 144.833333 143.833333 142.833333 141.833333 140.833333 139.833333 138.833333 137.833333 136.833333 135.833333 134.833333 133.833333 132.833333 131.833333 130.833333 129.833333 128.833333 127.833333 126.833333 125.833333 124.833333 123.833333 122.833333 121.833333 120.833333 119.833333 118.833333 117.833333 116.833333 115.833333 114.833333 113.833333 112.833333 111.833333 110.833333 109.833333 108.833333 107.833333 106.833333 105.833333 104.833333 103.833333 102.833333 101.833333 100.833333 99.833333 98.833333 97.833333 96.833333 95.833333 94.833333 93.833333 92.833333 91.833333 90.833333 89.833333 88.833333 87.833333 86.833333 85.833333 84.833333 83.833333 82.833333 81.833333 80.833333 79.833333 78.833333 77.833333 76.833333 75.833333 74.833333 73.833333 72.833333 71.833333 70.833333 69.833333 68.833333 67.833333 66.833333 65.833333 64.833333 63.833333 62.833333 61.833333 60.833333 59.833333 58.833333 57.833333 56.833333 55.833333 54.833333 53.833333 52.833333 51.833333 50.833333 49.833333 48.833333 47.833333 46.833333 45.833333 44.833333 43.833333 42.833333 41.833333 40.833333 39.833333 38.833333 37.833333 36.833333 35.833333 34.833333 33.833333 32.833333 31.833333 30.833333 29.833333 28.833333 27.833333 26.833333 25.833333 24.833333 23.833333 22.833333 21.833333 20.833333 19.833333 18.833333 17.833333 16.833333 15.833333 14.833333 13.833333 12.833333 11.833333 10.833333 9.83333300000001 8.83333300000001 7.83333300000001 6.83333300000001 5.83333300000001 4.83333300000001 3.83333300000001 2.83333300000001 1.83333300000001 0.83333300000001 -0.16666699999999 -1.16666699999999 -2.16666699999999 -3.16666699999999 -4.16666699999999 -5.16666699999999 -6.16666699999999</parameter>
+                    <disasterSizes id="TTDisasterSizes.t:timed-sequences" spec="parameter.IntegerParameter" estimate="false">0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 1 1 0 0 0 0 1 1 1 1 0 1 1 2 2 2 1 1 0 1 1 1 1 1 0 6 7 7 7 7 7 6 5 6 6 6 6 6 6 7 7 7 8 7 7 7 9 9 10 10 10 9 9 8 8 8 9 8 8 8 6 6 6 7 6 6 6 1 1 1 2 2 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0</disasterSizes>
+                    <parameter id="TTHistoryTimes.t:timed-sequences" spec="parameter.RealParameter" estimate="false" name="historyTimes">150.0 120.0 90.0 60.0 30.0 0.0</parameter>
 		    <parameter spec="parameter.RealParameter" estimate="false" name="r0ChangeTimes">61.0</parameter>
+		    <parameter spec="parameter.RealParameter" estimate="false" name="propPsiChangeTimes">153.0</parameter>
+		    <parameter spec="parameter.RealParameter" estimate="false" name="propTimeSeriesChangeTimes">153.0</parameter>
                 </distribution>
                 <prior id="TTPropPsiPrior.t:timed-sequences" name="distribution" x="@TTPropPsi.t:timed-sequences">
                     <Beta id="Beta.0" name="distr">
-                        <parameter id="RealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
+                        <parameter id="RealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
                         <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">201.0</parameter>
                     </Beta>
                 </prior>
                 <prior id="TTPropTimeSeriesPrior.t:timed-sequences" name="distribution" x="@TTPropTS.t:timed-sequences">
                     <Beta id="Beta.1" name="distr">
-                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
+                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
                         <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">201.0</parameter>
                     </Beta>
                 </prior>
@@ -205,17 +207,17 @@ name="alignment">
                 </distribution>
             </distribution>
         </distribution>
-        <operator id="TTR0Scaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTR0.t:timed-sequences" scaleFactor="0.9" weight="1.0"/>
-        <operator id="TTR0Walk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTR0.t:timed-sequences" weight="1.0" windowSize="0.01"/>
-        <operator id="TTPropPsiScaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTPropPsi.t:timed-sequences" scaleFactor="0.9" weight="1.0"/>
-        <operator id="TTPropPsiWalk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTPropPsi.t:timed-sequences" weight="1.0" windowSize="0.01"/>
-        <operator id="TTPropTimeSeriesScaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTPropTS.t:timed-sequences" scaleFactor="0.9" weight="1.0"/>
-        <operator id="TTPropTimeSeriesWalk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTPropTS.t:timed-sequences" weight="1.0" windowSize="0.01"/>
-        <!-- <operator id="TTHistorySizesWalk.t:timed-sequences" spec="operator.IntRandomWalkOperator" parameter="@TTHistorySizes.t:timed-sequences" weight="3.0" windowSize="20"/> -->
+        <!-- <operator id="TTR0Scaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTR0.t:timed-sequences" scaleFactor="0.9" weight="1.0"/> -->
+        <operator id="TTR0Walk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTR0.t:timed-sequences" windowSize="0.05" weight="0.1" />
+        <operator id="TTPropPsiScaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTPropPsi.t:timed-sequences" scaleFactor="0.90" weight="0.1" optimise="false"/>
+        <!-- <operator id="TTPropPsiWalk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTPropPsi.t:timed-sequences" weight="1.0" windowSize="0.01"/> -->
+        <operator id="TTPropTimeSeriesScaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTPropTS.t:timed-sequences" scaleFactor="0.90" weight="0.1" optimise="false"/>
+        <!-- <operator id="TTPropTimeSeriesWalk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTPropTS.t:timed-sequences" weight="1.0" windowSize="0.01"/> -->
+        <operator id="TTHistorySizesWalk.t:timed-sequences" spec="operator.IntRandomWalkOperator" parameter="@TTHistorySizes.t:timed-sequences" weight="0.1" windowSize="10"/>
         <operator id="TimTamTimeSeriesBICEPSEpochTop.t:timed-sequences" spec="EpochFlexOperator" scaleFactor="0.1" tree="@Tree.t:timed-sequences" weight="2.0"/>
         <operator id="TimTamTimeSeriesBICEPSEpochAll.t:timed-sequences" spec="EpochFlexOperator" fromOldestTipOnly="false" scaleFactor="0.1" tree="@Tree.t:timed-sequences" weight="2.0"/>
-        <operator id="TimTamTimeSeriesBICEPSTreeFlex.t:timed-sequences" spec="TreeStretchOperator" scaleFactor="0.01" tree="@Tree.t:timed-sequences" weight="2.0"/>
-        <operator id="TimTamTimeSeriesTreeRootScaler.t:timed-sequences" spec="kernel.BactrianScaleOperator" rootOnly="true" scaleFactor="0.1" tree="@Tree.t:timed-sequences" upper="10.0" weight="3.0"/>
+        <operator id="TimTamTimeSeriesBICEPSTreeFlex.t:timed-sequences" spec="TreeStretchOperator" scaleFactor="0.001" optimise="false" tree="@Tree.t:timed-sequences" weight="2.0"/>
+        <operator id="TimTamTimeSeriesTreeRootScaler.t:timed-sequences" spec="kernel.BactrianScaleOperator" rootOnly="true" scaleFactor="0.001" optimise="false" tree="@Tree.t:timed-sequences" upper="10.0" weight="3.0"/>
         <operator id="TimTamTimeSeriesUniformOperator.t:timed-sequences" spec="kernel.BactrianNodeOperator" tree="@Tree.t:timed-sequences" weight="30.0"/>
         <operator id="TimTamTimeSeriesSubtreeSlide.t:timed-sequences" spec="kernel.BactrianSubtreeSlide" tree="@Tree.t:timed-sequences" weight="15.0"/>
         <operator id="TimTamTimeSeriesNarrow.t:timed-sequences" spec="Exchange" tree="@Tree.t:timed-sequences" weight="15.0"/>
@@ -228,7 +230,7 @@ name="alignment">
             <log idref="treeLikelihood.timed-sequences"/>
             <log id="TreeHeight.t:timed-sequences" spec="beast.base.evolution.tree.TreeStatLogger" tree="@Tree.t:timed-sequences"/>
             <log idref="clockRate.c:timed-sequences"/>
-            <!-- <log idref="TTHistorySizes.t:timed-sequences"/> -->
+            <log idref="TTHistorySizes.t:timed-sequences"/>
             <log idref="TTR0.t:timed-sequences"/>
             <log idref="TTPropPsi.t:timed-sequences"/>
             <log idref="TTPropTS.t:timed-sequences"/>

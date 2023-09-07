@@ -19,3 +19,10 @@ Model files live in =xml/=.
    (\(25\%\)) cases getting sequenced.
 5. The date of the first round of vaccination occured 61 days prior to
    the present. This is used for the change in R0 in our model.
+6. Notable dates:
+   - First sequence: TJK35389 from 2010-02-01
+   - Last sequence: TJK37339 from 2010-07-04
+7. Because it seems likely that there was effort to sequence the first
+   confirmed case, we can assume that prior to the first sequenced
+   case which was 153 days pre-present there was no surveillance in
+   place.

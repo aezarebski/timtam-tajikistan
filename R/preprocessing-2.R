@@ -53,13 +53,17 @@ write.csv(z2, "out/who_df_timestamped.csv",
           row.names=FALSE)
 
 ## Finally, it is most helpful to have the disaster data formatted as
-## a string that we can easily copy and paste into the XML file.
+## a string that we can easily copy and paste into the XML file. We
+## remove the date prior to the first of February because had there
+## been surveillence at that point it probably would have captured one
+## of the cases as a sequence.
 
+z3 <- z2[z2$date >= ymd("2010-02-01"),]
 sink("out/disaster-strings.txt")
 print("Here are the disaster sizes:\n")
-paste(z2$count, sep = "", collapse = " ")
+paste(z3$count, sep = "", collapse = " ")
 print("Here are the backward-times of the disasters:\n")
-paste(z2$bwd_times, sep = "", collapse = " ")
+paste(z3$bwd_times, sep = "", collapse = " ")
 sink()
 
 save.image(file = session_rdata_out)
