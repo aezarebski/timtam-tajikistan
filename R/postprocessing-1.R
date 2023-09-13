@@ -30,7 +30,7 @@ days_to_period <- function(x) {
 output <- list(
   params_png = "out/demo-reff.png",
   prev_png = "out/demo-prevalence.png",
-  combined_png = "out/combined-plot.png"
+  combined_png = "out/manuscript/combined-plot.png"
 )
 
 ## Define and extract relevant information for the input files after

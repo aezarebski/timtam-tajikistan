@@ -10,9 +10,16 @@
 - [[file:./out/disaster-strings.txt][This file]] containing the time series is produced by [[file:./R/preprocessing-2.R]].
 - [[file:./out/timed-sequences.fasta][This file]] containing the timed sequences is produced by [[file:./R/preprocessing-2.R]].
 - This [[file:./xml/timtam-2023-09-04.xml][BEAST2 XML]] was produced by BEAUti.
+- Figure [[fig:estimates-plot]] is produced by [[file:./R/postprocessing-1.R]].
 
 #+caption: Time series of the number of cases and sequences in each epidemiological week.
 #+name: fig:data-plot
 #+attr_org: :width 500px
 #+attr_html: :width 400px
 [[./out/manuscript/data-plot.png]]
+
+#+caption: The estimated reproduction number and prevalence of infection through time.
+#+name: fig:estimates-plot
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/manuscript/combined-plot.png]]
