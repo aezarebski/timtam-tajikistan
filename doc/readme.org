@@ -1,0 +1,66 @@
+#+title: Tajikistan poliomyelitis outbreak 2010
+#+author: nil
+#+bibliography: ./references.bib
+#+cite_export: csl
+
+* Rough notes
+
+[cite:@yakovenko2006antigenic] reports on an analysis of live oral poliovirus
+vaccine (OPV). They quote a rate of \(\sim 3\times 10^{-2}\) substitutions per
+synonymous site per year in wild-type virus, although their reference,
+[cite:@gavrilin2000evolution] gives a range of estimates. In both cases this is
+lower than the estimate used by [cite:@li2017quantifying] in which a value of
+\(0.01\) was obtained via MrBayes. *N.b.* that [cite:@li2017quantifying] also
+has some estimates of surveillance probabilities.
+
+[cite:@yakovenko2014outbreak] reports on the molecular-epidemiological
+analysis of an outbreak of poliomyelitis in Tajikistan in 2010. The
+sequences were deposited in GenBank, and there is a weekly time series
+of acute flaccid paralysis (AFP) cases. They state that paralytic
+disease only present in a minority of infections, approximately one
+per 190 for WP1 (with a reference given).
+
+[cite:@blake2014role] reports on an analysis outbreak of poliomyelitis in
+Tajikistan and Republic of Congo in 2010 based on time-series data with an
+interest in the role that older children and adults play in transmission. This
+analysis formed the basis of the analysis from [cite:@li2017quantifying]. They
+found that, in the case of Tajikistan, imperfect vaccine induced immunity was
+less of a problem than the delay of vaccination once the outbreak had been
+detected. In Republic of Congo, the effectiveness of vaccination was estimated
+to be lower than for Tajikistan. They attribute the difference to differences in
+sanitation. They acknowledge the potential cost of extending vaccination to
+older age-groups.
+
+[cite:@yakovenko2014outbreak] finds the epidemic likely started from a single
+introduction from India, and that after that it spread within Tajikistan and
+into neighbouring countries. They estimate that the single importation event
+happened some time August--December 2009. They conclude that the outbreak was
+possible due to low levels of (correct) vaccination, it was brought under
+control by multiple rounds of vaccination. Figure 1 shows the timeline of the
+outbreak and response.
+
+[cite:@yakovenko2014outbreak] used BEAST1 for their analysis and they
+have described the substitution model however, I would have liked a
+bit more detail on the model specification: no XML files are made
+available.
+
+[cite:@li2017quantifying] uses the 2010 polio outbreak as a case study for joint
+inference of time series (CDC report as source) and genomic data
+([cite:@yakovenko2014outbreak]). They are particularly interested in the
+estimation of the dispersion parameter \(k\), however in order to incorporate
+this into a coalescent framework they need to approximate the model by putting
+all infections at the end of the infectious period. They use a slightly
+simplified version of the age-structured model from [cite:@blake2014role].
+
+[cite:@li2017quantifying] use a strict clock in their analysis with an estimated
+substitution rate of \(0.010\) obtained from MyBayes, and state this is inline
+with previous estimates (with an associated citation).
+
+The estimates from [cite:@li2017quantifying] are consist with previous
+estimates. They find that the time series data is the most informative, but that
+the genetic data helps to refine some of the estimates and provides more
+information about the dispersion parameter \(k\).
+
+* Bibliography
+
+#+print_bibliography:

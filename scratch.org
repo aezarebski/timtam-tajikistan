@@ -1,11 +1,6 @@
 #+title: Data
 #+bibliography: references.bib
 
-* Introduction
-
-This document looks at downloading the sequence data described by
-[cite:@yakovenko2014outbreak].
-
 * Retrieving and organising the data
 
 ** Time series data
