@@ -34,6 +34,7 @@ timed_seqs <- rename_dates_to_times_a(seqs)
 write_fasta(timed_seqs, output_fasta)
 
 p <- get_present(seqs, timed_seqs)
+saveRDS(p, "out/present.Rds")
 
 ## Align the time series to the "present" (i.e. the most recent
 ## sequence). This is a little bit fiddly because the last week
