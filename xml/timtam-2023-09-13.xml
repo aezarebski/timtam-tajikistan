@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood" required="BEAST.base v2.7.5:timtam v0.4.0" version="2.7">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><beast beautitemplate='Standard' beautistatus='' namespace="beast.core:beast.evolution.alignment:beast.evolution.tree.coalescent:beast.core.util:beast.evolution.nuc:beast.evolution.operators:beast.evolution.sitemodel:beast.evolution.substitutionmodel:beast.base.evolution.alignment:beast.pkgmgmt:beast.base.core:beast.base.inference:beast.base.evolution.tree.coalescent:beast.pkgmgmt:beast.base.core:beast.base.inference.util:beast.evolution.nuc:beast.base.evolution.operator:beast.base.inference.operator:beast.base.evolution.sitemodel:beast.base.evolution.substitutionmodel:beast.base.evolution.likelihood:beastlabs.math.distributions.ExcludablePrior" required="BEAST.base v2.7.5:timtam v0.4.0" version="2.7">
+
+<map name="excludablePrior" >beastlabs.math.distributions.ExcludablePrior</map>
 
     <data
 id="timed-sequences"
@@ -155,8 +157,8 @@ name="alignment">
             <parameter id="clockRate.c:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode">0.00002740</parameter>
             <stateNode id="TTHistorySizes.t:timed-sequences" spec="parameter.IntegerParameter" dimension="6">200 400 600 600 400 200</stateNode>
             <parameter id="TTR0.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" upper="10.0" name="stateNode">1.85 0.75</parameter>
-            <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.000001 0.001</parameter>
-            <parameter id="TTPropTS.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.000001 0.004</parameter>
+            <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.0 0.001</parameter>
+            <parameter id="TTPropTS.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.0 0.004</parameter>
         </state>
         <init id="RandomTree.t:timed-sequences" spec="RandomTree" estimate="false" initial="@Tree.t:timed-sequences" taxa="@timed-sequences">
             <populationModel id="ConstantPopulation0.t:timed-sequences" spec="ConstantPopulation">
@@ -176,18 +178,19 @@ name="alignment">
 		    <parameter spec="parameter.RealParameter" estimate="false" name="propPsiChangeTimes">153.0</parameter>
 		    <parameter spec="parameter.RealParameter" estimate="false" name="propTimeSeriesChangeTimes">153.0</parameter>
                 </distribution>
-                <prior id="TTPropPsiPrior.t:timed-sequences" name="distribution" x="@TTPropPsi.t:timed-sequences">
+
+		<excludablePrior id="TTPropPsiPrior.t:timed-sequences" name="distribution" x="@TTPropPsi.t:timed-sequences" xInclude="false true">
                     <Beta id="Beta.0" name="distr">
-                        <parameter id="RealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
-                        <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">201.0</parameter>
+                        <parameter id="RealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
+                        <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">301.0</parameter>
                     </Beta>
-                </prior>
-                <prior id="TTPropTimeSeriesPrior.t:timed-sequences" name="distribution" x="@TTPropTS.t:timed-sequences">
+		</excludablePrior>
+		<excludablePrior id="TTPropTimeSeriesPrior.t:timed-sequences" name="distribution" x="@TTPropTS.t:timed-sequences" xInclude="false true">
                     <Beta id="Beta.1" name="distr">
-                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">1.0</parameter>
-                        <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">201.0</parameter>
+                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
+                        <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">301.0</parameter>
                     </Beta>
-                </prior>
+		</excludablePrior>
                 <prior id="TTR0Prior.t:timed-sequences" name="distribution" x="@TTR0.t:timed-sequences">
                     <Normal id="Normal.0" name="distr">
                         <parameter id="RealParameter.1" spec="parameter.RealParameter" estimate="false" name="mean">2.0</parameter>
