@@ -36,7 +36,7 @@ output <- list(
 ## Define and extract relevant information for the input files after
 ## checking that they exist.
 
-timtam_xml <- "xml/timtam-2023-09-07.xml"
+timtam_xml <- "xml/timtam-2023-09-13.xml"
 stopifnot(file.exists(timtam_xml))
 mcmc_config <- read_xml(timtam_xml)
 
@@ -51,7 +51,9 @@ timtam_log <-
   str_replace("\\$\\(filebase\\)",
               str_remove(timtam_xml, "\\.xml")) |>
   str_replace("xml/", "out/")
-stopifnot(file.exists(timtam_log))
+if (!file.exists(timtam_log)) {
+  stop(sprintf("The log file %s is missing!", timtam_log))
+}
 timtam_tree_id <-
   mcmc_config |>
   xml_find_first("//data[@id]/child::sequence/..") |>
