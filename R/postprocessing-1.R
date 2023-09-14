@@ -30,7 +30,8 @@ days_to_period <- function(x) {
 output <- list(
   params_png = "out/demo-reff.png",
   prev_png = "out/demo-prevalence.png",
-  combined_png = "out/manuscript/combined-plot.png"
+  combined_png = "out/manuscript/combined-plot.png",
+  combined_2_png = "out/manuscript/combined-2-plot.png"
 )
 
 ## Define and extract relevant information for the input files after
@@ -122,7 +123,9 @@ buffer_after_last_seq <- 10 # days
 
 step_fun_times <- origin_time - c(origin_time, r_change_times, - buffer_after_last_seq)
 eval(parse(text = paste0(c("step_fun_samples <- list(", paste0(sprintf("timtam_post$TTR0.%d", 1:(length(r_change_times) + 1)), collapse = ","), ")"), collapse = "")))
-estimate_cri <- step_function_cri(step_fun_times, step_fun_samples)
+estimate_cri <-
+  step_function_cri(step_fun_times, step_fun_samples) |>
+  mutate(date = my_present$date + (t - origin_time))
 
 ## END STEP FUNCTION SUMMARY
 
@@ -130,28 +133,34 @@ gg_r_eff <-
   ggplot() +
   geom_ribbon(
     data = estimate_cri,
-    mapping = aes(x = t, ymin = lower_bound, ymax = upper_bound),
+    mapping = aes(x = date, ymin = lower_bound, ymax = upper_bound),
     alpha = 0.5
   ) +
   geom_line(
     data = estimate_cri,
-    mapping = aes(x = t, y = median)
-  ) +
-  geom_vline(
-    xintercept = origin_time,
-    linetype = "dashed"
+    mapping = aes(x = date, y = median)
   ) +
   geom_hline(
     yintercept = 1.0,
     linetype = "dotted"
   ) +
+  scale_x_date(
+    breaks = c(ymd("2010-01-01"),
+               ymd("2010-03-01"),
+               ymd("2010-05-01"),
+               ymd("2010-07-01")),
+    expand = c(0, 20),
+    limits = range(estimate_cri$date),
+    date_labels = "%b %d",
+    name = "Days since outbreak began"
+  ) +
   labs(
-    x = "Days since outbreak began",
     y = "Reproduction number"
   ) +
   theme_bw() +
   theme(
-    axis.title = element_text(size = 13)
+    axis.title = element_text(size = 13),
+    axis.title.x = element_blank()
   )
 
 ggsave(
@@ -230,7 +239,8 @@ prev_df <-
   mutate(point = as.character(point)) |>
   full_join(time_df, by = "point") |>
   select(time, type, size) |>
-  dcast(time ~ type, value.var = c("size"))
+  dcast(time ~ type, value.var = c("size")) |>
+  mutate(date = my_present$date + (time - origin_time))
 
 ## Make a nice plot that demonstrates all of the prevalence results.
 
@@ -238,29 +248,32 @@ prev_fig <-
   ggplot() +
   geom_linerange(
     data = prev_df,
-    mapping = aes(x = time, ymin = lower, ymax = upper),
+    mapping = aes(x = date, ymin = lower, ymax = upper),
     linewidth = 3,
     alpha = 0.5
   ) +
   geom_point(
     data = prev_df,
-    mapping = aes(x = time, y = mid),
+    mapping = aes(x = date, y = mid),
     size = 2
   ) +
-  geom_vline(
-    xintercept = origin_time,
-    linetype = "dashed"
-  ) +
-  scale_x_continuous(
-    limits = c(0, origin_time + buffer_after_last_seq)
+  scale_x_date(
+    breaks = c(ymd("2010-01-01"),
+               ymd("2010-03-01"),
+               ymd("2010-05-01"),
+               ymd("2010-07-01")),
+    date_labels = "%b %d",
+    expand = c(0, 20),
+    limits = range(estimate_cri$date)
   ) +
   labs(
-    x = "Days after introduction",
+    x = NULL,
     y = "Prevalence of infection"
   ) +
   theme_bw() +
   theme(
-    axis.title = element_text(size = 13)
+    axis.title.y = element_text(size = 13),
+    axis.title.x = element_blank()
   )
 
 ggsave(
@@ -274,12 +287,61 @@ example_plot <- plot_grid((gg_r_eff +
                            theme(axis.text.x = element_blank(),
                                  axis.title.x = element_blank())),
                           prev_fig,
+                          align = "v", axis = "l",
                           ncol = 1)
 
 ggsave(filename = output$combined_png,
        plot = example_plot,
        width = 21.0, height = 14.8,
-       ## height = 14.8, width = 21.0, # A5
-       ## height = 10.5, width = 14.8, # A6
-       ## height = 7.4, width = 10.5, # A7
+       units = "cm")
+
+data_plot_rds <- "out/manuscript/data-plot.rds"
+data_gg <- readRDS(data_plot_rds) +
+  ## my_present$date - origin_time
+  geom_point(
+    data = data.frame(x = my_present$date - origin_time,
+                      y = 2),
+    mapping = aes(x = x, y = y),
+    shape = 6
+  ) +
+  geom_text(
+    data = data.frame(x = my_present$date - origin_time,
+                      y = 2,
+                      label = "Origin (15 Oct 2009)"),
+    mapping = aes(x = x, y = y, label = label),
+    hjust = 0,
+    vjust = -1,
+    angle = 30,
+    size = 3
+  ) +
+  scale_x_date(
+    breaks = c(ymd("2010-01-01"),
+               ymd("2010-03-01"),
+               ymd("2010-05-01"),
+               ymd("2010-07-01")),
+    date_labels = "%b %d",
+    expand = c(0, 20),
+    limits = range(estimate_cri$date)
+  ) +
+  scale_y_continuous(
+    limits = c(0, 90),
+    breaks = seq(0, 100, 20),
+    expand = c(0, 2)
+  ) +
+  theme(legend.position = c(0.3, 0.6),
+        axis.text.x = element_blank(),
+        axis.title.x = element_blank())
+
+example_plot_2 <-
+  plot_grid(data_gg,
+            prev_fig +
+            theme(axis.text.x = element_blank()),
+            gg_r_eff,
+            align = "v", axis = "l",
+            rel_heights = c(1, 0.7, 0.7),
+            ncol = 1)
+
+ggsave(filename = output$combined_2_png,
+       plot = example_plot_2,
+       height = 21.0, width = 21.0,
        units = "cm")

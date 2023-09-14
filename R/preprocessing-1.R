@@ -13,6 +13,7 @@ li_nexus <- "data/li-alignment.nexus"
 stopifnot(file.exists(li_nexus))
 
 data_plot_png <- "out/manuscript/data-plot.png"
+data_plot_rds <- "out/manuscript/data-plot.rds"
 session_rdata_out <-
   sprintf("out/preprocessing-1-workspace-%s.RData", Sys.Date())
 
@@ -182,6 +183,10 @@ outbreak_gg <-
     legend.position = c(0.2, 0.3)
   )
 
+## save a copy of the data plot object so we can re-use it later.
+
+saveRDS(object = outbreak_gg,
+        file = data_plot_rds)
 ggsave(filename = data_plot_png,
        plot = outbreak_gg,
        height = 0.7 * 14.8, width = 21.0,
