@@ -12,6 +12,7 @@
 - This [[file:./xml/timtam-2023-09-04.xml][BEAST2 XML]] was produced by BEAUti.
 - Figure [[fig:estimates-plot]] is produced by [[file:./R/postprocessing-1.R]].
 - Figure [[fig:data-and-estimates]] is produced by [[file:./R/postprocessing-1.R]].
+- There are a couple of prior/posterior plots produced by [[file:./R/postprocessing-2.R]]
 
 #+caption: Time series of the number of cases and sequences in each epidemiological week.
 #+name: fig:data-plot
