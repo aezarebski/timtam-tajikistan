@@ -17,9 +17,14 @@
       <dataPlotRds description="RDS of plot of the timing of data collection">out/manuscript/data-plot.rds</dataPlotRds>
       <posteriorR description="Posterior distribution of r">out/demo-reff.png</posteriorR>
       <posteriorPrev description="Posterior distribution of the prevalence">out/demo-prevalence.png</posteriorPrev>
-      <manuscript>
+      <manuscript description="Publication ready figures">
 	<combinedParameters description="Plot of estimated parameters">out/manuscript/combined-plot.png</combinedParameters>
 	<combinedEverything description="Plot of estimated everything">out/manuscript/combined-2-plot.png</combinedEverything>
+	<posterior description="Prior/posterior plots for individual parameters">
+	  <r>out/manuscript/parameter-r-eff.png</r>
+	  <propPsi>out/manuscript/parameter-p-psi.png</propPsi>
+	  <propTs>out/manuscript/parameter-p-ts.png</propTs>
+	</posterior>
       </manuscript>
     </figures>
   </results>

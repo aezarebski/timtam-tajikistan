@@ -32,15 +32,6 @@ config <- as_list(read_xml("config.xml"))
 ## see the configuration XML for these values and a short description
 ## of what the files contain.
 
-## input_present_rds <- "out/present.Rds"
-## timtam_xml <- "xml/timtam-2023-09-13.xml"
-## output <- list(
-##   params_png = "out/demo-reff.png",
-##   prev_png = "out/demo-prevalence.png",
-##   combined_png = "out/manuscript/combined-plot.png",
-##   combined_2_png = "out/manuscript/combined-2-plot.png"
-## )
-## data_plot_rds <- "out/manuscript/data-plot.rds"
 input_present_rds <- config$files$results$intermediate$present[[1]]
 timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 output <- list(
