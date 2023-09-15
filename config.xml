@@ -10,9 +10,17 @@
       <sequences description="Sequence alignment with times">out/timed-sequences.fasta</sequences>
       <present description="Datetime of most recent sequence to use as present">out/present.Rds</present>
       <disasterStrings description="Textual description of time series for timtam">out/disaster-strings.txt</disasterStrings>
+      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-09-15.xml</beastXML>
     </intermediate>
     <figures>
       <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
+      <dataPlotRds description="RDS of plot of the timing of data collection">out/manuscript/data-plot.rds</dataPlotRds>
+      <posteriorR description="Posterior distribution of r">out/demo-reff.png</posteriorR>
+      <posteriorPrev description="Posterior distribution of the prevalence">out/demo-prevalence.png</posteriorPrev>
+      <manuscript>
+	<combinedParameters description="Plot of estimated parameters">out/manuscript/combined-plot.png</combinedParameters>
+	<combinedEverything description="Plot of estimated everything">out/manuscript/combined-2-plot.png</combinedEverything>
+      </manuscript>
     </figures>
   </results>
 </files>

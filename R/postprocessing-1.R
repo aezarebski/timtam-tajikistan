@@ -25,20 +25,39 @@ days_to_period <- function(x) {
   seconds(round(x * 24 * 60 * 60))
 }
 
-## Define a list of output files so they are all in one place.
 
+config <- as_list(read_xml("config.xml"))
+
+## Define all the files that are either used or created by this script
+## see the configuration XML for these values and a short description
+## of what the files contain.
+
+## input_present_rds <- "out/present.Rds"
+## timtam_xml <- "xml/timtam-2023-09-13.xml"
+## output <- list(
+##   params_png = "out/demo-reff.png",
+##   prev_png = "out/demo-prevalence.png",
+##   combined_png = "out/manuscript/combined-plot.png",
+##   combined_2_png = "out/manuscript/combined-2-plot.png"
+## )
+## data_plot_rds <- "out/manuscript/data-plot.rds"
+input_present_rds <- config$files$results$intermediate$present[[1]]
+timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 output <- list(
-  params_png = "out/demo-reff.png",
-  prev_png = "out/demo-prevalence.png",
-  combined_png = "out/manuscript/combined-plot.png",
-  combined_2_png = "out/manuscript/combined-2-plot.png"
+  params_png = config$files$results$figures$posteriorR[[1]],
+  prev_png = config$files$results$figures$posteriorPrev[[1]],
+  combined_png = config$files$results$figures$manuscript$combinedParameters[[1]],
+  combined_2_png = config$files$results$figures$manuscript$combinedEverything[[1]]
 )
+data_plot_rds <- config$files$results$figures$dataPlotRds[[1]]
+
+stopifnot(file.exists(data_plot_rds))
+stopifnot(file.exists(input_present_rds))
+stopifnot(file.exists(timtam_xml))
 
 ## Define and extract relevant information for the input files after
 ## checking that they exist.
 
-timtam_xml <- "xml/timtam-2023-09-13.xml"
-stopifnot(file.exists(timtam_xml))
 mcmc_config <- read_xml(timtam_xml)
 
 timtam_log <-
@@ -85,6 +104,9 @@ r_change_times <-
 num_to_burn <- 200
 timtam_post <- timtam_log |>
   read_beast2_log(burn = num_to_burn)
+
+my_present <- readRDS(input_present_rds)
+my_units <- "days"
 
 ## START STEP FUNCTION SUMMARY
 ##
@@ -169,9 +191,6 @@ ggsave(
   height = 10.5, width = 14.8,
   units = "cm"
 )
-
-my_present <- readRDS("out/present.Rds")
-my_units <- "days"
 
 
 my_beast2_log <- read_beast2_log(timtam_log, burn = num_to_burn)
@@ -295,7 +314,6 @@ ggsave(filename = output$combined_png,
        width = 21.0, height = 14.8,
        units = "cm")
 
-data_plot_rds <- "out/manuscript/data-plot.rds"
 data_gg <- readRDS(data_plot_rds) +
   ## my_present$date - origin_time
   geom_point(
