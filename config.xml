@@ -5,8 +5,11 @@
     <sequences description="Sequence alignment from Li et al">data/li-alignment.nexus</sequences>
   </data>
   <results description="The results of computation">
-    <intermediate>
+    <intermediate description="These files contain intermediate steps of the analysis">
       <timeSeries description="Cleaned time series data">out/who_df.csv</timeSeries>
+      <sequences description="Sequence alignment with times">out/timed-sequences.fasta</sequences>
+      <present description="Datetime of most recent sequence to use as present">out/present.Rds</present>
+      <disasterStrings description="Textual description of time series for timtam">out/disaster-strings.txt</disasterStrings>
     </intermediate>
     <figures>
       <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
