@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+  <data description="The input data files">
+    <timeSeries description="The time series of cases obtained with WPD">data/time-series.csv</timeSeries>
+    <sequences description="Sequence alignment from Li et al">data/li-alignment.nexus</sequences>
+  </data>
+  <results description="The results of computation">
+    <intermediate description="These files contain intermediate steps of the analysis">
+      <timeSeries description="Cleaned time series data">out/who_df.csv</timeSeries>
+      <sequences description="Sequence alignment with times">out/timed-sequences.fasta</sequences>
+      <present description="Datetime of most recent sequence to use as present">out/present.Rds</present>
+      <disasterStrings description="Textual description of time series for timtam">out/disaster-strings.txt</disasterStrings>
+      <!-- Note that the name of the log and tree files are obtained
+           directly from the XML so you only need to get this right
+           once. -->
+      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-09-15.xml</beastXML>
+    </intermediate>
+    <figures>
+      <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
+      <dataPlotRds description="RDS of plot of the timing of data collection">out/manuscript/data-plot.rds</dataPlotRds>
+      <posteriorR description="Posterior distribution of r">out/demo-reff.png</posteriorR>
+      <posteriorPrev description="Posterior distribution of the prevalence">out/demo-prevalence.png</posteriorPrev>
+      <manuscript description="Publication ready figures">
+	<combinedParameters description="Plot of estimated parameters">out/manuscript/combined-plot.png</combinedParameters>
+	<combinedEverything description="Plot of estimated everything">out/manuscript/combined-2-plot.png</combinedEverything>
+	<posterior description="Prior/posterior plots for individual parameters">
+	  <r>out/manuscript/parameter-r-eff.png</r>
+	  <propPsi>out/manuscript/parameter-p-psi.png</propPsi>
+	  <propTs>out/manuscript/parameter-p-ts.png</propTs>
+	</posterior>
+      </manuscript>
+    </figures>
+  </results>
+</files>

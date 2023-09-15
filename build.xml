@@ -12,7 +12,7 @@
     ----------------
     1. preprocessing
     2. beauti
-    3. mcmc
+    3. mcmc (and mcmcresume)
     4. postprocessing
 
   </description>
@@ -54,6 +54,18 @@
             <arg line="-overwrite" />
             <arg path="${beastXML}" />
         </exec>
+    </target>
+
+    <target name="mcmcresume"
+	    description="Run the MCMC for another length of the chain.">
+      <echo>Resuming the MCMC sampler...</echo>
+      <exec executable="sh">
+        <arg path="lib/beast/bin/beast" />
+        <arg line="-seed 1" />
+	<arg line="-statefile ${stateFile}" />
+	<arg line="-resume" />
+        <arg path="${beastXML}" />
+      </exec>
     </target>
 
     <target name="clean">

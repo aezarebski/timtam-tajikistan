@@ -12,19 +12,23 @@ library(timtamslamR)
 
 set.seed(1)
 
-## Define a list of output files so they are all in one place.
+## Define all the files that are either used or created by this script
+## see the configuration XML for these values and a short description
+## of what the files contain.
+
+config <- as_list(read_xml("config.xml"))
 
 output <- list(
-  r_eff_png = "out/manuscript/parameter-r-eff.png",
-  p_psi_png = "out/manuscript/parameter-p-psi.png",
-  p_ts_png = "out/manuscript/parameter-p-ts.png"
+  r_eff_png = config$files$results$figures$manuscript$posterior$r[[1]],
+  p_psi_png = config$files$results$figures$manuscript$posterior$propPsi[[1]],
+  p_ts_png = config$files$results$figures$manuscript$posterior$propTs[[1]]
 )
+timtam_xml <- config$files$results$intermediate$beastXML[[1]]
+stopifnot(file.exists(timtam_xml))
 
 ## Define and extract relevant information for the input files after
 ## checking that they exist.
 
-timtam_xml <- "xml/timtam-2023-09-13.xml"
-stopifnot(file.exists(timtam_xml))
 mcmc_config <- read_xml(timtam_xml)
 
 timtam_log <-
