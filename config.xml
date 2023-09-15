@@ -10,6 +10,9 @@
       <sequences description="Sequence alignment with times">out/timed-sequences.fasta</sequences>
       <present description="Datetime of most recent sequence to use as present">out/present.Rds</present>
       <disasterStrings description="Textual description of time series for timtam">out/disaster-strings.txt</disasterStrings>
+      <!-- Note that the name of the log and tree files are obtained
+           directly from the XML so you only need to get this right
+           once. -->
       <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-09-15.xml</beastXML>
     </intermediate>
     <figures>
