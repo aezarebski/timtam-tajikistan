@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<files>
+  <data description="The input data files">
+    <timeSeries description="The time series of cases obtained with WPD">data/time-series.csv</timeSeries>
+    <sequences description="Sequence alignment from Li et al">data/li-alignment.nexus</sequences>
+  </data>
+  <results description="The results of computation">
+    <intermediate>
+      <timeSeries description="Cleaned time series data">out/who_df.csv</timeSeries>
+    </intermediate>
+    <figures>
+      <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
+    </figures>
+  </results>
+</files>

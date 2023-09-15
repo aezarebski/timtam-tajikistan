@@ -5,17 +5,24 @@ library(ggplot2)
 library(reshape2)
 library(stringr)
 library(lubridate)
+library(xml2)
 
-time_series_input_csv <- "data/time-series.csv"
-time_series_clean_csv <- "out/who_df.csv"
-stopifnot(file.exists(time_series_clean_csv))
-li_nexus <- "data/li-alignment.nexus"
-stopifnot(file.exists(li_nexus))
+config <- as_list(read_xml("config.xml"))
 
-data_plot_png <- "out/manuscript/data-plot.png"
-data_plot_rds <- "out/manuscript/data-plot.rds"
+## Define all the files that are either used or created by this script
+## see the configuration XML for these values and a short description
+## of what the files contain.
+time_series_input_csv <- config$files$data$timeSeries[[1]]
+time_series_clean_csv <- config$files$results$intermediate$timeSeries[[1]]
+li_nexus <- config$files$data$sequences[[1]]
+data_plot_png <- config$files$results$figures$dataPlot[[1]]
+data_plot_rds <- str_replace(data_plot_png, ".png", ".rds")
 session_rdata_out <-
   sprintf("out/preprocessing-1-workspace-%s.RData", Sys.Date())
+
+stopifnot(file.exists(time_series_clean_csv))
+stopifnot(file.exists(li_nexus))
+
 
 ## Read in the data from WPD and munged into a nice data.frame. By
 ## default WPD labels the columns of a bar-chart "BAR0", "BAR1", ...
