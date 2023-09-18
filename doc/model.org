@@ -6,23 +6,26 @@ Model files live in =xml/=.
 1. Li /et al/ (2017) use use a script clock with 0.01 substitutions
    per site per year. On a daily time scale this is 0.00002740
    substitutions per site per *day*.
-2. Yakovenko /et a/ (2014) suggest the outbreak stemmed from a single
+2. Li /et al/ (2017) carried out their analysis of the poliovirus
+   sequences "assuming a \(\text{K}80 + \Gamma\) model of substitution
+   (Kimura 1980) and a strict molecular clock."
+3. Yakovenko /et a/ (2014) suggest the outbreak stemmed from a single
    importation in October 2009 (\(95\%\) HPD: end of August--early
    December). *We use 15 October as the origin time which is 262 days
    pre-present.*
-3. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
+4. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
    estimated mean infectious period with a prior distribution of
    \(\Gamma(5.12, 1.7)\) (which has an mean of \(\approx 3.0\)).
-4. A very rough estimate of the detection probability is 1 in 200. If
+5. A very rough estimate of the detection probability is 1 in 200. If
    we look at the total number of sequences and the total number of
    cases (excluding sequenced cases) it comes out to about one-in-four
    (\(25\%\)) cases getting sequenced.
-5. The date of the first round of vaccination occured 61 days prior to
+6. The date of the first round of vaccination occured 61 days prior to
    the present. This is used for the change in R0 in our model.
-6. Notable dates:
+7. Notable dates:
    - First sequence: TJK35389 from 2010-02-01
    - Last sequence: TJK37339 from 2010-07-04
-7. Because it seems likely that there was effort to sequence the first
+8. Because it seems likely that there was effort to sequence the first
    confirmed case, we can assume that prior to the first sequenced
    case which was 153 days pre-present there was no surveillance in
    place.
