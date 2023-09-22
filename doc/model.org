@@ -8,7 +8,11 @@ Model files live in =xml/=.
    substitutions per site per *day*.
 2. Li /et al/ (2017) carried out their analysis of the poliovirus
    sequences "assuming a \(\text{K}80 + \Gamma\) model of substitution
-   (Kimura 1980) and a strict molecular clock."
+   (Kimura 1980) and a strict molecular clock." They don't state how
+   many categories for the gamma model, but based on the MrBayes
+   configuration, I suspect it is two. The K80 substitituion model
+   does not ship with BEAST2, you need to use the [[https://github.com/BEAST2-Dev/substmodels/][SSM]] package that
+   provides it.
 3. Yakovenko /et a/ (2014) suggest the outbreak stemmed from a single
    importation in October 2009 (\(95\%\) HPD: end of August--early
    December). *We use 15 October as the origin time which is 262 days
