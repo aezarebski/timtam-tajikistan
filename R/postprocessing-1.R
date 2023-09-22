@@ -61,7 +61,7 @@ timtam_log <-
   timtam_log |>
   str_replace("\\$\\(filebase\\)",
               str_remove(timtam_xml, "\\.xml")) |>
-  str_replace("xml/", "out/")
+  str_replace("xml/", "")
 if (!file.exists(timtam_log)) {
   stop(sprintf("The log file %s is missing!", timtam_log))
 }
@@ -77,7 +77,7 @@ timtam_tree_log <-
               str_remove(timtam_xml, "\\.xml")) |>
   str_replace("\\$\\(tree\\)",
               timtam_tree_id) |>
-  str_replace("xml/", "out/")
+  str_replace("xml/", "")
 stopifnot(file.exists(timtam_tree_log))
 
 origin_time <-

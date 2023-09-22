@@ -242,7 +242,7 @@ name="alignment">
             <parameter idref="K80rates.s:timed-sequences"/>
             <weightvector id="IntegerParameter.0" spec="parameter.IntegerParameter" dimension="2" estimate="false">4 2</weightvector>
         </operator>
-        <logger id="tracelog" spec="Logger" fileName="$(filebase).log" logEvery="10000" model="@posterior" sanitiseHeaders="true" sort="smart">
+        <logger id="tracelog" spec="Logger" fileName="out/$(filebase).log" logEvery="10000" model="@posterior" sanitiseHeaders="true" sort="smart">
             <log idref="posterior"/>
             <log idref="likelihood"/>
             <log idref="prior"/>
@@ -261,7 +261,7 @@ name="alignment">
             <log idref="likelihood"/>
             <log idref="prior"/>
         </logger>
-        <logger id="treelog.t:timed-sequences" spec="Logger" fileName="$(filebase)-$(tree).trees" logEvery="10000" mode="tree">
+        <logger id="treelog.t:timed-sequences" spec="Logger" fileName="out/$(filebase)-$(tree).trees" logEvery="10000" mode="tree">
             <log id="TreeWithMetaDataLogger.t:timed-sequences" spec="beast.base.evolution.TreeWithMetaDataLogger" tree="@Tree.t:timed-sequences"/>
         </logger>
         <operatorschedule id="OperatorSchedule" spec="OperatorSchedule"/>
