@@ -159,6 +159,8 @@ name="alignment">
             <parameter id="TTR0.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" upper="10.0" name="stateNode">2.0 0.5</parameter>
             <parameter id="TTPropPsi.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.0 0.001</parameter>
             <parameter id="TTPropTS.t:timed-sequences" spec="parameter.RealParameter" lower="0.0" name="stateNode" upper="1.0">0.0 0.004</parameter>
+            <parameter id="gammaShape.s:timed-sequences" spec="parameter.RealParameter" lower="0.1" name="stateNode">1.0</parameter>
+            <parameter id="K80rates.s:timed-sequences" spec="parameter.RealParameter" dimension="2" lower="0.0" name="stateNode">1.0 1.0</parameter>
         </state>
         <init id="RandomTree.t:timed-sequences" spec="RandomTree" estimate="false" initial="@Tree.t:timed-sequences" taxa="@timed-sequences">
             <populationModel id="ConstantPopulation0.t:timed-sequences" spec="ConstantPopulation">
@@ -197,18 +199,22 @@ name="alignment">
                         <parameter id="RealParameter.2" spec="parameter.RealParameter" estimate="false" name="sigma">2.0</parameter>
                     </Normal>
                 </prior>
-            </distribution>
-            <distribution id="likelihood" spec="CompoundDistribution" useThreads="true">
+                <prior id="GammaShapePrior.s:timed-sequences" name="distribution" x="@gammaShape.s:timed-sequences">
+                    <Exponential id="Exponential.0" name="distr">
+                        <parameter id="RealParameter.0" spec="parameter.RealParameter" estimate="false" name="mean">1.0</parameter>
+                    </Exponential>
+                </prior>
+              </distribution>
+	      <distribution id="likelihood" spec="CompoundDistribution" useThreads="true">
                 <distribution id="treeLikelihood.timed-sequences" spec="ThreadedTreeLikelihood" data="@timed-sequences" tree="@Tree.t:timed-sequences">
-                    <siteModel id="SiteModel.s:timed-sequences" spec="SiteModel">
-                        <parameter id="mutationRate.s:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="mutationRate">1.0</parameter>
-                        <parameter id="gammaShape.s:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.1" name="shape">1.0</parameter>
-                        <parameter id="proportionInvariant.s:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
-                        <substModel id="JC69.s:timed-sequences" spec="JukesCantor"/>
-                    </siteModel>
-                    <branchRateModel id="StrictClock.c:timed-sequences" spec="beast.base.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:timed-sequences"/>
+                  <siteModel id="SiteModel.s:timed-sequences" spec="SiteModel" gammaCategoryCount="2" shape="@gammaShape.s:timed-sequences">
+                    <parameter id="mutationRate.s:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="mutationRate">1.0</parameter>
+                    <parameter id="proportionInvariant.s:timed-sequences" spec="parameter.RealParameter" estimate="false" lower="0.0" name="proportionInvariant" upper="1.0">0.0</parameter>
+                    <substModel id="Standard_K80.s:timed-sequences" spec="substmodels.nucleotide.K80" rates="@K80rates.s:timed-sequences"/>
+                  </siteModel>
+                  <branchRateModel id="StrictClock.c:timed-sequences" spec="beast.base.evolution.branchratemodel.StrictClockModel" clock.rate="@clockRate.c:timed-sequences"/>
                 </distribution>
-            </distribution>
+              </distribution>
         </distribution>
         <!-- <operator id="TTR0Scaler.t:timed-sequences" spec="ScaleOperator" parameter="@TTR0.t:timed-sequences" scaleFactor="0.9" weight="1.0"/> -->
         <operator id="TTR0Walk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@TTR0.t:timed-sequences" windowSize="0.1" weight="0.1" />
@@ -226,6 +232,16 @@ name="alignment">
         <operator id="TimTamTimeSeriesNarrow.t:timed-sequences" spec="Exchange" tree="@Tree.t:timed-sequences" weight="15.0"/>
         <operator id="TimTamTimeSeriesWide.t:timed-sequences" spec="Exchange" isNarrow="false" tree="@Tree.t:timed-sequences" weight="3.0"/>
         <operator id="TimTamTimeSeriesWilsonBalding.t:timed-sequences" spec="WilsonBalding" tree="@Tree.t:timed-sequences" weight="3.0"/>
+        <operator id="gammaShapeWalk.t:timed-sequences" spec="operator.RealRandomWalkOperator" parameter="@gammaShape.s:timed-sequences" windowSize="0.1" weight="0.1" />
+        <!-- <operator id="gammaShapeScaler.s:timed-sequences" spec="AdaptableOperatorSampler" weight="0.05"> -->
+        <!--     <parameter idref="gammaShape.s:timed-sequences"/> -->
+        <!--     <operator idref="AVMNOperator.timed-sequences"/> -->
+        <!--     <operator id="gammaShapeScalerX.s:timed-sequences" spec="kernel.BactrianScaleOperator" parameter="@gammaShape.s:timed-sequences" scaleFactor="0.5" upper="10.0" weight="0.1"/> -->
+        <!-- </operator> -->
+        <operator id="K80RateDeltaExchanger.s:timed-sequences" spec="operator.DeltaExchangeOperator" delta="0.1" weight="0.1">
+            <parameter idref="K80rates.s:timed-sequences"/>
+            <weightvector id="IntegerParameter.0" spec="parameter.IntegerParameter" dimension="2" estimate="false">4 2</weightvector>
+        </operator>
         <logger id="tracelog" spec="Logger" fileName="$(filebase).log" logEvery="10000" model="@posterior" sanitiseHeaders="true" sort="smart">
             <log idref="posterior"/>
             <log idref="likelihood"/>
@@ -237,6 +253,8 @@ name="alignment">
             <log idref="TTR0.t:timed-sequences"/>
             <log idref="TTPropPsi.t:timed-sequences"/>
             <log idref="TTPropTS.t:timed-sequences"/>
+            <log idref="gammaShape.s:timed-sequences"/>
+            <log idref="Standard_K80.s:timed-sequences"/>
         </logger>
         <logger id="screenlog" spec="Logger" logEvery="1000">
             <log idref="posterior"/>
