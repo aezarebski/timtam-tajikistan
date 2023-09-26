@@ -186,13 +186,13 @@ name="alignment">
 		<excludablePrior id="TTPropPsiPrior.t:timed-sequences" name="distribution" x="@TTPropPsi.t:timed-sequences" xInclude="false true">
                     <Beta id="Beta.0" name="distr">
                         <parameter id="RealParameter.5" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
-                        <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">301.0</parameter>
+                        <parameter id="RealParameter.6" spec="parameter.RealParameter" estimate="false" name="beta">1598.0</parameter>
                     </Beta>
 		</excludablePrior>
 		<excludablePrior id="TTPropTimeSeriesPrior.t:timed-sequences" name="distribution" x="@TTPropTS.t:timed-sequences" xInclude="false true">
                     <Beta id="Beta.1" name="distr">
-                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">2.0</parameter>
-                        <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">301.0</parameter>
+                        <parameter id="RealParameter.7" spec="parameter.RealParameter" estimate="false" name="alpha">3.0</parameter>
+                        <parameter id="RealParameter.8" spec="parameter.RealParameter" estimate="false" name="beta">797.0</parameter>
                     </Beta>
 		</excludablePrior>
                 <prior id="TTR0Prior.t:timed-sequences" name="distribution" x="@TTR0.t:timed-sequences">
