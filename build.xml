@@ -57,7 +57,7 @@
     </target>
 
     <target name="mcmcresume"
-	    description="Run the MCMC for another length of the chain.">
+	    description="Run the MCMC for another length of the chain. E.g., ant mcmcresume -DbeastXML=timtam-YYYY-MM-DD.xml -DstateFile=timtam-YYYY-MM-DD.xml.state">
       <echo>Resuming the MCMC sampler...</echo>
       <exec executable="sh">
         <arg path="lib/beast/bin/beast" />
