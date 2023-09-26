@@ -20,6 +20,10 @@ Model files live in =xml/=.
 4. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
    estimated mean infectious period with a prior distribution of
    \(\Gamma(5.12, 1.7)\) (which has an mean of \(\approx 3.0\)).
+   - There is a wider range for the duration of infeciousness in the
+     Blake analysis so we will opt for putting a uniform prior on the
+     rate of becoming uninfectious which varies from 0.1 to 1.0 which
+     would correspond to an average ranging between 1 and ten days.
 5. A very rough estimate of the detection probability is 1 in 200. If
    we look at the total number of sequences and the total number of
    cases (excluding sequenced cases) it comes out to about one-in-four
