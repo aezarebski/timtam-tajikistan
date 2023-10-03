@@ -32,6 +32,7 @@ Model files live in =xml/=.
      cases observed and a ratio of 1 to 3, we can give the sequencing
      probability a \(\Beta(2, 1598)\) prior and the time series
      probability a \(\Beta(3, 797)\) prior.
+   - We assume that the observation process changed once 153 days pre-present
 6. The date of the first round of vaccination occured 61 days prior to
    the present. This is used for the change in R0 in our model.
 7. Notable dates:
