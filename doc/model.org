@@ -8,7 +8,11 @@ Model files live in =xml/=.
    substitutions per site per *day*.
 2. Li /et al/ (2017) carried out their analysis of the poliovirus
    sequences "assuming a \(\text{K}80 + \Gamma\) model of substitution
-   (Kimura 1980) and a strict molecular clock."
+   (Kimura 1980) and a strict molecular clock." They don't state how
+   many categories for the gamma model, but based on the MrBayes
+   configuration, I suspect it is two. The K80 substitituion model
+   does not ship with BEAST2, you need to use the [[https://github.com/BEAST2-Dev/substmodels/][SSM]] package that
+   provides it.
 3. Yakovenko /et a/ (2014) suggest the outbreak stemmed from a single
    importation in October 2009 (\(95\%\) HPD: end of August--early
    December). *We use 15 October as the origin time which is 262 days
@@ -16,10 +20,19 @@ Model files live in =xml/=.
 4. Li /et al/ (2017) use a fixed mean latency period of 4 days and an
    estimated mean infectious period with a prior distribution of
    \(\Gamma(5.12, 1.7)\) (which has an mean of \(\approx 3.0\)).
+   - There is a wider range for the duration of infeciousness in the
+     Blake analysis so we will opt for putting a uniform prior on the
+     rate of becoming uninfectious which varies from 0.1 to 1.0 which
+     would correspond to an average ranging between 1 and ten days.
 5. A very rough estimate of the detection probability is 1 in 200. If
    we look at the total number of sequences and the total number of
    cases (excluding sequenced cases) it comes out to about one-in-four
    (\(25\%\)) cases getting sequenced.
+   - As a rough approximation to this, if we want on average 1 in 200
+     cases observed and a ratio of 1 to 3, we can give the sequencing
+     probability a \(\Beta(2, 1598)\) prior and the time series
+     probability a \(\Beta(3, 797)\) prior.
+   - We assume that the observation process changed once 153 days pre-present
 6. The date of the first round of vaccination occured 61 days prior to
    the present. This is used for the change in R0 in our model.
 7. Notable dates:

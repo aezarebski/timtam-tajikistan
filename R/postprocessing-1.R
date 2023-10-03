@@ -61,7 +61,7 @@ timtam_log <-
   timtam_log |>
   str_replace("\\$\\(filebase\\)",
               str_remove(timtam_xml, "\\.xml")) |>
-  str_replace("xml/", "out/")
+  str_replace("xml/", "")
 if (!file.exists(timtam_log)) {
   stop(sprintf("The log file %s is missing!", timtam_log))
 }
@@ -77,7 +77,7 @@ timtam_tree_log <-
               str_remove(timtam_xml, "\\.xml")) |>
   str_replace("\\$\\(tree\\)",
               timtam_tree_id) |>
-  str_replace("xml/", "out/")
+  str_replace("xml/", "")
 stopifnot(file.exists(timtam_tree_log))
 
 origin_time <-
@@ -341,14 +341,23 @@ data_gg <- readRDS(data_plot_rds) +
         axis.text.x = element_blank(),
         axis.title.x = element_blank())
 
+theme_tweak <-
+  theme(
+    axis.title.y = element_text(size = 11)
+  )
+
 example_plot_2 <-
   plot_grid(data_gg,
-            prev_fig +
-            theme(axis.text.x = element_blank()),
-            gg_r_eff,
+            prev_fig + theme(axis.text.x = element_blank()) + theme_tweak,
+            gg_r_eff + theme_tweak,
             align = "v", axis = "l",
             rel_heights = c(1, 0.7, 0.7),
-            ncol = 1)
+            ncol = 1,
+            labels = c("A", "B", "C"),
+            hjust = -0.1, vjust = 1.1)
+
+## hjust more negative moves it to the right
+## vjust more positive moves it down
 
 ggsave(filename = output$combined_2_png,
        plot = example_plot_2,
