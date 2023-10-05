@@ -42,3 +42,7 @@ Model files live in =xml/=.
    confirmed case, we can assume that prior to the first sequenced
    case which was 153 days pre-present there was no surveillance in
    place.
+9. *TODO* Ensure the following assumptions are met:
+   - [ ] Any changes to parameter values are assumed to occur at midnight.
+   - [ ] To avoid any overlap with parameter changes times or sample times, these estimates are done at 9AM on each day of interest (date + 0.375).
+   - [ ] Scheduled unsequenced samples are made at midday each day.
