@@ -38,12 +38,20 @@ Model files live in =xml/=.
    the present. This is used for the change in R0 in our model.
 7. Notable dates:
    - First sequence: TJK35389 from 2010-02-01
-   - Last sequence: TJK37339 from 2010-07-04
+   - Last sequence: TJK37339 from 2010-07-04. Since there is only the
+     one sequence on this day, it gets a time of 8am assigned to it.
 8. Because it seems likely that there was effort to sequence the first
    confirmed case, we can assume that prior to the first sequenced
    case which was 153 days pre-present there was no surveillance in
    place.
-9. *TODO* Ensure the following assumptions are met:
-   - [ ] Any changes to parameter values are assumed to occur at midnight.
-   - [ ] To avoid any overlap with parameter changes times or sample times, these estimates are done at 9AM on each day of interest (date + 0.375).
-   - [ ] Scheduled unsequenced samples are made at midday each day.
+9. The following assumptions are made:
+   - Any changes to parameter values are assumed to occur at
+     midnight. Since the "present" is 8am, this means all the change
+     times are offset by 1/3 which is approximately 0.333.
+   - To avoid any overlap with parameter changes times or sample
+     times, the estimates of prevalence are done at 9AM on each day of
+     interest. Since the "present" is 8am, this means all the history
+     times are offset by 1/24 which is approximately 0.042.
+   - Scheduled unsequenced samples are made at midday each day.
+     Since the "present" is 8am, this means all the samples are offset
+     by 1/6 which is approximately 0.167.
