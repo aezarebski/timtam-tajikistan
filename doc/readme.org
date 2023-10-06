@@ -35,6 +35,15 @@ Tajikistan	2013	Total	Both Sexes	5	Estimate - de facto	Final figure, complete	20
 
 So approximately 16% of the population in 0-5 range.
 
+#+begin_src R
+  pop_0_to_5 <- 1287331
+  pop_total <- 8074266
+  pop_adult <- pop_total - pop_0_to_5
+  li_r0_adult <- c(0.48, 0.59, 0.7)
+  li_r0_0_to_5 <- c(2.23, 2.58, 2.98)
+#+end_src
+
+
 * Rough notes
 
 [cite:@yakovenko2006antigenic] reports on an analysis of live oral poliovirus
