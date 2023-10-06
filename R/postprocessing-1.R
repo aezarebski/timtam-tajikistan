@@ -219,10 +219,18 @@ trace_plot <-
     axis.title.x = element_blank()
   )
 
-## The following is just some boring munging to get the prevalence
-## estimates into a sensible format for plotting.
+#' The following is just some boring munging to get the prevalence
+#' estimates into a sensible format for plotting. We use the
+#' \code{difftime} function to create the time difference explicitly
+#' so that we can specify the units. This way it prevents R from
+#' trying to be clever and potentially measuring the difference in the
+#' wrong units.
 
-bkwd_hist_times <- as.numeric(my_beast2_model$present$date_time - my_beast2_model$hist_times) / (60 * 60 * 24)
+bkwd_difftime <-
+  difftime(my_beast2_model$present$date_time,
+           my_beast2_model$hist_times,
+           units = "secs")
+bkwd_hist_times <- as.numeric(bkwd_difftime) / (60 * 60 * 24)
 
 time_df <- data.frame(
   point = sprintf("size%d", seq_along(prev_times)),
