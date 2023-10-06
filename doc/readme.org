@@ -3,6 +3,38 @@
 #+bibliography: ./references.bib
 #+cite_export: csl
 
+* Tajikistan
+
+The following data was obtained from the UN database
+
+https://web.archive.org/web/20161206154119/http://data.un.org/Data.aspx?d=POP&f=tableCode%3a22
+
+#+begin_quote
+Tajikistan	2013	Total	Both Sexes	Total	Estimate - de facto	Final figure, complete	2015	8,074,266
+Tajikistan	2013	Total	Both Sexes	0	Estimate - de facto	Final figure, complete	2015	210,926
+Tajikistan	2013	Total	Both Sexes	0 - 4	Estimate - de facto	Final figure, complete	2015	1,093,186
+Tajikistan	2013	Total	Both Sexes	1	Estimate - de facto	Final figure, complete	2015	217,507
+Tajikistan	2013	Total	Both Sexes	1 - 4	Estimate - de facto	Final figure, complete	2015	882,260
+Tajikistan	2013	Total	Both Sexes	2	Estimate - de facto	Final figure, complete	2015	228,884
+Tajikistan	2013	Total	Both Sexes	3	Estimate - de facto	Final figure, complete	2015	226,454
+Tajikistan	2013	Total	Both Sexes	4	Estimate - de facto	Final figure, complete	2015	209,416
+Tajikistan	2013	Total	Both Sexes	5	Estimate - de facto	Final figure, complete	2015	194,144
+#+end_quote
+
+
+|   age |  number |
+|-------+---------|
+|     0 |  210926 |
+|     1 |  217507 |
+|     2 |  228884 |
+|     3 |  226454 |
+|     4 |  209416 |
+|     5 |  194144 |
+|   0-5 | 1287331 |
+| total | 8074266 |
+
+So approximately 16% of the population in 0-5 range.
+
 * Rough notes
 
 [cite:@yakovenko2006antigenic] reports on an analysis of live oral poliovirus
