@@ -21,6 +21,7 @@
       <posteriorR description="Posterior distribution of r">out/demo-reff.png</posteriorR>
       <posteriorPrev description="Posterior distribution of the prevalence">out/demo-prevalence.png</posteriorPrev>
       <manuscript description="Publication ready figures">
+	<posteriorRComparison description="Posterior distribution of R compared to Li's estimates">out/manuscript/parameter-r-comparison.png</posteriorRComparison>
 	<combinedParameters description="Plot of estimated parameters">out/manuscript/combined-plot.png</combinedParameters>
 	<combinedEverything description="Plot of estimated everything">out/manuscript/combined-2-plot.png</combinedEverything>
 	<posterior description="Prior/posterior plots for individual parameters">

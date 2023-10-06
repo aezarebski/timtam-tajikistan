@@ -183,6 +183,98 @@ ggsave(
   units = "cm"
 )
 
+## In addition to the figure showing the effective reproduction number
+## through time, it would be nice to have an analogous figure that
+## shows these values in comparison to the previous estimates from Li
+## /et al/.
+
+library(jsonlite)
+
+li_r0_estimates <- read_json("data/li-estimates.json", simplifyVector = TRUE)
+
+tjk_weighted_value <- function(v_0to5, v_over5) {
+  tjk_0to5_prop <- li_r0_estimates$tajikistanPop2013$age0to5 / li_r0_estimates$tajikistanPop2013$total
+  v_0to5 * tjk_0to5_prop + v_over5 * (1 - tjk_0to5_prop)
+}
+
+li_r0_est_df <-
+  data.frame(
+  age_group = c("adult", "child", "weighted_average"),
+  point_est = c(li_r0_estimates$r0$adult$pointEst,
+                li_r0_estimates$r0$child$pointEst,
+                tjk_weighted_value(li_r0_estimates$r0$child$pointEst,
+                                   li_r0_estimates$r0$adult$pointEst)),
+  cri_upper = c(li_r0_estimates$r0$adult$credInt[1],
+                li_r0_estimates$r0$child$credInt[1],
+                tjk_weighted_value(li_r0_estimates$r0$child$credInt[1],
+                                   li_r0_estimates$r0$adult$credInt[1])),
+  cri_lower = c(li_r0_estimates$r0$adult$credInt[2],
+                li_r0_estimates$r0$child$credInt[2],
+                tjk_weighted_value(li_r0_estimates$r0$child$credInt[2],
+                                   li_r0_estimates$r0$adult$credInt[2]))
+  )
+
+gg_r_eff_comparison <-
+  ggplot() +
+  geom_ribbon(
+    data = estimate_cri,
+    mapping = aes(x = date, ymin = lower_bound, ymax = upper_bound),
+    alpha = 0.5
+  ) +
+  geom_line(
+    data = estimate_cri,
+    mapping = aes(x = date, y = median)
+  ) +
+  geom_hline(
+    yintercept = 1.0,
+    linetype = "dotted"
+  ) +
+  geom_errorbar(
+    data = li_r0_est_df,
+    mapping = aes(x = ymd("2009-09-15"), ymin = cri_lower, ymax = cri_upper, colour = age_group),
+    width = 0.1
+  ) +
+  geom_point(
+    data = li_r0_est_df,
+    mapping = aes(x = ymd("2009-09-15"), y = point_est, colour = age_group)
+  ) +
+  scale_x_date(
+    breaks = c(ymd("2010-01-01"),
+               ymd("2010-03-01"),
+               ymd("2010-05-01"),
+               ymd("2010-07-01")),
+    expand = c(0, 20),
+    limits = range(estimate_cri$date) + c(-40, 0),
+    date_labels = "%b %d",
+    name = "Days since outbreak began"
+  ) +
+  scale_colour_manual(
+    values = c("adult" = "#7fc97f",
+               "child" = "#beaed4",
+               "weighted_average" = "#fdc086"),
+    labels = c("Adult (over 5)", "Child (5 and under)", "Weighted average")
+  ) +
+  labs(
+    y = "Reproduction number",
+    colour = "Population"
+  ) +
+  theme_bw() +
+  theme(
+    axis.title = element_text(size = 13),
+    axis.title.x = element_blank(),
+    legend.position = c(0.8, 0.8)
+  )
+
+ggsave(
+  filename = output$params_comparison_png,
+  plot = gg_r_eff_comparison,
+  height = 10.5, width = 14.8,
+  units = "cm"
+)
+
+## Prevalence is a parameter we are particularly interested in, so we
+## should definitely make a nice plot to display out estimates of
+## this.
 
 my_beast2_log <- read_beast2_log(timtam_log, burn = num_to_burn)
 my_beast2_trees <- read_beast2_trees(timtam_tree_log, burn = num_to_burn)
