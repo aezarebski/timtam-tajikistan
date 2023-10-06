@@ -36,6 +36,7 @@ input_present_rds <- config$files$results$intermediate$present[[1]]
 timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 output <- list(
   params_png = config$files$results$figures$posteriorR[[1]],
+  params_comparison_png = config$files$results$figures$manuscript$posteriorRComparison[[1]],
   prev_png = config$files$results$figures$posteriorPrev[[1]],
   combined_png = config$files$results$figures$manuscript$combinedParameters[[1]],
   combined_2_png = config$files$results$figures$manuscript$combinedEverything[[1]]
@@ -249,9 +250,9 @@ gg_r_eff_comparison <-
     name = "Days since outbreak began"
   ) +
   scale_colour_manual(
-    values = c("adult" = "#7fc97f",
-               "child" = "#beaed4",
-               "weighted_average" = "#fdc086"),
+    values = c("adult" = "#1b9e77",
+               "child" = "#d95f02",
+               "weighted_average" = "#7570b3"),
     labels = c("Adult (over 5)", "Child (5 and under)", "Weighted average")
   ) +
   labs(
