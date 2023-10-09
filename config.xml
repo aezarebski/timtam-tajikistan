@@ -32,5 +32,10 @@
 	</posterior>
       </manuscript>
     </figures>
+    <tables>
+      <manuscript>
+	<summary description="Summary of parameter estimates">out/manuscript/parameter-estimates.tex</summary>
+      </manuscript>
+    </tables>
   </results>
 </files>
