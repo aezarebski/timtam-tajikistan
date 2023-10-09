@@ -8,6 +8,7 @@ library(jsonlite)
 library(magrittr)
 library(xml2)
 library(lubridate)
+library(xtable)
 library(timtamslamR)
 
 set.seed(1)
@@ -24,7 +25,8 @@ output <- list(
   r_eff_png = config$files$results$figures$manuscript$posterior$r[[1]],
   p_psi_png = config$files$results$figures$manuscript$posterior$propPsi[[1]],
   p_ts_png = config$files$results$figures$manuscript$posterior$propTs[[1]],
-  sigma_png = config$files$results$figures$manuscript$posterior$sigma[[1]]
+  sigma_png = config$files$results$figures$manuscript$posterior$sigma[[1]],
+  summary_tex = config$files$results$tables$manuscript$summary[[1]]
 )
 timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 stopifnot(file.exists(timtam_xml))
@@ -72,6 +74,22 @@ is_r_eff_mask <- grepl(post_samples_df$variable, pattern = "r_eff_[0-9]+")
 is_p_psi_mask <- grepl(post_samples_df$variable, pattern = "p_psi")
 is_p_ts_mask <- grepl(post_samples_df$variable, pattern = "p_ts")
 is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
+
+## Because we want to be able to see a table of the parameter
+## estimates we will compute the summary statistics and use the xtable
+## package to write this to a latex table.
+
+sink(file = output$summary_tex)
+post_samples_df |>
+  group_by(variable) |>
+  summarise(est = median(value),
+            cri_lower = quantile(value, probs = 0.025),
+            cri_upper = quantile(value, probs = 0.975)) |>
+  xtable(math.style.exponents = TRUE,
+         digits = 2,
+         display = c("s", "s", "E", "E", "E")) |>
+  print(include.rownames = FALSE)
+sink()
 
 ## Because we want to have nice labels for the facets of this plot, we
 ## need to construct a labeller object to give to the
