@@ -21,7 +21,8 @@ config <- as_list(read_xml("config.xml"))
 output <- list(
   r_eff_png = config$files$results$figures$manuscript$posterior$r[[1]],
   p_psi_png = config$files$results$figures$manuscript$posterior$propPsi[[1]],
-  p_ts_png = config$files$results$figures$manuscript$posterior$propTs[[1]]
+  p_ts_png = config$files$results$figures$manuscript$posterior$propTs[[1]],
+  sigma_png = config$files$results$figures$manuscript$posterior$sigma[[1]]
 )
 timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 stopifnot(file.exists(timtam_xml))
@@ -45,16 +46,30 @@ timtam_log <-
 if (!file.exists(timtam_log)) {
   stop(sprintf("The log file %s is missing!", timtam_log))
 }
+
+## We select and rename a subset of the variables to produce a data
+## frame that is easier to work with. Note that if you want to plot
+## extra variables this is where the changes should start.
+
 num_to_burn <- 200
 post_samples_df <- timtam_log |>
   read_beast2_log(burn = num_to_burn) |>
-  select(TTR0.1, TTR0.2, TTPropPsi.2, TTPropTS.2) |>
-  rename(r_eff_1 = TTR0.1, r_eff_2 = TTR0.2, p_psi = TTPropPsi.2, p_ts = TTPropTS.2) |>
+  select(TTR0.1,
+         TTR0.2,
+         TTPropPsi.2,
+         TTPropTS.2,
+         TTNetRemovalRate) |>
+  rename(r_eff_1 = TTR0.1,
+         r_eff_2 = TTR0.2,
+         p_psi = TTPropPsi.2,
+         p_ts = TTPropTS.2,
+         sigma = TTNetRemovalRate) |>
   melt(id.vars = c())
 
 is_r_eff_mask <- grepl(post_samples_df$variable, pattern = "r_eff_[0-9]+")
 is_p_psi_mask <- grepl(post_samples_df$variable, pattern = "p_psi")
 is_p_ts_mask <- grepl(post_samples_df$variable, pattern = "p_ts")
+is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
 
 r_eff_gg <-
   ggplot() +
@@ -127,6 +142,31 @@ p_ts_gg <- ggplot() +
 
 ggsave(filename = output$p_ts_png,
        plot = p_ts_gg,
+       ## height = 14.8, width = 21.0, # A5
+       height = 10.5, width = 14.8, # A6
+       ## height = 7.4, width = 10.5, # A7
+       units = "cm")
+
+sigma_gg <-
+  ggplot() +
+  geom_histogram(
+    data = post_samples_df[is_sigma_mask, ],
+    mapping = aes(x = value, y = after_stat(density)),
+    breaks = seq(from = 0.1,
+                 to = max(post_samples_df[is_sigma_mask, ]$value) * 1.01,
+                 by = 0.002)
+  ) +
+  stat_function(
+    fun = function(x) dunif(x, min = 0.1, max = 1.0),
+    geom = "line"
+  ) +
+  labs(title = "Net becoming uninfectious rate",
+       y = "Probability density") +
+  theme_bw() +
+  theme(axis.title.x = element_blank())
+
+ggsave(filename = output$sigma_png,
+       plot = sigma_gg,
        ## height = 14.8, width = 21.0, # A5
        height = 10.5, width = 14.8, # A6
        ## height = 7.4, width = 10.5, # A7

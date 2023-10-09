@@ -28,6 +28,7 @@
 	  <r>out/manuscript/parameter-r-eff.png</r>
 	  <propPsi>out/manuscript/parameter-p-psi.png</propPsi>
 	  <propTs>out/manuscript/parameter-p-ts.png</propTs>
+	  <sigma>out/manuscript/parameter-sigma.png</sigma>
 	</posterior>
       </manuscript>
     </figures>
