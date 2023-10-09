@@ -23,6 +23,7 @@
 - Figure [[fig:estimates-plot]] is produced by [[file:./R/postprocessing-1.R]] and shows the reproduction number alongside previous estimates.
 - Figure [[fig:data-and-estimates]] is produced by [[file:./R/postprocessing-1.R]].
 - There are a couple of prior/posterior plots produced by [[file:./R/postprocessing-2.R]]
+- A table summarising the [[file:./out/manuscript/parameter-estimates.tex][parameter estimates]] is produced by by [[file:./R/postprocessing-2.R]].
 
 #+caption: The estimated reproduction number and previous estimates from Li /et al/ (2017).
 #+name: fig:estimates-plot
