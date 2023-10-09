@@ -16,7 +16,9 @@ set.seed(1)
 ## see the configuration XML for these values and a short description
 ## of what the files contain.
 
-config <- as_list(read_xml("config.xml"))
+config_xml <- "config.xml"
+stopifnot(file.exists(config_xml))
+config <- as_list(read_xml(config_xml))
 
 output <- list(
   r_eff_png = config$files$results$figures$manuscript$posterior$r[[1]],
@@ -71,6 +73,12 @@ is_p_psi_mask <- grepl(post_samples_df$variable, pattern = "p_psi")
 is_p_ts_mask <- grepl(post_samples_df$variable, pattern = "p_ts")
 is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
 
+## Because we want to have nice labels for the facets of this plot, we
+## need to construct a labeller object to give to the
+## \code{facet_wrap} function.
+
+facet_labeller <- labeller(variable = c(r_eff_1 = "R-effective 1",
+                                        r_eff_2 = "R-effective 2"))
 r_eff_gg <-
   ggplot() +
   geom_histogram(
@@ -83,8 +91,9 @@ r_eff_gg <-
     geom = "line"
   ) +
   labs(title = "Reproduction number",
-       y = "Posterior density") +
-  facet_wrap(~variable, scales = "free") +
+       y = "Probability density") +
+  facet_wrap(~variable, scales = "free",
+             labeller = facet_labeller) +
   theme_bw() +
   theme(axis.title.x = element_blank())
 
@@ -107,7 +116,7 @@ p_psi_gg <-
     geom = "line"
   ) +
   labs(title = "Proportion of infections sequenced",
-       y = "Posterior density") +
+       y = "Probability density") +
   scale_x_continuous(
     limits = c(0, 0.01)
   ) +
@@ -121,7 +130,8 @@ ggsave(filename = output$p_psi_png,
        ## height = 7.4, width = 10.5, # A7
        units = "cm")
 
-p_ts_gg <- ggplot() +
+p_ts_gg <-
+  ggplot() +
   geom_histogram(
     data = post_samples_df[is_p_ts_mask, ],
     mapping = aes(x = value, y = after_stat(density)),
@@ -132,8 +142,8 @@ p_ts_gg <- ggplot() +
     geom = "line"
   ) +
   labs(title = "Proportion of infections observed",
-       subtitle = "Proportion of cases that are present in the time series and not sequenced",
-       y = "Posterior density") +
+       subtitle = c("Proportion of cases in the time series and not sequenced"),
+       y = "Probability density") +
   scale_x_continuous(
     limits = c(0, 0.03)
   ) +
