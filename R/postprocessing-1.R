@@ -90,7 +90,7 @@ r_change_times <-
   mcmc_config |>
   xml_find_first("//parameter[@name='r0ChangeTimes']") |>
   xml_text() |>
-  str_split(" ") |>
+  str_split("[ ]+") |>
   unlist() |>
   as.numeric()
 num_to_burn <- 200

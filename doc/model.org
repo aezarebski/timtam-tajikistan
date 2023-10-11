@@ -1,6 +1,8 @@
 #+title: Tajikistan poliomyelitis analysis
 #+author: Alexander E. Zarebski
 
+* Phylodynamic model
+
 Model files live in =xml/=.
 
 1. Li /et al/ (2017) use a strict clock with 0.01 substitutions per
