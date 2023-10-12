@@ -72,8 +72,20 @@ print("Here are the disaster sizes:\n")
 paste(z3$count, sep = "", collapse = " ")
 print("Here are the backward-times of the disasters:\n")
 paste(z3$bwd_times, sep = "", collapse = " ")
+
+bwd_hist_times <- 21 * ( 12:0 ) - 1 / 24
+init_hist_sizes <- ceiling(20000 * exp(-0.001 * (bwd_hist_times - 60)^2) + 1)
+## Here is a little plot that shows what these values look like in real terms.
+## plot(bwd_hist_times, init_hist_sizes,
+##      xlab = "Backwards time (days)",
+##      ylab = "History size",
+##      main = "Rough initial values for history size parameter",
+##      xlim = rev(range(bwd_hist_times)))
 print("Here are the backward-times of the history size estimates:\n")
-paste(30 * ( 7:0 ) - 1 / 24, sep = "", collapse = " ")
+paste(bwd_hist_times, sep = "", collapse = " ")
+print("Here are some initial values to use for the history sizes:\n")
+paste(init_hist_sizes, sep = "", collapse = " ")
+
 print("Here are the backward-times of the parameter change times:\n")
 paste(c(61.0, 153.0) + 1 / 3, sep = "", collapse = " ")
 sink()
