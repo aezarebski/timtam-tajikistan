@@ -65,6 +65,10 @@ z2 <- rename_time_series(p, z1)
 ## remove the date prior to the first of February because had there
 ## been surveillence at that point it probably would have captured one
 ## of the cases as a sequence.
+##
+## We also include a final line to be printed with times for the
+## change in R0 which are a bit easier to interpret relative to the
+## date of the start of vaccination.
 
 z3 <- z2[z2$date >= ymd("2010-02-01"),]
 sink(output_disaster_txt)
@@ -88,6 +92,9 @@ paste(init_hist_sizes, sep = "", collapse = " ")
 
 print("Here are the backward-times of the parameter change times:\n")
 paste(c(61.0, 153.0) + 1 / 3, sep = "", collapse = " ")
+print("In particular, here are the values for the R0 change times:\n")
+paste(61.0 + 1/3 + c(92, 14, 0, -14), sep = "", collapse = " ")
+paste(61.0 + 1/3 + c(92, 28, 14, 0, -14, -28), sep = "", collapse = " ")
 sink()
 
 save.image(file = session_rdata_out)
