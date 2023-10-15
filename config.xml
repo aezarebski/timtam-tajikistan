@@ -13,7 +13,7 @@
       <!-- Note that the name of the log and tree files are obtained
            directly from the XML so you only need to get this right
            once. -->
-      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-10-05.xml</beastXML>
+      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-10-13-variant-1.xml</beastXML>
     </intermediate>
     <figures>
       <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
