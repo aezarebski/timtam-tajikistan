@@ -3,7 +3,8 @@
 
 - Look at these [[file:./doc/model.org][notes]] for material relating to the model.
 - Look at these [[file:./doc/readme.org][notes]] for material relating to the manuscript.
-- Look at [[file:./config.xml]] for the files used.
+- Look at [[file:./config.xml][configuration]] file for the analysis.
+- There is a [[file:./build.xml][ANT build script]] which coordinates this analysis.
 
 * Data
 
