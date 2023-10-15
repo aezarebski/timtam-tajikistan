@@ -17,7 +17,7 @@
 
 * Results
 
-- [[file:./out/disaster-strings.txt][This file]] containing the time series is produced by [[file:./R/preprocessing-2.R]].
+- [[file:./out/disaster-strings.txt][This file]] containing the strings used to describe the time series in the XML is produced by [[file:./R/preprocessing-2.R]].
 - [[file:./out/timed-sequences.fasta][This file]] containing the timed sequences is produced by [[file:./R/preprocessing-2.R]].
 - This [[file:./xml/timtam-2023-09-04.xml][BEAST2 XML]] was produced by BEAUti.
 - Figure [[fig:estimates-plot]] is produced by [[file:./R/postprocessing-1.R]] and shows the reproduction number alongside previous estimates.
