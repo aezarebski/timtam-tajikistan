@@ -56,19 +56,27 @@ if (!file.exists(timtam_log)) {
 ## extra variables this is where the changes should start.
 
 num_to_burn <- 200
-post_samples_df <- timtam_log |>
+post_samples_df <-
+  timtam_log |>
   read_beast2_log(burn = num_to_burn) |>
-  select(TTR0.1,
-         TTR0.2,
+  select(starts_with("TTR0"),
          TTPropPsi.2,
          TTPropTS.2,
          TTNetRemovalRate) |>
-  rename(r_eff_1 = TTR0.1,
-         r_eff_2 = TTR0.2,
-         p_psi = TTPropPsi.2,
+  rename(p_psi = TTPropPsi.2,
          p_ts = TTPropTS.2,
          sigma = TTNetRemovalRate) |>
+  rename_with(.fn = \(n) str_replace(string = n,
+                                     pattern = "TTR0.",
+                                     replacement = "r_eff_"),
+              .cols = starts_with("TTR0")) |>
   melt(id.vars = c())
+
+num_r_eff_vars <-
+  post_samples_df$variable |>
+  unique() |>
+  str_detect(pattern = "r_eff") |>
+  sum()
 
 is_r_eff_mask <- grepl(post_samples_df$variable, pattern = "r_eff_[0-9]+")
 is_p_psi_mask <- grepl(post_samples_df$variable, pattern = "p_psi")
@@ -95,8 +103,11 @@ sink()
 ## need to construct a labeller object to give to the
 ## \code{facet_wrap} function.
 
-facet_labeller <- labeller(variable = c(r_eff_1 = "R-effective 1",
-                                        r_eff_2 = "R-effective 2"))
+
+r_eff_cols <- paste0("r_eff_", 1:num_r_eff_vars)
+r_eff_labels <- paste0("R-effective ", 1:num_r_eff_vars)
+labelling_list <- setNames(r_eff_labels, r_eff_cols)
+facet_labeller <- labeller(variable = labelling_list)
 r_eff_gg <-
   ggplot() +
   geom_histogram(
