@@ -7,11 +7,13 @@ library(stringr)
 library(lubridate)
 library(xml2)
 
+## To keep hard-coding to a minimum I am using a config.xml to store
+## file names. Define all the files that are either used or created by
+## this script see the configuration XML for these values and a short
+## description of what the files contain.
+
 config <- as_list(read_xml("config.xml"))
 
-## Define all the files that are either used or created by this script
-## see the configuration XML for these values and a short description
-## of what the files contain.
 time_series_input_csv <- config$files$data$timeSeries[[1]]
 time_series_clean_csv <- config$files$results$intermediate$timeSeries[[1]]
 li_nexus <- config$files$data$sequences[[1]]
@@ -22,7 +24,6 @@ session_rdata_out <-
 
 stopifnot(file.exists(time_series_clean_csv))
 stopifnot(file.exists(li_nexus))
-
 
 ## Read in the data from WPD and munged into a nice data.frame. By
 ## default WPD labels the columns of a bar-chart "BAR0", "BAR1", ...
