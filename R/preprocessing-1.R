@@ -116,6 +116,12 @@ for (ix in seq_len(nrow(seq_df))) {
 ## weeks in which this is negative (a value of -1) I have set the
 ## value to 0. This should only make a minor change to the data and
 ## should have a far smaller effect than over counting the cases.
+##
+## As part of testing the sensitivity to model assumptions, we re-ran
+## this without subtracting the sequences from time series. The
+## commented mutate command in this pipeline will do that and the only
+## thing that needs to be changed is the resulting disaster sizes in
+## the XML.
 
 plt_df <-
   who_df |>
@@ -123,6 +129,9 @@ plt_df <-
   mutate(cases_minus_seqs = pmax(0, cases - seq_count),
          week_start_date = week_start_date.x,
          week_end_date = week_end_date.x) |>
+  ## mutate(cases_minus_seqs = cases,
+  ##        week_start_date = week_start_date.x,
+  ##        week_end_date = week_end_date.x) |>
   select(week_date,
          week_start_date,
          week_end_date,
