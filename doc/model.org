@@ -36,8 +36,12 @@ Model files live in =xml/=.
      probability a \(\Beta(3, 797)\) prior.
    - We assume that the observation process changed once 153 days
      pre-present
-6. The date of the first round of vaccination occurred 61 days prior to
-   the present. This is used for the change in R0 in our model.
+6. The date of the first round of vaccination occurred 61 days prior
+   to the present. This is used for the change in R0 in our model.
+   This corresponds to 4 May.
+   - Two weeks either size of 4 May is 20 April and 18 May. These
+     times are used as R0 change times in a more flexible model.
+   - This is demonstrated in the source block below.
 7. Notable dates:
    - First sequence: TJK35389 from 2010-02-01
    - Last sequence: TJK37339 from 2010-07-04. Since there is only the
@@ -57,3 +61,12 @@ Model files live in =xml/=.
    - Scheduled unsequenced samples are made at midday each day.
      Since the "present" is 8am, this means all the samples are offset
      by 1/6 which is approximately 0.167.
+
+#+begin_src R
+library(lubridate)
+last_seq_date <- ymd("2010-07-04")
+vac_start_date <- ymd("2010-05-04")
+stopifnot(last_seq_date - 61 == vac_start_date)
+stopifnot(as.numeric(last_seq_date - vac_start_date) == 61)
+print(vac_start_date + c(14, 0, -14))
+#+end_src
