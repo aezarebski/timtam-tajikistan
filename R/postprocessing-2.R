@@ -86,6 +86,10 @@ is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
 ## Because we want to be able to see a table of the parameter
 ## estimates we will compute the summary statistics and use the xtable
 ## package to write this to a latex table.
+##
+## The strange sequence of letters used in the call to \code{xtable}
+## is so that it knows the type of variables involved and how they
+## should be displayed.
 
 sink(file = output$summary_tex)
 post_samples_df |>
@@ -102,7 +106,6 @@ sink()
 ## Because we want to have nice labels for the facets of this plot, we
 ## need to construct a labeller object to give to the
 ## \code{facet_wrap} function.
-
 
 r_eff_cols <- paste0("r_eff_", 1:num_r_eff_vars)
 r_eff_labels <- paste0("R-effective ", 1:num_r_eff_vars)
