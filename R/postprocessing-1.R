@@ -1,13 +1,14 @@
 library(dplyr)
-library(purrr)
 library(stringr)
 library(reshape2)
 library(ggplot2)
 library(cowplot)
+library(scales)
 library(jsonlite)
 library(magrittr)
 library(xml2)
 library(lubridate)
+library(purrr)
 library(timtamslamR)
 
 set.seed(1)
@@ -38,6 +39,7 @@ output <- list(
   params_png = config$files$results$figures$posteriorR[[1]],
   params_comparison_png = config$files$results$figures$manuscript$posteriorRComparison[[1]],
   prev_png = config$files$results$figures$posteriorPrev[[1]],
+  prev_alt_png = config$files$results$figures$posteriorPrevAlt[[1]],
   combined_png = config$files$results$figures$manuscript$combinedParameters[[1]],
   combined_2_png = config$files$results$figures$manuscript$combinedEverything[[1]]
 )
@@ -463,4 +465,25 @@ example_plot_2 <-
 ggsave(filename = output$combined_2_png,
        plot = example_plot_2,
        height = 21.0, width = 21.0,
+       units = "cm")
+
+## Because the prevalence is so small early on in the epidemic it is
+## very difficult to see the early dynamics on a linear scale. To make
+## it easier to see how these values change through time we use a
+## pseudo log transformation on the vertical scale so we can see how
+## the values change without needing to worry about values near zero.
+
+prev_alt_gg <-
+  prev_fig +
+  scale_y_continuous(
+    trans = scales::pseudo_log_trans(),
+    breaks = c(0, 10^(0:4)),
+    name = "Prevalence of infection (pseudo-log scale)"
+  )
+
+ggsave(filename = output$prev_alt_png,
+       plot = prev_alt_gg,
+       ## height = 14.8, width = 21.0, # A5
+       height = 10.5, width = 14.8, # A6
+       ## height = 7.4, width = 10.5, # A7
        units = "cm")
