@@ -3,7 +3,6 @@ library(stringr)
 library(reshape2)
 library(ggplot2)
 library(cowplot)
-library(scales)
 library(jsonlite)
 library(magrittr)
 library(xml2)
@@ -469,16 +468,14 @@ ggsave(filename = output$combined_2_png,
 
 ## Because the prevalence is so small early on in the epidemic it is
 ## very difficult to see the early dynamics on a linear scale. To make
-## it easier to see how these values change through time we use a
-## pseudo log transformation on the vertical scale so we can see how
-## the values change without needing to worry about values near zero.
+## it easier to see how these values change through time we use a log
+## vertical scale.
 
 prev_alt_gg <-
   prev_fig +
-  scale_y_continuous(
-    trans = scales::pseudo_log_trans(),
+  scale_y_log10(
     breaks = c(0, 10^(0:4)),
-    name = "Prevalence of infection (pseudo-log scale)"
+    name = "Prevalence of infection (log scale)"
   )
 
 ggsave(filename = output$prev_alt_png,
