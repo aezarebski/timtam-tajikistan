@@ -143,7 +143,7 @@ ggsave(filename = output$r_eff_png,
        plot = r_eff_gg,
        ## height = 14.8, width = 21.0, # A5
        ## height = 10.5, width = 21.0, # A6
-       height = 4 * 7.4, width = 10.5, # A7
+       height = 4 * 7.4 - 5, width = 10.5, # A7
        units = "cm")
 
 p_psi_gg <-
