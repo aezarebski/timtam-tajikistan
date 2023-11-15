@@ -2,6 +2,7 @@ library(dplyr)
 library(stringr)
 library(reshape2)
 library(ggplot2)
+library(svglite) # needed for SVG output
 library(cowplot)
 library(jsonlite)
 library(magrittr)
@@ -395,6 +396,26 @@ ggsave(
   units = "cm"
 )
 
+## Because the prevalence is so small early on in the epidemic it is
+## difficult to see the early dynamics on a linear scale. To make it
+## easier to see how these values change through time we use a log
+## vertical scale. There is no risk of zero values in the log because
+## we know that there is always at least one infection at any time
+## during which a history estimate is made.
+
+prev_alt_gg <-
+  prev_fig +
+  scale_y_log10(
+    breaks = c(0, 10^(0:4)),
+    name = "Prevalence of infection (log scale)"
+  )
+
+ggsave(filename = output$prev_alt_png,
+       plot = prev_alt_gg,
+       height = 10.5, width = 14.8, # A6
+       units = "cm")
+
+
 example_plot <- plot_grid((gg_r_eff +
                            theme(axis.text.x = element_blank(),
                                  axis.title.x = element_blank())),
@@ -450,7 +471,7 @@ theme_tweak <-
 
 example_plot_2 <-
   plot_grid(data_gg,
-            prev_fig + theme(axis.text.x = element_blank()) + theme_tweak,
+            prev_alt_gg + theme(axis.text.x = element_blank()) + theme_tweak,
             gg_r_eff + theme_tweak,
             align = "v", axis = "l",
             rel_heights = c(1, 0.7, 0.7),
@@ -458,6 +479,7 @@ example_plot_2 <-
             labels = c("A", "B", "C"),
             hjust = -0.1, vjust = 1.1)
 
+## NOTE that for label placement
 ## hjust more negative moves it to the right
 ## vjust more positive moves it down
 
@@ -466,21 +488,11 @@ ggsave(filename = output$combined_2_png,
        height = 21.0, width = 21.0,
        units = "cm")
 
-## Because the prevalence is so small early on in the epidemic it is
-## very difficult to see the early dynamics on a linear scale. To make
-## it easier to see how these values change through time we use a log
-## vertical scale.
+## Because this is a pretty important plot, we will make an SVG copy
+## so that we can edit it manually later if there are styling
+## adjustments that need to be made.
 
-prev_alt_gg <-
-  prev_fig +
-  scale_y_log10(
-    breaks = c(0, 10^(0:4)),
-    name = "Prevalence of infection (log scale)"
-  )
-
-ggsave(filename = output$prev_alt_png,
-       plot = prev_alt_gg,
-       ## height = 14.8, width = 21.0, # A5
-       height = 10.5, width = 14.8, # A6
-       ## height = 7.4, width = 10.5, # A7
+ggsave(filename = sub("png$", "svg", output$combined_2_png),
+       plot = example_plot_2,
+       height = 21.0, width = 21.0,
        units = "cm")
