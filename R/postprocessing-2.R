@@ -31,6 +31,11 @@ output <- list(
 timtam_xml <- config$files$results$intermediate$beastXML[[1]]
 stopifnot(file.exists(timtam_xml))
 
+## Define a label for the y-axis in the prior posterior plots to keep
+## things DRY.
+
+Y_AXIS_TITLE <- "Prior/posterior density"
+
 ## Define and extract relevant information for the input files after
 ## checking that they exist.
 
@@ -126,7 +131,7 @@ r_eff_gg <-
     fun = function(x) dnorm(x, mean = 2.0, sd = 2.0),
     geom = "line"
   ) +
-  labs(y = "Prior/posterior density",
+  labs(y = Y_AXIS_TITLE,
        x = "Effective reproduction number") +
   facet_wrap(~variable, scales = "free",
              ncol = 1,
@@ -152,13 +157,13 @@ p_psi_gg <-
     fun = function(x) dbeta(x, shape1 = 2.0, shape2 = 301.0),
     geom = "line"
   ) +
-  labs(title = "Proportion of infections sequenced",
-       y = "Probability density") +
+  labs(x = "Proportion of infections sequenced",
+       y =  Y_AXIS_TITLE) +
   scale_x_continuous(
     limits = c(0, 0.01)
   ) +
   theme_bw() +
-  theme(axis.title.x = element_blank())
+  theme()
 
 ggsave(filename = output$p_psi_png,
        plot = p_psi_gg,
@@ -178,14 +183,13 @@ p_ts_gg <-
     fun = function(x) dbeta(x, shape1 = 2.0, shape2 = 301.0),
     geom = "line"
   ) +
-  labs(title = "Proportion of infections observed",
-       subtitle = c("Proportion of cases in the time series and not sequenced"),
-       y = "Probability density") +
+  labs(x = "Proportion of infections observed (in time series)",
+       y = Y_AXIS_TITLE) +
   scale_x_continuous(
     limits = c(0, 0.03)
   ) +
   theme_bw() +
-  theme(axis.title.x = element_blank())
+  theme()
 
 ggsave(filename = output$p_ts_png,
        plot = p_ts_gg,
@@ -207,10 +211,10 @@ sigma_gg <-
     fun = function(x) dunif(x, min = 0.1, max = 1.0),
     geom = "line"
   ) +
-  labs(title = "Net becoming uninfectious rate",
-       y = "Probability density") +
+  labs(x = "Net becoming uninfectious rate",
+       y = Y_AXIS_TITLE) +
   theme_bw() +
-  theme(axis.title.x = element_blank())
+  theme()
 
 ggsave(filename = output$sigma_png,
        plot = sigma_gg,
