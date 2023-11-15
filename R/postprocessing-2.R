@@ -105,10 +105,14 @@ sink()
 
 ## Because we want to have nice labels for the facets of this plot, we
 ## need to construct a labeller object to give to the
-## \code{facet_wrap} function.
+## \code{facet_wrap} function. We put them all in a single column so
+## the figures sit nicely in a two column layout.
 
 r_eff_cols <- paste0("r_eff_", 1:num_r_eff_vars)
-r_eff_labels <- paste0("R-effective ", 1:num_r_eff_vars)
+r_eff_labels <- c("Before 20 April",
+                  "20 April - 4 May",
+                  "4 May - 18 May",
+                  "After 18 May")
 labelling_list <- setNames(r_eff_labels, r_eff_cols)
 facet_labeller <- labeller(variable = labelling_list)
 r_eff_gg <-
@@ -122,18 +126,19 @@ r_eff_gg <-
     fun = function(x) dnorm(x, mean = 2.0, sd = 2.0),
     geom = "line"
   ) +
-  labs(title = "Reproduction number",
-       y = "Probability density") +
+  labs(y = "Prior/posterior density",
+       x = "Effective reproduction number") +
   facet_wrap(~variable, scales = "free",
+             ncol = 1,
              labeller = facet_labeller) +
   theme_bw() +
-  theme(axis.title.x = element_blank())
+  theme()
 
 ggsave(filename = output$r_eff_png,
        plot = r_eff_gg,
        ## height = 14.8, width = 21.0, # A5
-       height = 10.5, width = 21.0, # A6
-       ## height = 7.4, width = 10.5, # A7
+       ## height = 10.5, width = 21.0, # A6
+       height = 4 * 7.4, width = 10.5, # A7
        units = "cm")
 
 p_psi_gg <-
