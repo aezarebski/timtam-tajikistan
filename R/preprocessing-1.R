@@ -129,6 +129,11 @@ plt_df <-
   mutate(cases_minus_seqs = pmax(0, cases - seq_count),
          week_start_date = week_start_date.x,
          week_end_date = week_end_date.x) |>
+  ##
+  ## NOTE If you want to run the sensitivity analysis you need to swap
+  ## these mutate commands between the commented and uncommented
+  ## versions!!!
+  ##
   ## mutate(cases_minus_seqs = cases,
   ##        week_start_date = week_start_date.x,
   ##        week_end_date = week_end_date.x) |>

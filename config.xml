@@ -13,6 +13,11 @@
       <!-- Note that the name of the log and tree files are obtained
            directly from the XML so you only need to get this right
            once. -->
+      <!-- NOTE If you are running the sensitivity analysis with the
+           variant version of the XML, then you need to double check
+           that the code in `preprocessing-1.R` is doing the correct
+           preprocessing, you can check if this is the case be
+           teseting if the figures look right. -->
       <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-10-15.xml</beastXML>
     </intermediate>
     <figures>
