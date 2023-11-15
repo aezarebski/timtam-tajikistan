@@ -13,13 +13,14 @@
       <!-- Note that the name of the log and tree files are obtained
            directly from the XML so you only need to get this right
            once. -->
-      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-10-13-variant-1.xml</beastXML>
+      <beastXML description="BEAST2 XML for the analysis">xml/timtam-2023-10-15.xml</beastXML>
     </intermediate>
     <figures>
       <dataPlot description="Plot of the timing of data collection">out/manuscript/data-plot.png</dataPlot>
       <dataPlotRds description="RDS of plot of the timing of data collection">out/manuscript/data-plot.rds</dataPlotRds>
       <posteriorR description="Posterior distribution of r">out/demo-reff.png</posteriorR>
       <posteriorPrev description="Posterior distribution of the prevalence">out/demo-prevalence.png</posteriorPrev>
+      <posteriorPrevAlt description="Posterior distribution of the prevalence on a log scale">out/demo-prevalence-log.png</posteriorPrevAlt>
       <manuscript description="Publication ready figures">
 	<posteriorRComparison description="Posterior distribution of R compared to Li's estimates">out/manuscript/parameter-r-comparison.png</posteriorRComparison>
 	<combinedParameters description="Plot of estimated parameters">out/manuscript/combined-plot.png</combinedParameters>

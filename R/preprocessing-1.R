@@ -7,11 +7,13 @@ library(stringr)
 library(lubridate)
 library(xml2)
 
+## To keep hard-coding to a minimum I am using a config.xml to store
+## file names. Define all the files that are either used or created by
+## this script see the configuration XML for these values and a short
+## description of what the files contain.
+
 config <- as_list(read_xml("config.xml"))
 
-## Define all the files that are either used or created by this script
-## see the configuration XML for these values and a short description
-## of what the files contain.
 time_series_input_csv <- config$files$data$timeSeries[[1]]
 time_series_clean_csv <- config$files$results$intermediate$timeSeries[[1]]
 li_nexus <- config$files$data$sequences[[1]]
@@ -22,7 +24,6 @@ session_rdata_out <-
 
 stopifnot(file.exists(time_series_clean_csv))
 stopifnot(file.exists(li_nexus))
-
 
 ## Read in the data from WPD and munged into a nice data.frame. By
 ## default WPD labels the columns of a bar-chart "BAR0", "BAR1", ...
@@ -115,6 +116,12 @@ for (ix in seq_len(nrow(seq_df))) {
 ## weeks in which this is negative (a value of -1) I have set the
 ## value to 0. This should only make a minor change to the data and
 ## should have a far smaller effect than over counting the cases.
+##
+## As part of testing the sensitivity to model assumptions, we re-ran
+## this without subtracting the sequences from time series. The
+## commented mutate command in this pipeline will do that and the only
+## thing that needs to be changed is the resulting disaster sizes in
+## the XML.
 
 plt_df <-
   who_df |>
@@ -122,6 +129,9 @@ plt_df <-
   mutate(cases_minus_seqs = pmax(0, cases - seq_count),
          week_start_date = week_start_date.x,
          week_end_date = week_end_date.x) |>
+  ## mutate(cases_minus_seqs = cases,
+  ##        week_start_date = week_start_date.x,
+  ##        week_end_date = week_end_date.x) |>
   select(week_date,
          week_start_date,
          week_end_date,
