@@ -26,7 +26,9 @@ days_to_period <- function(x) {
   seconds(round(x * 24 * 60 * 60))
 }
 
-
+palette_green <- "#1B9E77"
+palette_orange <- "#D95F02"
+palette_purple <- "#7570B3"
 config <- as_list(read_xml("config.xml"))
 
 ## Define all the files that are either used or created by this script
@@ -145,22 +147,19 @@ estimate_cri <-
 
 ## END STEP FUNCTION SUMMARY
 
-## TODO This plot needs to have the following edits made:
-##
-## - The colour green should be used with #1B9E77
-## - The alpha should be set to 0.3 for the ribbon
-##
-
 gg_r_eff <-
   ggplot() +
   geom_ribbon(
     data = estimate_cri,
     mapping = aes(x = date, ymin = lower_bound, ymax = upper_bound),
-    alpha = 0.5
+    fill = palette_green,
+    alpha = 0.3
   ) +
   geom_line(
     data = estimate_cri,
-    mapping = aes(x = date, y = median)
+    mapping = aes(x = date, y = median),
+    colour = palette_green,
+    linewidth = 0.5
   ) +
   geom_hline(
     yintercept = 1.0,
@@ -258,9 +257,9 @@ gg_r_eff_comparison <-
     name = "Days since outbreak began"
   ) +
   scale_colour_manual(
-    values = c("adult" = "#1b9e77",
-               "child" = "#d95f02",
-               "weighted_average" = "#7570b3"),
+    values = c("adult" = palette_green,
+               "child" = palette_orange,
+               "weighted_average" = palette_purple),
     labels = c("Adult (over 5)", "Child (5 and under)", "Weighted average")
   ) +
   labs(
@@ -320,12 +319,12 @@ trace_plot <-
     axis.title.x = element_blank()
   )
 
-#' The following is just some boring munging to get the prevalence
-#' estimates into a sensible format for plotting. We use the
-#' \code{difftime} function to create the time difference explicitly
-#' so that we can specify the units. This way it prevents R from
-#' trying to be clever and potentially measuring the difference in the
-#' wrong units.
+## The following is just some boring munging to get the prevalence
+## estimates into a sensible format for plotting. We use the
+## \code{difftime} function to create the time difference explicitly
+## so that we can specify the units. This way it prevents R from
+## trying to be clever and potentially measuring the difference in the
+## wrong units.
 
 bkwd_difftime <-
   difftime(my_beast2_model$present$date_time,
@@ -363,24 +362,18 @@ prev_df <-
 
 ## Make a nice plot that demonstrates all of the prevalence results.
 
-## TODO This plot needs to be changed in the following ways:
-##
-## - The colour green should be used with #1B9E77
-## - The linerange should have the default linewidth and alpha
-##
-
 prev_fig <-
   ggplot() +
   geom_linerange(
     data = prev_df,
     mapping = aes(x = date, ymin = lower, ymax = upper),
-    linewidth = 3,
-    alpha = 0.5
+    colour = palette_green
   ) +
   geom_point(
     data = prev_df,
     mapping = aes(x = date, y = mid),
-    size = 2
+    size = 3,
+    colour = palette_green
   ) +
   scale_x_date(
     breaks = c(ymd("2010-01-01"),
