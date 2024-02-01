@@ -412,7 +412,8 @@ prev_alt_gg <-
   prev_fig +
   scale_y_log10(
     breaks = c(0, 10^(0:4)),
-    name = "Prevalence of infection (log scale)"
+    name = "Prevalence of infection",
+    labels = scales::label_log()
   )
 
 ggsave(filename = output$prev_alt_png,
