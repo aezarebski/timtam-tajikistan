@@ -145,6 +145,12 @@ estimate_cri <-
 
 ## END STEP FUNCTION SUMMARY
 
+## TODO This plot needs to have the following edits made:
+##
+## - The colour green should be used with #1B9E77
+## - The alpha should be set to 0.3 for the ribbon
+##
+
 gg_r_eff <-
   ggplot() +
   geom_ribbon(
@@ -356,6 +362,12 @@ prev_df <-
   mutate(date = my_present$date + (time - origin_time))
 
 ## Make a nice plot that demonstrates all of the prevalence results.
+
+## TODO This plot needs to be changed in the following ways:
+##
+## - The colour green should be used with #1B9E77
+## - The linerange should have the default linewidth and alpha
+##
 
 prev_fig <-
   ggplot() +
