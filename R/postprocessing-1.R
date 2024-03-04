@@ -128,6 +128,7 @@ step_function_cri <- function(ts, vss) {
     median = rep(NA, n),
     upper_bound = rep(NA, n)
   )
+  stop("USE HDPI FOR INTERVALS")
   for (ix in seq.int(length(vss))) {
     summ <- as.numeric(quantile(x = vss[[ix]], probs = c(0.025, 0.5, 0.975)))
     .ix <- 2 * ix - 1
@@ -337,6 +338,7 @@ time_df <- data.frame(
   time = origin_time - bkwd_hist_times
 )
 
+stop("USE HDPI FOR INTERVALS")
 summary_vec <- function(prev_samples) {
   as.numeric(quantile(prev_samples, probs = c(0.025, 0.5, 0.975)))
 }

@@ -96,6 +96,7 @@ is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
 ## is so that it knows the type of variables involved and how they
 ## should be displayed.
 
+stop("USE HDPI FOR INTERVALS")
 sink(file = output$summary_tex)
 post_samples_df |>
   group_by(variable) |>
