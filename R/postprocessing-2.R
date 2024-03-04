@@ -1,3 +1,4 @@
+library(bayestestR)
 library(dplyr)
 library(purrr)
 library(stringr)
@@ -96,13 +97,20 @@ is_sigma_mask <- grepl(post_samples_df$variable, pattern = "sigma")
 ## is so that it knows the type of variables involved and how they
 ## should be displayed.
 
-stop("USE HDPI FOR INTERVALS")
+hpdi_95 <- function(xs, is_upper) {
+  stopifnot(is.logical(is_upper))
+  stopifnot(length(xs) > 1)
+  tmp <- bayestestR::hdi(xs, ci = 0.95)
+  return(ifelse(is_upper, tmp$CI_high, tmp$CI_low))
+}
+
+
 sink(file = output$summary_tex)
 post_samples_df |>
   group_by(variable) |>
   summarise(est = median(value),
-            cri_lower = quantile(value, probs = 0.025),
-            cri_upper = quantile(value, probs = 0.975)) |>
+            cri_lower = hpdi_95(value, is_upper=FALSE),
+            cri_upper = hpdi_95(value, is_upper=TRUE)) |>
   xtable(math.style.exponents = TRUE,
          digits = 2,
          display = c("s", "s", "E", "E", "E")) |>

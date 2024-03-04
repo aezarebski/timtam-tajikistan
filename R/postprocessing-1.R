@@ -1,3 +1,4 @@
+library(bayestestR)
 library(dplyr)
 library(stringr)
 library(reshape2)
@@ -119,6 +120,10 @@ my_units <- "days"
 #' @param vss the posterior samples of the value of the function at
 #'   the step.
 #'
+#' @note This used to use quantiles to compute the credible interval,
+#'   it now uses the highest posterior density interval as calculated
+#'   by bayestestR
+#'
 step_function_cri <- function(ts, vss) {
   .ts <- c(head(ts, 1), rep(tail(head(ts, -1), -1), each = 2), tail(ts, 1))
   n <- length(.ts)
@@ -128,9 +133,12 @@ step_function_cri <- function(ts, vss) {
     median = rep(NA, n),
     upper_bound = rep(NA, n)
   )
-  stop("USE HDPI FOR INTERVALS")
   for (ix in seq.int(length(vss))) {
-    summ <- as.numeric(quantile(x = vss[[ix]], probs = c(0.025, 0.5, 0.975)))
+    summ <- c(NA, NA, NA)
+    summ[2] <- as.numeric(quantile(vss[[ix]], probs = 0.5))
+    tmp <- bayestestR(vss[[ix]], ci = 0.95)
+    summ[1] <- tmp$CI_low
+    summ[3] <- tmp$CI_high
     .ix <- 2 * ix - 1
     result[.ix, 2:4] <- summ
     result[.ix + 1, 2:4] <- summ
@@ -338,9 +346,13 @@ time_df <- data.frame(
   time = origin_time - bkwd_hist_times
 )
 
-stop("USE HDPI FOR INTERVALS")
 summary_vec <- function(prev_samples) {
-  as.numeric(quantile(prev_samples, probs = c(0.025, 0.5, 0.975)))
+  result <- c(NA, NA, NA)
+  result[2] <- as.numeric(quantile(prev_samples, probs = 0.5))
+  tmp <- bayestestR(prev_samples, ci = 0.95)
+  result[1] <- tmp$CI_low
+  result[3] <- tmp$CI_high
+  return(result)
 }
 
 ## Use some meta-programming to get the prevalence estimates into a
