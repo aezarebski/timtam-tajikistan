@@ -25,6 +25,7 @@
 - Figure [[fig:data-and-estimates]] is produced by [[file:./R/postprocessing-1.R]].
 - There are a couple of prior/posterior plots produced by [[file:./R/postprocessing-2.R]]
 - A table summarising the [[file:./out/manuscript/parameter-estimates.tex][parameter estimates]] is produced by by [[file:./R/postprocessing-2.R]].
+- *NOTE* that this uses the HDPI as computed by =bayestestR= for the credible intervals.
 
 #+caption: The estimated reproduction number and previous estimates from Li /et al/ (2017).
 #+name: fig:estimates-plot
