@@ -136,7 +136,7 @@ step_function_cri <- function(ts, vss) {
   for (ix in seq.int(length(vss))) {
     summ <- c(NA, NA, NA)
     summ[2] <- as.numeric(quantile(vss[[ix]], probs = 0.5))
-    tmp <- bayestestR(vss[[ix]], ci = 0.95)
+    tmp <- bayestestR::hdi(vss[[ix]], ci = 0.95)
     summ[1] <- tmp$CI_low
     summ[3] <- tmp$CI_high
     .ix <- 2 * ix - 1
@@ -349,7 +349,7 @@ time_df <- data.frame(
 summary_vec <- function(prev_samples) {
   result <- c(NA, NA, NA)
   result[2] <- as.numeric(quantile(prev_samples, probs = 0.5))
-  tmp <- bayestestR(prev_samples, ci = 0.95)
+  tmp <- bayestestR::hdi(prev_samples, ci = 0.95)
   result[1] <- tmp$CI_low
   result[3] <- tmp$CI_high
   return(result)
