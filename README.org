@@ -6,6 +6,24 @@
 - *IMPORTANT* there is a [[file:./config.xml][configuration]] file for the analysis.
 - There is a [[file:./build.xml][ANT build script]] which coordinates this analysis.
 
+* TODO Sub-sampling analysis
+
+The goal here is to replicate the analysis but with sub-samples of the
+time series data to gain some insight into the value provided by that
+data source.
+
+- [ ] Generate new versions of the =disaster-strings.txt= file with
+  the sub-sampling.
+- [ ] Set up a sensible way to run the MCMC chains (in parallel). It
+  looks like this is currently expected to be done manually at hte
+  command line, but the build file has a helper function.
+- [ ] Apply the same post-processing scripts to all of the chain
+  outputs.
+- [ ] Generate figures comparing the marginal posteriors for the
+  parameters under each sub-sampling. This should probably be
+  histograms with colour indicating the level of subsampling and
+  facetting to split the parameters up.
+
 * Data
 
 - Figure [[fig:data-plot]] is produced by [[file:./R/preprocessing-1.R]].
