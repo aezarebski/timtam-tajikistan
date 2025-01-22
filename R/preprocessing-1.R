@@ -205,7 +205,8 @@ outbreak_gg <-
   labs(x = NULL, y = NULL, pattern = NULL, pattern_angle = NULL) +
   theme_bw() +
   theme(
-    legend.position = c(0.2, 0.3)
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.3)
   )
 
 ## save a copy of the data plot object so we can re-use it later.
