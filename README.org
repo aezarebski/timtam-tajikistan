@@ -78,3 +78,22 @@ Note that the pre-processing is also run by the =snakefile=.
    to produce the MCMC XML.
 
 * FAQs
+
+** Can I resume an MCMC that has been interrupted?
+
+Yes, here is a snippet of an ANT build file that describes how to do
+that.
+
+#+begin_src xml
+    <target name="mcmcresume"
+	    description="Run the MCMC for another length of the chain. E.g., ant mcmcresume -DbeastXML=timtam-YYYY-MM-DD.xml -DstateFile=timtam-YYYY-MM-DD.xml.state">
+      <echo>Resuming the MCMC sampler...</echo>
+      <exec executable="sh">
+        <arg path="lib/beast/bin/beast" />
+        <arg line="-seed 1" />
+	<arg line="-statefile ${stateFile}" />
+	<arg line="-resume" />
+        <arg path="${beastXML}" />
+      </exec>
+    </target>
+#+end_src
