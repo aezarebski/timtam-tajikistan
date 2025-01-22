@@ -22,7 +22,7 @@ data_plot_rds <- str_replace(data_plot_png, ".png", ".rds")
 session_rdata_out <-
   sprintf("out/preprocessing-1-workspace-%s.RData", Sys.Date())
 
-stopifnot(file.exists(time_series_clean_csv))
+stopifnot(file.exists(time_series_input_csv))
 stopifnot(file.exists(li_nexus))
 
 ## Read in the data from WPD and munged into a nice data.frame. By
