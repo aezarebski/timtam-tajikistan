@@ -1,9 +1,7 @@
-library(ape)
 library(dplyr)
 library(ggpattern)
 library(ggplot2)
 library(reshape2)
-library(stringr)
 library(lubridate)
 library(timtamslamR)
 library(xml2)
@@ -16,7 +14,7 @@ input_disaster_json <- config$files$results$subsampling$intermediate$disasterStr
 stopifnot(file.exists(input_disaster_json))
 output_disaster_png <- config$files$results$subsampling$figures$disasterPlot[[1]]
 
-disaster_data <- fromJSON(input_disaster_json)
+disaster_data <- jsonlite::fromJSON(input_disaster_json)
 
 plot_df <- data.frame(
   bwd_times = disaster_data$times$bwd_times,

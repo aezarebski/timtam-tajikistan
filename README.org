@@ -27,8 +27,12 @@ data source.
   series.
   - The data is all stored in a JSON file so this should be do-able
     programmatically.
+  - It is probably a good idea to scale down the initial condition for
+    the observation probability and the prior distribution will need
+    to be changed. The prior is a beta with natural parameters so
+    should be okay to adjust.
 - [ ] Set up a sensible way to run the MCMC chains (in parallel). It
-  looks like this is currently expected to be done manually at hte
+  looks like this is currently expected to be done manually at the
   command line, but the build file has a helper function.
   - this will be managed by snakemake which should automatically run
     the chains in parallel if configured appropriately.
@@ -37,7 +41,7 @@ data source.
 - [ ] Generate figures comparing the marginal posteriors for the
   parameters under each sub-sampling. This should probably be
   histograms with colour indicating the level of subsampling and
-  facetting to split the parameters up.
+  faceting to split the parameters up.
 
 * Data
 
