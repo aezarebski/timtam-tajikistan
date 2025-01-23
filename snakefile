@@ -23,7 +23,10 @@ present_rds = root_xpath_text(root, ".//results/intermediate/present")
 beast_bin = "lib/beast/bin/beast"
 combined_fig_png = root_xpath_text(root, ".//combinedEverything")
 
-# The following pulls out the MCMC XML file and then constructs the filepath of the logger file that this will
+# --------------------------------------------------------------------
+# The following pulls out the MCMC XML file and then constructs the
+# filepath of the logger file that this will
+
 mcmc_xml = root_xpath_text(root, ".//results/intermediate/beastXML")
 mcmc_tree = ET.parse(mcmc_xml)
 mcmc_root = mcmc_tree.getroot()
@@ -32,7 +35,13 @@ if "$(filebase)" in maybe_mcmc_log:
     mcmc_log = maybe_mcmc_log.replace("$(filebase)", mcmc_xml.split("/")[-1].replace(".xml", ""))
 else:
     mcmc_log = maybe_mcmc_log
+# --------------------------------------------------------------------
+# The following pulls out the data that is needed for the subsampling
+# experiment.
 
+ss_disaster_json = root_xpath_text(root, ".//subsampling/intermediate/disasterStringsJSON")
+ss_disaster_png = root_xpath_text(root, ".//subsampling/figures/disasterPlot")
+# --------------------------------------------------------------------
 
 # This is the main entry point for the snakemake pipeline.
 rule all:
@@ -44,7 +53,10 @@ rule all:
         fasta,
         present_rds,
         mcmc_log,
-        combined_fig_png
+        combined_fig_png,
+        # subsampling experiment
+        ss_disaster_json,
+        ss_disaster_png
 
 
 rule plot_combined_results:
@@ -110,4 +122,30 @@ rule make_fasta_and_disaster_files:
     shell:
         """
         Rscript {input[0]}
+        """
+
+
+rule make_ss_disaster_json:
+    input:
+        "config.xml",
+        time_series_clean_csv,
+        rscript = "R/preprocessing-3-subsampling.R"
+    output:
+        ss_disaster_json
+    shell:
+        """
+        Rscript {input.rscript}
+        """
+
+
+rule plot_ss_disaster_png:
+    input:
+        "config.xml",
+        ss_disaster_json,
+        rscript = "R/preprocessing-4-subsampling.R"
+    output:
+        ss_disaster_png
+    shell:
+        """
+        Rscript {input.rscript}
         """
