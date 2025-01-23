@@ -23,15 +23,17 @@ data source.
     data.
   - [X] Plot the new data by way of comparison.
   - [X] Incorporate all of this into the =snakefile=.
-- [ ] Generate new MCMC XML files which use the subsampled time
+- [-] Generate new MCMC XML files which use the subsampled time
   series.
-  - The data is all stored in a JSON file so this should be do-able
-    programmatically.
+  - [X] The data is all stored in a JSON file so this should be
+    do-able programmatically.
   - It is probably a good idea to scale down the initial condition for
     the observation probability and the prior distribution will need
     to be changed. The prior is a beta with natural parameters so
     should be okay to adjust.
-- [ ] Set up a sensible way to run the MCMC chains (in parallel). It
+  - [ ] Update the prior distributions so they form a consistent
+    understanding of the process.
+- [X] Set up a sensible way to run the MCMC chains (in parallel). It
   looks like this is currently expected to be done manually at the
   command line, but the build file has a helper function.
   - this will be managed by snakemake which should automatically run
