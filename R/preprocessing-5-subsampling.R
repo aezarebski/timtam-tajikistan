@@ -32,9 +32,16 @@ mcmc_xml_filepath <- function(inclusion_prob, out_dir, xml_basename) {
 ## the same way making it easier to file diff them.
 
 original_mcmc <- xml2::read_xml(mcmc_xml)
+new_orig_mcmc_path <-
+  stringr::str_replace(
+             basename(mcmc_xml),
+             pattern = "\\.xml",
+             replacement = "-original.xml") |>
+  (\(x) file.path(out_dir, x))()
+
 xml2::write_xml(
   x = original_mcmc,
-  file = file.path(out_dir, basename(mcmc_xml))
+  file = new_orig_mcmc_path
 )
 
 ## As a sanity check, we can assert that the disaster time series

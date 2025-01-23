@@ -1,4 +1,5 @@
 import xml.etree.ElementTree as ET
+import os
 
 def root_xpath_text(r, p):
     tmp = r.find(p)
@@ -41,7 +42,18 @@ else:
 
 ss_disaster_json = root_xpath_text(root, ".//subsampling/intermediate/disasterStringsJSON")
 ss_disaster_png = root_xpath_text(root, ".//subsampling/figures/disasterPlot")
+ss_xml_dir = root_xpath_text(root, ".//subsampling/intermediate/newXMLDir")
+# TODO The XML filepaths should really be constructed from the
+# configuration data, but because that is a bit of a pain, I'm just
+# going to hardcode it for now.
+ss_orig_xml = "out/subsampling-experiment/xml/timtam-2023-10-15-original.xml"
+ss_orig_log = "out/timtam-2023-10-15-original.log"
+ss_mcmc_xml_a = "out/subsampling-experiment/xml/timtam-2023-10-15-subsample-0p66.xml"
+ss_mcmc_log_a = "out/timtam-2023-10-15-subsample-0p66.log"
+ss_mcmc_xml_b = "out/subsampling-experiment/xml/timtam-2023-10-15-subsample-0p33.xml"
+ss_mcmc_log_b = "out/timtam-2023-10-15-subsample-0p33.log"
 # --------------------------------------------------------------------
+
 
 # This is the main entry point for the snakemake pipeline.
 rule all:
@@ -56,7 +68,14 @@ rule all:
         combined_fig_png,
         # subsampling experiment
         ss_disaster_json,
-        ss_disaster_png
+        ss_disaster_png,
+        ss_orig_xml,
+        ss_mcmc_xml_a,
+        ss_mcmc_xml_b,
+        ss_orig_log,
+        ss_mcmc_log_a,
+        ss_mcmc_log_b,
+
 
 
 rule plot_combined_results:
@@ -72,6 +91,20 @@ rule plot_combined_results:
     shell:
         """
         Rscript {input[0]}
+        """
+
+
+rule run_subsample_mcmc:
+    input:
+       "out/subsampling-experiment/xml/{mcmc_name}.xml",
+       beast_bin
+    output:
+        "out/{mcmc_name}.log"
+    wildcard_constraints:
+        mcmc_name = "timtam-2023-10-15-original|timtam-2023-10-15-subsample-0p66|timtam-2023-10-15-subsample-0p33"
+    shell:
+        """
+        ./lib/beast/bin/beast -seed 1 -overwrite {input[0]}
         """
 
 
@@ -145,6 +178,21 @@ rule plot_ss_disaster_png:
         rscript = "R/preprocessing-4-subsampling.R"
     output:
         ss_disaster_png
+    shell:
+        """
+        Rscript {input.rscript}
+        """
+
+
+rule make_ss_mcmc_xml:
+    input:
+        "config.xml",
+        ss_disaster_json,
+        rscript = "R/preprocessing-5-subsampling.R"
+    output:
+        ss_orig_xml,
+        ss_mcmc_xml_a,
+        ss_mcmc_xml_b,
     shell:
         """
         Rscript {input.rscript}
