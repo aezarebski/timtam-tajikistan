@@ -76,8 +76,22 @@ rule all:
         ss_mcmc_log_a,
         ss_mcmc_log_b,
         "out/subsampling-experiment/summary-plot-r0.png",
-        "out/subsampling-experiment/summary-plot-historysizes.png"
+        "out/subsampling-experiment/summary-plot-historysizes.png",
+        "out/subsampling-experiment/summary-plot-prop_ts.png"
 
+
+rule plot_subsampling_prop_ts_comparison:
+    input:
+        ss_orig_log,
+        ss_mcmc_log_a,
+        ss_mcmc_log_b,
+        rscript="R/postprocessing-5-subsampling.R",
+    output:
+        "out/subsampling-experiment/summary-plot-prop_ts.png"
+    shell:
+        """
+        Rscript {input.rscript}
+        """
 
 
 rule plot_subsampling_historysize_comparison:

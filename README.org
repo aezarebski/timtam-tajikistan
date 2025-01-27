@@ -39,16 +39,11 @@ data source.
   - this will be managed by snakemake which should automatically run
     the chains in parallel if configured appropriately.
 - [X] Generate figures comparing the reproduction number under each
-  sub-sampling.
-  - [X] Write the R script
-  - [X] Incorporate this into the snakefile.
+  sub-sampling and include in snakefile
 - [X] Generate figures comparing the prevalence estimates for each
-  sub-sampling.
-  - [X] Write the R script
-  - [X] Incorporate this into the snakefile.
-- [ ] Generate figures comparing the time series sampling probability
-  - [ ] Write the R script
-  - [ ] Incorporate this into the snakefile.
+  sub-sampling and include in snakefile
+- [X] Generate figures comparing the time series sampling probability
+  and include in snakefile
 - [ ] Generate MCMC diagnostic figures:
   - [ ] trace plot for r0 and history sizes
   - [ ] trace plot for posterior
