@@ -40,10 +40,14 @@ data source.
     the chains in parallel if configured appropriately.
 - [ ] Apply the same post-processing scripts to all of the chain
   outputs.
-- [ ] Generate figures comparing the marginal posteriors for the
-  parameters under each sub-sampling. This should probably be
-  histograms with colour indicating the level of subsampling and
-  faceting to split the parameters up.
+- [X] Generate figures comparing the reproduction number under each
+  sub-sampling.
+  - [X] Write the R script
+  - [X] Incorporate this into the snakefile.
+- [ ] Generate figures comparing the prevalence estimates for each
+  sub-sampling.
+  - [ ] Write the R script
+  - [ ] Incorporate this into the snakefile.
 
 * Data
 
