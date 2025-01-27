@@ -67,8 +67,8 @@ r0_gg <-
   scale_x_discrete(labels = parameter_labels) +
   scale_colour_manual(labels = log_labels,
                       values = c(palette_green, palette_orange, palette_purple)) +
-  labs(x = "Reproduction number",
-       y = "Median and 95% HPD interval",
+  labs(x = "Date range",
+       y = "Reproduction number",
        colour = "Time series") +
   theme_bw() +
   theme(legend.position = "inside",
