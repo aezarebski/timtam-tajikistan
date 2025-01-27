@@ -38,15 +38,21 @@ data source.
   command line, but the build file has a helper function.
   - this will be managed by snakemake which should automatically run
     the chains in parallel if configured appropriately.
-- [ ] Apply the same post-processing scripts to all of the chain
-  outputs.
 - [X] Generate figures comparing the reproduction number under each
   sub-sampling.
   - [X] Write the R script
   - [X] Incorporate this into the snakefile.
-- [ ] Generate figures comparing the prevalence estimates for each
+- [X] Generate figures comparing the prevalence estimates for each
   sub-sampling.
+  - [X] Write the R script
+  - [X] Incorporate this into the snakefile.
+- [ ] Generate figures comparing the time series sampling probability
   - [ ] Write the R script
+  - [ ] Incorporate this into the snakefile.
+- [ ] Generate MCMC diagnostic figures:
+  - [ ] trace plot for r0 and history sizes
+  - [ ] trace plot for posterior
+  - [ ] trace plot for tree size
   - [ ] Incorporate this into the snakefile.
 
 * Data
