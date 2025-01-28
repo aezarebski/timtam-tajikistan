@@ -104,6 +104,13 @@ Note that the pre-processing is also run by the =snakefile=.
 
 * FAQs
 
+** How do I set up BEAST2?
+
+
+There is a script, =download-beast.sh=, which downloads both BEAST2
+and Tracer and places these in =lib/=. This does rely on having =curl=
+available on your system.
+
 ** While file generates file X?
 
 Open the [[file:./snakefile]] and see which rule has the desired file as
