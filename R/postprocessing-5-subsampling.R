@@ -52,6 +52,8 @@ prop_ts_post_df <- beast_logs |>
 
 ## ============================================================
 
+sensible_upper_y_lim <- round(prop_ts_post_df$upper * 1100) / 1000
+
 prop_ts_gg <-
   ggplot() +
   geom_pointrange(data = prop_ts_post_df,
@@ -64,7 +66,7 @@ prop_ts_gg <-
   scale_x_discrete(labels = parameter_labels) +
   scale_colour_manual(labels = log_labels,
                       values = c(palette_green, palette_orange, palette_purple)) +
-  scale_y_continuous(limits = c(0, 0.004)) +
+  scale_y_continuous(limits = c(0, sensible_upper_y_lim)) +
   labs(x = "Date range",
        y = "Proportion of cases in time series",
        colour = "Time series") +
