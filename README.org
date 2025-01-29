@@ -111,6 +111,50 @@ There is a script, =download-beast.sh=, which downloads both BEAST2
 and Tracer and places these in =lib/=. This does rely on having =curl=
 available on your system.
 
+You will need to install =beastlabs=, =feast=, =SSM= and =timtam= in
+addition to downloading BEAST2.
+
+*** How do I install timtam?
+
+**** Using BEAUti
+
+In *File* click *Manage Packages* and select *beastlabs*, *feast*,
+*SSM* and *timtam* to install.
+
+**** Manual installation
+
+This is specific to =timtam.v0.4.1= but hopefully the steps are clear
+if you want to install other packages manually.
+
+#+begin_src sh
+  wget https://github.com/aezarebski/timtam2/releases/download/v0.4.1/timtam.v0.4.1.zip
+  cd ~/.beast/2.7
+  mkdir timtam
+  cd timtam
+  unzip -o <path/to/timtam.v0.4.1.zip>
+#+end_src
+
+** How do I install snakemake?
+
+*** Conda
+
+I recommend installing conda and then using the following:
+
+#+begin_src sh
+  conda install -c conda-forge -c bioconda --force-reinstall coincbc pulp snakemake
+#+end_src
+
+*** Venv
+
+If you get errors with snakemake complaining about pulp, you can
+uninstall it and then install a pre 2.8 version with the following
+commands:
+
+#+begin_src sh
+  pip uninstall pulp
+  pip install 'pulp<2.8'
+#+end_src
+
 ** While file generates file X?
 
 Open the [[file:./snakefile]] and see which rule has the desired file as
