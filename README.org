@@ -44,6 +44,15 @@ data source.
   sub-sampling and include in snakefile
 - [X] Generate figures comparing the time series sampling probability
   and include in snakefile
+- [ ] Generate figures comparing the sequence sampling probability and
+  include in snakefile
+  - [ ] Rscript
+  - [ ] Snakefile integration
+- [ ] Make a figure that combines the subsampling and the estimates of
+  the reproduction number. Horizontal lines to indicate the date
+  ranges would be a nice touch.
+  - [ ] Rscript
+  - [ ] Snakefile integration
 - [ ] Generate MCMC diagnostic figures:
   - [ ] trace plot for r0 and history sizes
   - [ ] trace plot for posterior
