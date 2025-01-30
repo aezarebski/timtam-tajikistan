@@ -85,7 +85,8 @@ hs_gg <-
        colour = "Time series") +
   theme_bw() +
   theme(legend.position = "inside",
-        legend.position.inside = c(0.2, 0.8))
+        legend.position.inside = c(0.2, 0.8),
+        legend.background = element_rect(colour = "#eaeaea"))
 
 ## print(hs_gg)
 plot_width <- 12

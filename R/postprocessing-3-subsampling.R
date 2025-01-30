@@ -72,7 +72,8 @@ r0_gg <-
        colour = "Time series") +
   theme_bw() +
   theme(legend.position = "inside",
-        legend.position.inside = c(0.7, 0.8))
+        legend.position.inside = c(0.7, 0.8),
+        legend.background = element_rect(colour = "#eaeaea"))
 
 ## print(r0_gg)
 plot_width <- 12

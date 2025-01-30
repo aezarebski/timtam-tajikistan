@@ -72,7 +72,8 @@ prop_ts_gg <-
        colour = "Time series") +
   theme_bw() +
   theme(legend.position = "inside",
-        legend.position.inside = c(0.2, 0.3),
+        legend.position.inside = c(0.8, 0.8),
+        legend.background = element_rect(colour = "#eaeaea"),
         axis.title.x = element_blank(),
         axis.text.x = element_blank())
 

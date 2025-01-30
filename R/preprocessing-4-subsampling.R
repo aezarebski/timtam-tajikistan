@@ -39,7 +39,8 @@ timeseries_gg <-
        colour = "Inclusion probability") +
   theme_bw() +
   theme(legend.position = "inside",
-        legend.position.inside = c(0.2, 0.8))
+        legend.position.inside = c(0.2, 0.8),
+        legend.background = element_rect(colour = "#eaeaea"))
 
 ggsave(filename = output_disaster_png, plot = timeseries_gg,
        dpi = 300, width = 148 + 20, height = 105, units = "mm")
