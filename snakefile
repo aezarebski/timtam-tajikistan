@@ -66,9 +66,11 @@ rule all:
         present_rds,
         mcmc_log,
         combined_fig_png,
-        # subsampling experiment
+        # Subsampling Experiment
         ss_disaster_json,
         ss_disaster_png,
+        ss_disaster_png.replace("png", "svg"),
+        ss_disaster_png.replace("png", "rds"),
         ss_orig_xml,
         ss_mcmc_xml_a,
         ss_mcmc_xml_b,
@@ -76,18 +78,40 @@ rule all:
         ss_mcmc_log_a,
         ss_mcmc_log_b,
         "out/subsampling-experiment/summary-plot-r0.png",
+        "out/subsampling-experiment/summary-plot-r0.svg",
+        "out/subsampling-experiment/summary-plot-r0.rds",
         "out/subsampling-experiment/summary-plot-historysizes.png",
-        "out/subsampling-experiment/summary-plot-prop_ts.png"
+        "out/subsampling-experiment/summary-plot-historysizes.svg",
+        "out/subsampling-experiment/summary-plot-historysizes.rds",
+        "out/subsampling-experiment/summary-plot-obs_props.png",
+        "out/subsampling-experiment/summary-plot-obs_props.svg",
+        "out/subsampling-experiment/summary-plot-obs_props.rds",
+        "out/manuscript/subsampling-experiment-combined-r0-timeseries.png"
 
 
-rule plot_subsampling_prop_ts_comparison:
+rule plot_manuscript_subsampling_combined:
+    input:
+        "R/postprocessing-6-subsampling.R",
+        "out/subsampling-experiment/summary-plot-r0.rds",
+        ss_disaster_png.replace("png", "rds"),
+    output:
+        "out/manuscript/subsampling-experiment-combined-r0-timeseries.png"
+    shell:
+        """
+        Rscript {input[0]}
+        """
+
+
+rule plot_subsampling_obs_props_comparison:
     input:
         ss_orig_log,
         ss_mcmc_log_a,
         ss_mcmc_log_b,
         rscript="R/postprocessing-5-subsampling.R",
     output:
-        "out/subsampling-experiment/summary-plot-prop_ts.png"
+        "out/subsampling-experiment/summary-plot-obs_props.png",
+        "out/subsampling-experiment/summary-plot-obs_props.svg",
+        "out/subsampling-experiment/summary-plot-obs_props.rds"
     shell:
         """
         Rscript {input.rscript}
@@ -101,7 +125,9 @@ rule plot_subsampling_historysize_comparison:
         ss_mcmc_log_b,
         rscript="R/postprocessing-4-subsampling.R",
     output:
-        "out/subsampling-experiment/summary-plot-historysizes.png"
+        "out/subsampling-experiment/summary-plot-historysizes.png",
+        "out/subsampling-experiment/summary-plot-historysizes.svg",
+        "out/subsampling-experiment/summary-plot-historysizes.rds"
     shell:
         """
         Rscript {input.rscript}
@@ -115,7 +141,9 @@ rule plot_subsampling_r0_comparison:
         ss_mcmc_log_b,
         rscript="R/postprocessing-3-subsampling.R",
     output:
-        "out/subsampling-experiment/summary-plot-r0.png"
+        "out/subsampling-experiment/summary-plot-r0.png",
+        "out/subsampling-experiment/summary-plot-r0.svg",
+        "out/subsampling-experiment/summary-plot-r0.rds"
     shell:
         """
         Rscript {input.rscript}
@@ -221,7 +249,9 @@ rule plot_ss_disaster_png:
         ss_disaster_json,
         rscript = "R/preprocessing-4-subsampling.R"
     output:
-        ss_disaster_png
+        ss_disaster_png,
+        ss_disaster_png.replace("png", "svg"),
+        ss_disaster_png.replace("png", "rds"),
     shell:
         """
         Rscript {input.rscript}
