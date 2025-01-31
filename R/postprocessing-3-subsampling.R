@@ -75,8 +75,15 @@ r0_gg <-
         legend.position.inside = c(0.7, 0.8),
         legend.background = element_rect(colour = "#eaeaea"))
 
-## print(r0_gg)
-plot_width <- 12
-plot_height <- 9
-ggsave(output_png, r0_gg, width = plot_width, height = plot_height, units = "cm")
-ggsave(filename = sub("png$", "svg", output_png), plot = r0_gg, width = plot_width, height = plot_height, units = "cm")
+if (interactive()) {
+  print(r0_gg)
+} else {
+  plot_width <- 12
+  plot_height <- 9
+  ggsave(output_png,
+         r0_gg,
+         width = plot_width, height = plot_height, units = "cm")
+  ggsave(filename = sub("png$", "svg", output_png),
+         plot = r0_gg,
+         width = plot_width, height = plot_height, units = "cm")
+}

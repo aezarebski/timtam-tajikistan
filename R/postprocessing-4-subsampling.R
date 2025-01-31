@@ -88,8 +88,12 @@ hs_gg <-
         legend.position.inside = c(0.2, 0.8),
         legend.background = element_rect(colour = "#eaeaea"))
 
-## print(hs_gg)
-plot_width <- 12
-plot_height <- 9
-ggsave(output_png, hs_gg, width = plot_width, height = plot_height, units = "cm")
-ggsave(filename = sub("png$", "svg", output_png), plot = hs_gg, width = plot_width, height = plot_height, units = "cm")
+
+if (interactive()) {
+  print(hs_gg)
+} else {
+  plot_width <- 12
+  plot_height <- 9
+  ggsave(output_png, hs_gg, width = plot_width, height = plot_height, units = "cm")
+  ggsave(filename = sub("png$", "svg", output_png), plot = hs_gg, width = plot_width, height = plot_height, units = "cm")
+}

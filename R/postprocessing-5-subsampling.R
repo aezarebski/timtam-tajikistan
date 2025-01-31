@@ -77,8 +77,13 @@ prop_ts_gg <-
         axis.title.x = element_blank(),
         axis.text.x = element_blank())
 
-## print(prop_ts_gg)
-plot_width <- 12
-plot_height <- 9
-ggsave(output_png, prop_ts_gg, width = plot_width, height = plot_height, units = "cm")
-ggsave(filename = sub("png$", "svg", output_png), plot = prop_ts_gg, width = plot_width, height = plot_height, units = "cm")
+if (interactive()) {
+  print(prop_ts_gg)
+} else {
+  plot_width <- 12
+  plot_height <- 9
+  ggsave(output_png, prop_ts_gg,
+         width = plot_width, height = plot_height, units = "cm")
+  ggsave(filename = sub("png$", "svg", output_png), plot = prop_ts_gg,
+         width = plot_width, height = plot_height, units = "cm")
+}
