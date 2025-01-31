@@ -71,8 +71,7 @@ r0_gg <-
                       ymax = upper,
                       shape = log_file,
                       colour = log_file)) +
-  geom_pointrange(position = position_dodge(width = 0.5),
-                  size = pointrange_size) +
+  geom_pointrange(position = position_dodge(width = 0.5)) +
   scale_x_discrete(labels = parameter_labels) +
   scale_colour_manual(name = "Time series",
                       labels = log_labels,
