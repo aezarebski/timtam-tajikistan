@@ -11,9 +11,17 @@ library(svglite) # needed for SVG output
 library(purrr)
 library(timtamslamR)
 
+## ============================================================
+## Hard-code visualisation parameters
 palette_green <- "#1B9E77"
 palette_orange <- "#D95F02"
 palette_purple <- "#7570B3"
+scale_colour_vals <- c(palette_green, palette_orange, palette_purple)
+scale_shape_vals <- c(15, 16, 17)
+pointrange_size <- 0.7
+legend_background_style <-
+  element_rect(colour = "#363636", size = 0.25)
+## ============================================================
 
 read_prop_ts_values <- function(beast_log) {
   beast_log |>
@@ -55,25 +63,28 @@ prop_ts_post_df <- beast_logs |>
 sensible_upper_y_lim <- round(prop_ts_post_df$upper * 1100) / 1000
 
 prop_ts_gg <-
-  ggplot() +
-  geom_pointrange(data = prop_ts_post_df,
+  ggplot(data = prop_ts_post_df,
                   aes(x = parameter,
                       y = median,
                       ymin = lower,
                       ymax = upper,
-                      colour = log_file),
-                  position = position_dodge(width = 0.5)) +
+                      shape = log_file,
+                      colour = log_file)) +
+  geom_pointrange(position = position_dodge(width = 0.5)) +
   scale_x_discrete(labels = parameter_labels) +
-  scale_colour_manual(labels = log_labels,
-                      values = c(palette_green, palette_orange, palette_purple)) +
   scale_y_continuous(limits = c(0, sensible_upper_y_lim)) +
+  scale_colour_manual(name = "Time series",
+                      labels = log_labels,
+                      values = scale_colour_vals) +
+  scale_shape_manual(name = "Time series",
+                     labels = log_labels,
+                     values = scale_shape_vals) +
   labs(x = "Date range",
-       y = "Proportion of cases in time series",
-       colour = "Time series") +
+       y = "Proportion of cases in time series") +
   theme_bw() +
   theme(legend.position = "inside",
         legend.position.inside = c(0.8, 0.8),
-        legend.background = element_rect(colour = "#eaeaea"),
+        legend.background = legend_background_style,
         axis.title.x = element_blank(),
         axis.text.x = element_blank())
 
