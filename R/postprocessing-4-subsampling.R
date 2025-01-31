@@ -107,4 +107,6 @@ if (interactive()) {
   plot_height <- 9
   ggsave(output_png, hs_gg, width = plot_width, height = plot_height, units = "cm")
   ggsave(filename = sub("png$", "svg", output_png), plot = hs_gg, width = plot_width, height = plot_height, units = "cm")
+  ## Write the gg plot to a .rds file to make it easier to revive.
+  saveRDS(hs_gg, sub("png$", "rds", output_png))
 }
