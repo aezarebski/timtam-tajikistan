@@ -44,15 +44,11 @@ data source.
   sub-sampling and include in snakefile
 - [X] Generate figures comparing the time series sampling probability
   and include in snakefile
-- [ ] Generate figures comparing the sequence sampling probability and
+- [X] Generate figures comparing the sequence sampling probability and
   include in snakefile
-  - [ ] Rscript
-  - [ ] Snakefile integration
-- [ ] Make a figure that combines the subsampling and the estimates of
+- [X] Make a figure that combines the subsampling and the estimates of
   the reproduction number. Horizontal lines to indicate the date
   ranges would be a nice touch.
-  - [ ] Rscript
-  - [ ] Snakefile integration
 - [ ] Generate MCMC diagnostic figures:
   - [ ] trace plot for r0 and history sizes
   - [ ] trace plot for posterior
@@ -79,6 +75,7 @@ data source.
 - There are a couple of prior/posterior plots produced by [[file:./R/postprocessing-2.R]]
 - A table summarising the [[file:./out/manuscript/parameter-estimates.tex][parameter estimates]] is produced by by [[file:./R/postprocessing-2.R]].
 - *NOTE* that this uses the HDPI as computed by =bayestestR= for the credible intervals.
+- Figure [[fig:subsampling-experiment]] is stitched together by [[file:./R/postprocessing-6-subsampling.R]] using the output of [[file:./R/postprocessing-3-subsampling.R]] and [[file:./R/preprocessing-4-subsampling.R]].
 
 #+caption: The estimated reproduction number and previous estimates from Li /et al/ (2017).
 #+name: fig:estimates-plot
@@ -91,6 +88,12 @@ data source.
 #+attr_org: :width 500px
 #+attr_html: :width 400px
 [[./out/manuscript/combined-2-plot.png]]
+
+#+caption: The results figure from the subsampling experiment
+#+name: fig:subsampling-experiment
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/manuscript/subsampling-experiment-combined-r0-timeseries.png]]
 
 * How to run the code
 
