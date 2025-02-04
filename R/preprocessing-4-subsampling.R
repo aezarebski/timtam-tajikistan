@@ -37,7 +37,10 @@ plot_df <- data.frame(
 ) |>
   melt(id.vars = "bwd_times",
        variable.name = "type",
-       value.name = "counts")
+       value.name = "counts") |>
+  mutate(type = factor(type, levels = c("included_percent_100",
+                                        "included_percent_66",
+                                        "included_percent_33")))
 
 log_labels <- c("included_percent_100" = "Original",
                 "included_percent_66" = "Subsample 66%",
