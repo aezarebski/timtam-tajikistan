@@ -84,7 +84,10 @@ timtam_tree_log <-
   str_replace("\\$\\(tree\\)",
               timtam_tree_id) |>
   str_replace("xml/", "")
-stopifnot(file.exists(timtam_tree_log))
+
+if (!file.exists(timtam_tree_log)) {
+  stop(paste("Error: The file", timtam_tree_log, "does not exist. Please check the file path and try again."))
+}
 
 origin_time <-
   mcmc_config |>
