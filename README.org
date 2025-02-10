@@ -76,6 +76,7 @@ data source.
 - A table summarising the [[file:./out/manuscript/parameter-estimates.tex][parameter estimates]] is produced by by [[file:./R/postprocessing-2.R]].
 - *NOTE* that this uses the HDPI as computed by =bayestestR= for the credible intervals.
 - Figure [[fig:subsampling-experiment]] is stitched together by [[file:./R/postprocessing-6-subsampling.R]] using the output of [[file:./R/postprocessing-3-subsampling.R]] and [[file:./R/preprocessing-4-subsampling.R]].
+- Figure [[fig:subsampling-experiment-obs-props]] is produced by [[file:./R/postprocessing-5-subsampling.R]] .
 
 #+caption: The estimated reproduction number and previous estimates from Li /et al/ (2017).
 #+name: fig:estimates-plot
@@ -94,6 +95,12 @@ data source.
 #+attr_org: :width 500px
 #+attr_html: :width 400px
 [[./out/manuscript/subsampling-experiment-combined-r0-timeseries.png]]
+
+#+caption: Another results figure from the subsampling experiment
+#+name: fig:subsampling-experiment-obs-props
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/subsampling-experiment/summary-plot-obs_props.png]]
 
 * How to run the code
 
