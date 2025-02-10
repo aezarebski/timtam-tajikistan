@@ -31,9 +31,17 @@ read_hs_values <- function(beast_log) {
     melt(id.vars = "log_file", variable.name = "parameter", value.name = "value") |>
     group_by(log_file, parameter) |>
     summarise(median = median(value),
-              lower = hdi(value, ci = 0.95)$CI_low,
-              upper = hdi(value, ci = 0.95)$CI_high) |>
-    ungroup()
+              lower = bayestestR::hdi(value, ci = 0.95, verbose = FALSE)[["CI_low"]],
+              upper = bayestestR::hdi(value, ci = 0.95, verbose = FALSE)[["CI_high"]],
+              ## There is a warning that gets thrown by the hdi
+              ## function because the input are discrete. You can fuzz
+              ## them with the code below to get the same results but
+              ## without the wraning. Or you can just turn the warning
+              ## off.
+              ##
+              ## lower = hdi(pmax(value + runif(length(value), min=-0.1, max=0.1), 0), ci = 0.95)[["CI_low"]],
+              ## upper = hdi(pmax(value + runif(length(value), min=-0.1, max=0.1), 0), ci = 0.95)[["CI_high"]],
+              .groups = "drop")
 }
 
 ## ============================================================
