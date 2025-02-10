@@ -20,7 +20,7 @@ scale_colour_vals <- c(palette_green, palette_orange, palette_purple)
 scale_shape_vals <- c(15, 16, 17)
 pointrange_size <- 0.7
 legend_background_style <-
-  element_rect(colour = "#363636", size = 0.25)
+  element_rect(colour = "#363636", linewidth = 0.25)
 ## ============================================================
 
 read_hs_values <- function(beast_log) {
@@ -72,6 +72,11 @@ hs_post_df <- beast_logs |>
 
 ## ============================================================
 
+## This warning is fine, it is expected when there are zero counts in
+## there. These will lock to the bottom of the plot, it is not a
+## problem.
+warning("DO NOT WORRY about a warning that scale_y_log10() produced infinite values.")
+
 hs_gg <-
   ggplot(data = hs_post_df,
                   aes(x = parameter,
@@ -83,7 +88,7 @@ hs_gg <-
   geom_pointrange(position = position_dodge(width = 0.5)) +
   scale_x_discrete(labels = parameter_labels) +
   scale_y_log10(
-    breaks = c(0, 10^(0:4)),
+    breaks = 10^(0:4),
     labels = scales::label_log()
   ) +
   scale_colour_manual(name = "Time series",

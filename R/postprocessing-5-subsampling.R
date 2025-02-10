@@ -20,7 +20,7 @@ scale_colour_vals <- c(palette_green, palette_orange, palette_purple)
 scale_shape_vals <- c(15, 16, 17)
 pointrange_size <- 0.7
 legend_background_style <-
-  element_rect(colour = "#363636", size = 0.25)
+  element_rect(colour = "#363636", linewidth = 0.25)
 ## ============================================================
 
 read_obs_props_values <- function(beast_log) {
@@ -32,8 +32,8 @@ read_obs_props_values <- function(beast_log) {
     group_by(log_file, parameter) |>
     summarise(median = median(value),
               lower = hdi(value, ci = 0.95)$CI_low,
-              upper = hdi(value, ci = 0.95)$CI_high) |>
-    ungroup()
+              upper = hdi(value, ci = 0.95)$CI_high,
+              .groups = "drop")
 }
 
 ## ============================================================
