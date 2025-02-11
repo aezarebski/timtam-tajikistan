@@ -55,6 +55,7 @@ timeseries_gg <-
   geom_point() +
   geom_line() +
   scale_x_reverse() +
+  scale_y_continuous(breaks = 2 * (0:5)) +
   scale_colour_manual(name = "Time series",
                       labels = log_labels,
                       values = scale_colour_vals) +
