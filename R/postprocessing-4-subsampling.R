@@ -6,7 +6,7 @@ library(ggplot2)
 library(svglite) # needed for SVG output
 ## library(cowplot)
 ## library(jsonlite)
-## library(xml2)
+library(xml2)
 ## library(lubridate)
 library(purrr)
 library(timtamslamR)
@@ -23,8 +23,8 @@ legend_background_style <-
   element_rect(colour = "#363636", linewidth = 0.25)
 ## ============================================================
 
-read_hs_values <- function(beast_log) {
-  beast_log |>
+read_hs_values <- function(beast_log, history_times) {
+  tmp <- beast_log |>
     read_beast2_log() |>
     select(matches("HistorySize")) |>
     mutate(log_file = beast_log) |>
@@ -42,10 +42,13 @@ read_hs_values <- function(beast_log) {
               ## lower = hdi(pmax(value + runif(length(value), min=-0.1, max=0.1), 0), ci = 0.95)[["CI_low"]],
               ## upper = hdi(pmax(value + runif(length(value), min=-0.1, max=0.1), 0), ci = 0.95)[["CI_high"]],
               .groups = "drop")
+  tmp$history_times <- history_times
+  return(tmp)
 }
 
 ## ============================================================
 
+beast_xml_orig <- "out/subsampling-experiment/xml/timtam-2023-10-15-original.xml"
 output_png <- "out/subsampling-experiment/summary-plot-historysizes.png"
 
 beast_logs <- c("out/timtam-2023-10-15-original.log",
@@ -54,27 +57,25 @@ beast_logs <- c("out/timtam-2023-10-15-original.log",
 
 ## ============================================================
 
-log_labels <- c("out/timtam-2023-10-15-original.log" = "Original",
-                "out/timtam-2023-10-15-subsample-0p66.log" = "Subsample 66%",
-                "out/timtam-2023-10-15-subsample-0p33.log" = "Subsample 33%")
+stopifnot(file.exists(beast_xml_orig))
+beast_model <- xml2::as_list(xml2::read_xml(beast_xml_orig))
+history_times_str <-
+  beast_model$beast$run$distribution$distribution$distribution[5]$parameter[1][[1]]
+history_times_num <-
+  history_times_str |>
+  strsplit(split = " ") |>
+  pluck(1) |>
+  as.numeric()
 
-parameter_labels <- c("TTHistorySizes.1" = "1",
-                      "TTHistorySizes.2" = "2",
-                      "TTHistorySizes.3" = "3",
-                      "TTHistorySizes.4" = "4",
-                      "TTHistorySizes.5" = "5",
-                      "TTHistorySizes.6" = "6",
-                      "TTHistorySizes.7" = "7",
-                      "TTHistorySizes.8" = "8",
-                      "TTHistorySizes.9" = "9",
-                      "TTHistorySizes.10" = "10",
-                      "TTHistorySizes.11" = "11",
-                      "TTHistorySizes.12" = "12",
-                      "TTHistorySizes.13" = "13")
+log_labels <- c(
+  "out/timtam-2023-10-15-original.log" = "Original",
+  "out/timtam-2023-10-15-subsample-0p66.log" = "Subsample 66%",
+  "out/timtam-2023-10-15-subsample-0p33.log" = "Subsample 33%"
+)
 
 
 hs_post_df <- beast_logs |>
-  map(read_hs_values) |>
+  map(read_hs_values, history_times = history_times_num) |>
   bind_rows() |>
   mutate(log_file = factor(log_file, levels = beast_logs))
 
@@ -87,14 +88,14 @@ warning("DO NOT WORRY about a warning that scale_y_log10() produced infinite val
 
 hs_gg <-
   ggplot(data = hs_post_df,
-                  aes(x = parameter,
+                  aes(x = history_times,
                       y = median,
                       ymin = lower,
                       ymax = upper,
                       shape = log_file,
                       colour = log_file)) +
-  geom_pointrange(position = position_dodge(width = 0.5)) +
-  scale_x_discrete(labels = parameter_labels) +
+  geom_pointrange(position = position_dodge(width = 10)) +
+  scale_x_reverse() +
   scale_y_log10(
     breaks = 10^(0:4),
     labels = scales::label_log()
@@ -105,12 +106,10 @@ hs_gg <-
   scale_shape_manual(name = "Time series",
                      labels = log_labels,
                      values = scale_shape_vals) +
-  labs(x = "Date",
-       y = "History size parameter") +
+  labs(x = "Backwards time (days)",
+       y = "Hidden lineages") +
   theme_bw() +
-  theme(legend.position = "inside",
-        legend.position.inside = c(0.2, 0.8),
-        legend.background = legend_background_style)
+  theme(legend.position = "none")
 
 
 if (interactive()) {
@@ -120,6 +119,5 @@ if (interactive()) {
   plot_height <- 9
   ggsave(output_png, hs_gg, width = plot_width, height = plot_height, units = "cm")
   ggsave(filename = sub("png$", "svg", output_png), plot = hs_gg, width = plot_width, height = plot_height, units = "cm")
-  ## Write the gg plot to a .rds file to make it easier to revive.
   saveRDS(hs_gg, sub("png$", "rds", output_png))
 }
