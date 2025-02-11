@@ -61,7 +61,7 @@ timeseries_gg <-
   scale_shape_manual(name = "Time series",
                      labels = log_labels,
                      values = scale_shape_vals) +
-  labs(x = "Backwards time",
+  labs(x = "Backwards time (days)",
        y = "Daily case count") +
   theme_bw() +
   theme(legend.position = "inside",
