@@ -93,6 +93,7 @@ rule plot_manuscript_subsampling_combined:
     input:
         "R/postprocessing-6-subsampling.R",
         "out/subsampling-experiment/summary-plot-r0.rds",
+        "out/subsampling-experiment/summary-plot-historysizes.rds",
         ss_disaster_png.replace("png", "rds"),
     output:
         "out/manuscript/subsampling-experiment-combined-r0-timeseries.png"
