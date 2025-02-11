@@ -56,6 +56,17 @@ beast_logs <- c("out/timtam-2023-10-15-original.log",
                 "out/timtam-2023-10-15-subsample-0p33.log")
 
 ## ============================================================
+orig_xml <- "out/subsampling-experiment/xml/timtam-2023-10-15-original.xml"
+stopifnot(file.exists(orig_xml))
+orig_node <- xml2::read_xml(orig_xml)
+r0_change_bkwd_times <-
+  orig_node |>
+  xml2::xml_find_first("//parameter[@name='r0ChangeTimes']") |>
+  xml2::xml_text() |>
+  strsplit(" ") |>
+  purrr::pluck(1) |>
+  as.numeric()
+
 
 stopifnot(file.exists(beast_xml_orig))
 beast_model <- xml2::as_list(xml2::read_xml(beast_xml_orig))
@@ -94,6 +105,7 @@ hs_gg <-
                       ymax = upper,
                       shape = log_file,
                       colour = log_file)) +
+  geom_vline(xintercept = r0_change_bkwd_times) +
   geom_pointrange(position = position_dodge(width = 10)) +
   scale_x_reverse() +
   scale_y_log10(

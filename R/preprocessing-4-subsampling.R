@@ -20,6 +20,16 @@ legend_background_style <-
   element_rect(colour = "#363636", linewidth = 0.25)
 ## ============================================================
 
+orig_xml <- "out/subsampling-experiment/xml/timtam-2023-10-15-original.xml"
+stopifnot(file.exists(orig_xml))
+orig_node <- xml2::read_xml(orig_xml)
+r0_change_bkwd_times <-
+  orig_node |>
+  xml2::xml_find_first("//parameter[@name='r0ChangeTimes']") |>
+  xml2::xml_text() |>
+  strsplit(" ") |>
+  purrr::pluck(1) |>
+  as.numeric()
 
 config <- as_list(read_xml("config.xml"))
 
@@ -52,6 +62,7 @@ timeseries_gg <-
                        y = counts,
                        shape = type,
                        colour = type)) +
+  geom_vline(xintercept = r0_change_bkwd_times) +
   geom_point() +
   geom_line() +
   scale_x_reverse() +
