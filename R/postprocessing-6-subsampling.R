@@ -44,7 +44,7 @@ legend_background_style <-
 output_png <- "out/manuscript/subsampling-experiment-combined-r0-timeseries.png"
 ts_gg <- readRDS("out/subsampling-experiment/disaster-timeseries.rds")
 r0_gg <- readRDS("out/subsampling-experiment/summary-plot-r0.rds")
-hl_gg <- readRDS("out/subsampling-experiment/summary-plot-historysizes.rds")
+hl_gg <- readRDS("out/subsampling-experiment/summary-plot-prevalences.rds")
 
 no_lgnd <- theme(legend.position = "none")
 

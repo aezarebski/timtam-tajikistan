@@ -80,9 +80,9 @@ rule all:
         "out/subsampling-experiment/summary-plot-r0.png",
         "out/subsampling-experiment/summary-plot-r0.svg",
         "out/subsampling-experiment/summary-plot-r0.rds",
-        "out/subsampling-experiment/summary-plot-historysizes.png",
-        "out/subsampling-experiment/summary-plot-historysizes.svg",
-        "out/subsampling-experiment/summary-plot-historysizes.rds",
+        "out/subsampling-experiment/summary-plot-prevalences.png",
+        "out/subsampling-experiment/summary-plot-prevalences.svg",
+        "out/subsampling-experiment/summary-plot-prevalences.rds",
         "out/subsampling-experiment/summary-plot-obs_props.png",
         "out/subsampling-experiment/summary-plot-obs_props.svg",
         "out/subsampling-experiment/summary-plot-obs_props.rds",
@@ -93,7 +93,7 @@ rule plot_manuscript_subsampling_combined:
     input:
         "R/postprocessing-6-subsampling.R",
         "out/subsampling-experiment/summary-plot-r0.rds",
-        "out/subsampling-experiment/summary-plot-historysizes.rds",
+        "out/subsampling-experiment/summary-plot-prevalences.rds",
         ss_disaster_png.replace("png", "rds"),
     output:
         "out/manuscript/subsampling-experiment-combined-r0-timeseries.png"
@@ -119,16 +119,16 @@ rule plot_subsampling_obs_props_comparison:
         """
 
 
-rule plot_subsampling_historysize_comparison:
+rule plot_subsampling_prevalence_comparison:
     input:
         ss_orig_log,
         ss_mcmc_log_a,
         ss_mcmc_log_b,
         rscript="R/postprocessing-4-subsampling.R",
     output:
-        "out/subsampling-experiment/summary-plot-historysizes.png",
-        "out/subsampling-experiment/summary-plot-historysizes.svg",
-        "out/subsampling-experiment/summary-plot-historysizes.rds"
+        "out/subsampling-experiment/summary-plot-prevalences.png",
+        "out/subsampling-experiment/summary-plot-prevalences.svg",
+        "out/subsampling-experiment/summary-plot-prevalences.rds"
     shell:
         """
         Rscript {input.rscript}

@@ -56,7 +56,7 @@ config <- as_list(read_xml("config.xml"))
 input_present_rds <- config$files$results$intermediate$present[[1]]
 rm(config)
 
-output_png <- "out/subsampling-experiment/summary-plot-historysizes.png"
+output_png <- "out/subsampling-experiment/summary-plot-prevalences.png"
 
 beast_xmls <- c(
   "out/subsampling-experiment/xml/timtam-2023-10-15-original.xml",
