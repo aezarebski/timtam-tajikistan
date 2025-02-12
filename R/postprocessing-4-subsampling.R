@@ -82,7 +82,7 @@ present_val <- readRDS(input_present_rds)
 ## Here *N = 20* (see `subset_ixs')
 ##
 num_to_burn <- 10001
-subset_ixs <- floor(seq.int(from = 1, to = 90000, length.out = 500))
+subset_ixs <- floor(seq.int(from = 1, to = 90000, length.out = 1000))
 
 beast_models <-
   purrr::map(
