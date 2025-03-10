@@ -1,0 +1,16 @@
+{
+    "r0": {
+	"adult": {
+	    "pointEst": 0.59,
+	    "credInt": [0.48, 0.70]
+	},
+	"child": {
+	    "pointEst": 2.58,
+	    "credInt": [2.23, 2.98]
+	}
+    },
+    "tajikistanPop2013": {
+	"age0to5": 1287331,
+	"total": 8074266
+    }
+}

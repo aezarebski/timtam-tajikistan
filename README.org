@@ -3,8 +3,9 @@
 
 - Look at these [[file:./doc/model.org][notes]] for material relating to the model.
 - Look at these [[file:./doc/readme.org][notes]] for material relating to the manuscript.
+- The [[*How to run the code]] section explains how to run the code.
 - *IMPORTANT* there is a [[file:./config.xml][configuration]] file for the analysis.
-- There is a [[file:./build.xml][ANT build script]] which coordinates this analysis.
+- There is a [[file:./snakefile][snakefile]] which coordinates this analysis.
 
 * Data
 
@@ -26,6 +27,8 @@
 - There are a couple of prior/posterior plots produced by [[file:./R/postprocessing-2.R]]
 - A table summarising the [[file:./out/manuscript/parameter-estimates.tex][parameter estimates]] is produced by by [[file:./R/postprocessing-2.R]].
 - *NOTE* that this uses the HDPI as computed by =bayestestR= for the credible intervals.
+- Figure [[fig:subsampling-experiment]] is stitched together by [[file:./R/postprocessing-6-subsampling.R]] using the output of [[file:./R/postprocessing-3-subsampling.R]] and [[file:./R/preprocessing-4-subsampling.R]].
+- Figure [[fig:subsampling-experiment-obs-props]] is produced by [[file:./R/postprocessing-5-subsampling.R]] .
 
 #+caption: The estimated reproduction number and previous estimates from Li /et al/ (2017).
 #+name: fig:estimates-plot
@@ -38,3 +41,112 @@
 #+attr_org: :width 500px
 #+attr_html: :width 400px
 [[./out/manuscript/combined-2-plot.png]]
+
+#+caption: The results figure from the subsampling experiment
+#+name: fig:subsampling-experiment
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/manuscript/subsampling-experiment-combined-r0-timeseries.png]]
+
+#+caption: Another results figure from the subsampling experiment
+#+name: fig:subsampling-experiment-obs-props
+#+attr_org: :width 500px
+#+attr_html: :width 400px
+[[./out/subsampling-experiment/summary-plot-obs_props.png]]
+
+* How to run the code
+
+1. Download the software using the =download-beast.sh= script.
+2. Install =timtamslamR= with =Rscript -e "devtools::install_github('aezarebski/timtamslamR')"=
+3. Run =snakemake= to run the whole computational pipeline (assuming
+   you have already have the MCMC XML).
+   - The results files will appear in =out/=.
+
+** Making the MCMC XML
+
+Unless you want to change something about how the data is preprocessed
+or the model is specified, you will not need to consider these steps.
+Note that the pre-processing is also run by the =snakefile=.
+
+1. Run =Rscript preprocessing-1.R=
+2. Run =Rscript preprocessing-2.R=
+3. Use a combination of BEAUti (to get a template) and manual editing
+   to produce the MCMC XML.
+
+* FAQs
+
+** How do I set up BEAST2?
+
+
+There is a script, =download-beast.sh=, which downloads both BEAST2
+and Tracer and places these in =lib/=. This does rely on having =curl=
+available on your system.
+
+You will need to install =beastlabs=, =feast=, =SSM= and =timtam= in
+addition to downloading BEAST2.
+
+*** How do I install timtam?
+
+**** Using BEAUti
+
+In *File* click *Manage Packages* and select *beastlabs*, *feast*,
+*SSM* and *timtam* to install.
+
+**** Manual installation
+
+This is specific to =timtam.v0.4.1= but hopefully the steps are clear
+if you want to install other packages manually.
+
+#+begin_src sh
+  wget https://github.com/aezarebski/timtam2/releases/download/v0.4.1/timtam.v0.4.1.zip
+  cd ~/.beast/2.7
+  mkdir timtam
+  cd timtam
+  unzip -o <path/to/timtam.v0.4.1.zip>
+#+end_src
+
+** How do I install snakemake?
+
+*** Conda
+
+I recommend installing conda and then using the following:
+
+#+begin_src sh
+  conda install -c conda-forge -c bioconda --force-reinstall coincbc pulp snakemake
+#+end_src
+
+*** Venv
+
+If you get errors with snakemake complaining about pulp, you can
+uninstall it and then install a pre 2.8 version with the following
+commands:
+
+#+begin_src sh
+  pip uninstall pulp
+  pip install 'pulp<2.8'
+#+end_src
+
+** While file generates file X?
+
+Open the [[file:./snakefile]] and see which rule has the desired file as
+output, then look at the script that is run by that rule to produce
+it.
+
+** Can I resume an MCMC that has been interrupted?
+
+Yes, here is a snippet of an ANT build file that describes how to do
+that.
+
+#+begin_src xml
+  <target name="mcmcresume"
+	  description="Run the MCMC for another length of the chain. E.g., ant mcmcresume -DbeastXML=timtam-YYYY-MM-DD.xml -DstateFile=timtam-YYYY-MM-DD.xml.state">
+    <echo>Resuming the MCMC sampler...</echo>
+    <exec executable="sh">
+      <arg path="lib/beast/bin/beast" />
+      <arg line="-seed 1" />
+      <arg line="-statefile ${stateFile}" />
+      <arg line="-resume" />
+      <arg path="${beastXML}" />
+    </exec>
+  </target>
+#+end_src

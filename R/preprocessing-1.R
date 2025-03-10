@@ -22,7 +22,7 @@ data_plot_rds <- str_replace(data_plot_png, ".png", ".rds")
 session_rdata_out <-
   sprintf("out/preprocessing-1-workspace-%s.RData", Sys.Date())
 
-stopifnot(file.exists(time_series_clean_csv))
+stopifnot(file.exists(time_series_input_csv))
 stopifnot(file.exists(li_nexus))
 
 ## Read in the data from WPD and munged into a nice data.frame. By
@@ -159,8 +159,11 @@ write.table(x = plt_df,
             sep = ",",
             row.names = FALSE)
 
-## It is useful to have a plot which displays this data along with the
-## various times at which interventions where enacted.
+## NOTE the scale limits are defined here so that we can subset the
+## data to plot and specify these limits with the same set of
+## variables. Subsetting the plotted data is not essential, but it
+## does prevent R throwing a warning.
+x_scale_limits <- c(ymd("2010-01-01"), ymd("2010-08-01"))
 
 outbreak_gg <-
   ggplot() +
@@ -176,12 +179,12 @@ outbreak_gg <-
     values = c("stripe", "crosshatch")
   ) +
   geom_point(
-    data = interval_df,
+    data = filter(interval_df, start_date < x_scale_limits[2]),
     mapping = aes(x = start_date, y = y),
     shape = 6
   ) +
   geom_text(
-    data = interval_df,
+    data = filter(interval_df, start_date < x_scale_limits[2]),
     mapping = aes(x = start_date, y = y, label = label),
     hjust = 0,
     vjust = -1,
@@ -191,7 +194,7 @@ outbreak_gg <-
   scale_x_date(
     date_breaks = "2 month",
     date_labels = "%b %d",
-    limits = c(ymd("2010-01-01"), ymd("2010-08-01")),
+    limits = x_scale_limits,
     expand = c(0, 0)
   ) +
   scale_y_continuous(
@@ -202,7 +205,8 @@ outbreak_gg <-
   labs(x = NULL, y = NULL, pattern = NULL, pattern_angle = NULL) +
   theme_bw() +
   theme(
-    legend.position = c(0.2, 0.3)
+    legend.position = "inside",
+    legend.position.inside = c(0.2, 0.3)
   )
 
 ## save a copy of the data plot object so we can re-use it later.

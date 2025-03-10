@@ -43,5 +43,24 @@
 	<summary description="Summary of parameter estimates">out/manuscript/parameter-estimates.tex</summary>
       </manuscript>
     </tables>
+    <!--
+	==============================================================
+	Subsampling experiment configuration
+
+	NOTE that there is no MCMC XML specified because we just copy
+	the existing one and put it in `out/subsampling/xml/`.
+	==============================================================
+    -->
+    <subsampling prngSeed="1" inclusionProbs="0.33 0.66">
+      <intermediate>
+	<disasterStrings description="Textual description of time series for timtam">out/subsampling-experiment/disaster-strings.txt</disasterStrings>
+	<disasterStringsJSON description="JSON description of time series for timtam">out/subsampling-experiment/disaster-strings.json</disasterStringsJSON>
+	<present description="Datetime of most recent sequence to use as present">out/subsampling-experiment/present.Rds</present>
+	<newXMLDir description="Directory to store subsampling MCMC XML in">out/subsampling-experiment/xml</newXMLDir>
+      </intermediate>
+      <figures>
+	<disasterPlot description="Plot showing the disaster time series with different subsampling">out/subsampling-experiment/disaster-timeseries.png</disasterPlot>
+      </figures>
+    </subsampling>
   </results>
 </files>

@@ -84,7 +84,10 @@ timtam_tree_log <-
   str_replace("\\$\\(tree\\)",
               timtam_tree_id) |>
   str_replace("xml/", "")
-stopifnot(file.exists(timtam_tree_log))
+
+if (!file.exists(timtam_tree_log)) {
+  stop(paste("Error: The file", timtam_tree_log, "does not exist. Please check the file path and try again."))
+}
 
 origin_time <-
   mcmc_config |>
@@ -279,7 +282,7 @@ gg_r_eff_comparison <-
   theme(
     axis.title = element_text(size = 13),
     axis.title.x = element_blank(),
-    legend.position = c(0.8, 0.8)
+    legend.position.inside = c(0.8, 0.8)
   )
 
 ggsave(
@@ -480,7 +483,7 @@ data_gg <- readRDS(data_plot_rds) +
     breaks = seq(0, 100, 20),
     expand = c(0, 2)
   ) +
-  theme(legend.position = c(0.3, 0.6),
+  theme(legend.position.inside = c(0.3, 0.6),
         axis.text.x = element_blank(),
         axis.title.x = element_blank())
 
